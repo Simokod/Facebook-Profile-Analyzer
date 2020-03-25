@@ -1,5 +1,4 @@
-# Simokod
-Projects and having fun
+# Projects and having fun
 
 ### Installation
 
