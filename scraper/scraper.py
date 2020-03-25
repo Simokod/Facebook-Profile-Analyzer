@@ -912,5 +912,4 @@ def scraper(**kwargs):
 
 if __name__ == "__main__":
     # get things rolling
-    print("win")
     scraper()
