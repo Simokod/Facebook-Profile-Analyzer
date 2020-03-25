@@ -1,3 +1,3 @@
 from .scraper import scraper
 
-scraper()
+# scraper()
