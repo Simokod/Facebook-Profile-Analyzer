@@ -244,7 +244,7 @@ def extract_and_write_posts(elements, filename):
     try:
         f = open(filename, "w", encoding="utf-8", newline="\r\n")
         f.writelines(
-            "      TIME       ||     TYPE      ||    TITLE    || STATUS "
+            "      TIME       ||     TYPE      ||    TITLE     || STATUS "
             + "\n"
             + "\n"
         )
