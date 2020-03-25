@@ -11,7 +11,7 @@ You will need:
 ```bash
 # Clone project:
 $ git clone https://github.com/Simokod/Projects-and-Having-Fun.git
-$ cd 
+$ cd Projects-and-Having-Fun
 
 # Set up a virtual env
 $ pip install virtualenv
