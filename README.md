@@ -28,9 +28,9 @@ You will need:
 ```
 
 ### How to Run
-- Enter your facebook username and password in [`credentials.yaml`](credentials.yaml).
-- In the [`input.txt`](input.txt) file add profile urls with each link on a new line.
-
+Run the `final-project` command in the project folder.
+Using the built-in menu:
+- Enter your facebook username and password.
+- Add profile urls you'd like to scrape.
 > Search the profile you want in facebook, and that is the url you want to write in input.txt.
-
-Run the `ultimate-facebook-scraper` command in the project folder.
+- Scrape away!
