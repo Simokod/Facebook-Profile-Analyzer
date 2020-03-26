@@ -21,7 +21,7 @@ $ virtualenv venv
 # Linux:
 $ source venv/bin/activate
 # Windows:
-  venv\Scripts\activate.bat
+> venv\Scripts\activate.bat
   
 # Install Python requirements
 $ pip install -e .
