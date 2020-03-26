@@ -44,3 +44,10 @@ Using the built-in menu:
 
 This tool uses xpaths of **'divs'** to extract data. Since Facebook updates its site frequently, the 'divs' get changed. Consequently, we have to update the divs accordingly to correctly scrape data.
 
+
+---
+## Progress:
+Currently the program can scrape only profiles, and extract the following from a user's profile:
+- friends list
+- mutual friends
+- all public posts/statuses available on the user's timeline.
