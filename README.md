@@ -33,3 +33,8 @@ Using the built-in menu:
 - Enter your facebook username and password. (or enter them manually in [credentials.txt](credentials.txt))
 - Add profile urls you'd like to scrape. (or enter them manually in [input.txt](input.txt)(
 - Scrape away!
+
+
+```bash
+# Update configurations:
+> python setup.py develop
