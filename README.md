@@ -30,7 +30,7 @@ You will need:
 ### How to Run
 Run the `final-project` command in the project folder.
 Using the built-in menu:
-- Enter your facebook username and password. (or enter them manually in [credentials.txt](credentials.txt))
+- Enter your facebook username and password. (or enter them manually in [credentials.yaml](credentials.yaml))
 - Add profile urls you'd like to scrape. (or enter them manually in [input.txt](input.txt))
 - Scrape away!
 
