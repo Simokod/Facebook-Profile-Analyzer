@@ -38,8 +38,9 @@ Using the built-in menu:
 ```bash
 # Update configurations:
 > python setup.py develop
+```
 
-## Note 🤝
+## Note
 
 This tool uses xpaths of **'divs'** to extract data. Since Facebook updates its site frequently, the 'divs' get changed. Consequently, we have to update the divs accordingly to correctly scrape data.
 
