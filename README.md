@@ -31,6 +31,5 @@ You will need:
 Run the `final-project` command in the project folder.
 Using the built-in menu:
 - Enter your facebook username and password. (or enter them manually in [credentials.txt](credentials.txt))
-- Add profile urls you'd like to scrape. (or enter them manually in [input.txt](input.txt)
-> Search the profile you want in facebook, and that is the url you want to write in input.txt.
+- Add profile urls you'd like to scrape. (or enter them manually in [input.txt](input.txt)(
 - Scrape away!
