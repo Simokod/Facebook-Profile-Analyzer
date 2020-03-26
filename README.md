@@ -10,21 +10,21 @@ You will need:
 
 ```bash
 # Clone project:
-$ git clone https://github.com/Simokod/Projects-and-Having-Fun.git
-$ cd Projects-and-Having-Fun
+> git clone https://github.com/Simokod/Projects-and-Having-Fun.git
+> cd Projects-and-Having-Fun
 
 # Set up a virtual env
-$ pip install virtualenv
-$ virtualenv venv
+> pip install virtualenv
+> virtualenv venv
 
 # Open venv:
 # Linux:
-$ source venv/bin/activate
+> source venv/bin/activate
 # Windows:
 > venv\Scripts\activate.bat
   
 # Install Python requirements
-$ pip install -e .
+> pip install -e .
 ```
 
 ### How to Run
