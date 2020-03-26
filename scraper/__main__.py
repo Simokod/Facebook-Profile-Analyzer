@@ -1,5 +1,6 @@
 from .scraper import scraper
 import yaml
+import sys
 
 def login_info():
     user = input("Enter username: ")
@@ -23,6 +24,7 @@ def start_scraping():
 
 def quit():
     print("Quitting...")
+    sys.exit()
 
 def menu():
     menu = {'1':["Input credentials", login_info], '2':["Enter profiles to search", enter_input],
