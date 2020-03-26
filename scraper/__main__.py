@@ -9,7 +9,7 @@ def login_info():
     with open('credentials.yaml', 'w') as f:
         yaml.dump(data, f)
         print("Credentials aqquired!")
-# https://www.facebook.com/bar.simovich
+        
 def enter_input():
     while True:
         url = input("Please enter profile url (or 0 to finish): ")
