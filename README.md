@@ -24,7 +24,7 @@ You will need:
 > venv\Scripts\activate.bat
   
 # Install Python requirements
-> pip install -e .
+(venv) > pip install -e .
 ```
 
 ### How to Run
