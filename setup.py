@@ -29,6 +29,6 @@ setuptools.setup(
     extras_require={"dev": ["black", "twine", "wheel"],},
     install_requires=["selenium==3.141.0", "pyyaml"],
     entry_points={
-        "console_scripts": ["ultimate-facebook-scraper=scraper.__main__:scraper",],
+        "console_scripts": ["final-project=scraper.__main__:scraper",],
     },
 )
