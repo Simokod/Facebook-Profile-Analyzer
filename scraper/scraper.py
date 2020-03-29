@@ -630,7 +630,7 @@ def create_folder(folder):
         os.mkdir(folder)
 
 
-def scrap_profile(ids):
+def scrap_profile(ids, friends, posts):
     folder = os.path.join(os.getcwd(), "data")
     create_folder(folder)
     os.chdir(folder)
@@ -653,53 +653,54 @@ def scrap_profile(ids):
             continue
 
         # ----------------------------------------------------------------------------
-        # print("----------------------------------------")
-        # print("Friends..")
-        # # setting parameters for scrape_data() to scrape friends
-        # scan_list = [
-        #     "All",
-        #     "Mutual Friends",
-        #     # "Following",
-        #     # "Followers",
-        #     # "Work",
-        #     # "College",
-        #     # "Current City",
-        #     # "Hometown",
-        # ]
-        # section = [
-        #     "/friends",
-        #     "/friends_mutual",
-        #     # "/following",
-        #     # "/followers",
-        #     # "/friends_work",
-        #     # "/friends_college",
-        #     # "/friends_current_city",
-        #     # "/friends_hometown",
-        # ]
-        # elements_path = [
-            "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
-            "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
-            # "//*[contains(@class,'_3i9')][1]/div/div/ul/li[1]/div[2]/div/div/div/div/div[2]/ul/li/div/a",
-            # "//*[contains(@class,'fbProfileBrowserListItem')]/div/a",
-            # "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
-            # "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
-            # "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
-            # "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
-        # ]
-        # file_names = [
-        #     "All Friends.txt",
-        #     "Mutual Friends.txt",
-        #     # "Following.txt",
-        #     # "Followers.txt",
-        #     # "Work Friends.txt",
-        #     # "College Friends.txt",
-        #     # "Current City Friends.txt",
-        #     # "Hometown Friends.txt",
-        # ]
-        # save_status = 0
+        if friends:
+            print("----------------------------------------")
+            print("Friends..")
+            # setting parameters for scrape_data() to scrape friends
+            scan_list = [
+                "All",
+                "Mutual Friends",
+                # "Following",
+                # "Followers",
+                # "Work",
+                # "College",
+                # "Current City",
+                # "Hometown",
+            ]
+            section = [
+                "/friends",
+                "/friends_mutual",
+                # "/following",
+                # "/followers",
+                # "/friends_work",
+                # "/friends_college",
+                # "/friends_current_city",
+                # "/friends_hometown",
+            ]
+            elements_path = [
+                "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
+                "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
+                # "//*[contains(@class,'_3i9')][1]/div/div/ul/li[1]/div[2]/div/div/div/div/div[2]/ul/li/div/a",
+                # "//*[contains(@class,'fbProfileBrowserListItem')]/div/a",
+                # "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
+                # "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
+                # "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
+                # "//*[contains(@id,'pagelet_timeline_medley_friends')][1]/div[2]/div/ul/li/div/a",
+            ]
+            file_names = [
+                "All Friends.txt",
+                "Mutual Friends.txt",
+                # "Following.txt",
+                # "Followers.txt",
+                # "Work Friends.txt",
+                # "College Friends.txt",
+                # "Current City Friends.txt",
+                # "Hometown Friends.txt",
+            ]
+            save_status = 0
 
-        # scrape_data(user_id, scan_list, section, elements_path, save_status, file_names)
-        # print("Friends Done!")
+            scrape_data(user_id, scan_list, section, elements_path, save_status, file_names)
+            print("Friends Done!")
 
         # ----------------------------------------------------------------------------
 
@@ -763,19 +764,20 @@ def scrap_profile(ids):
         # print("About Section Done!")
 
         # ----------------------------------------------------------------------------
-        print("----------------------------------------")
-        print("Posts:")
-        # setting parameters for scrape_data() to scrap posts
-        scan_list = [None]
-        section = []
-        elements_path = ['//div[@class="_5pcb _4b0l _2q8l"]']
+        if posts:
+            print("----------------------------------------")
+            print("Posts:")
+            # setting parameters for scrape_data() to scrap posts
+            scan_list = [None]
+            section = []
+            elements_path = ['//div[@class="_5pcb _4b0l _2q8l"]']
 
-        file_names = ["Posts.txt"]
-        save_status = 4
+            file_names = ["Posts.txt"]
+            save_status = 4
 
-        scrape_data(user_id, scan_list, section, elements_path, save_status, file_names)
-        print("Posts(Statuses) Done!")
-        print("----------------------------------------")
+            scrape_data(user_id, scan_list, section, elements_path, save_status, file_names)
+            print("Posts(Statuses) Done!")
+            print("----------------------------------------")
     # ----------------------------------------------------------------------------
 
     print("\nProcess Completed.")
@@ -883,8 +885,8 @@ def login(email, password):
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 
-
-def scraper(**kwargs):
+# both args are booleans and decide wether the scraper will scrape posts or friends
+def scraper(friends, posts):
     with open("credentials.yaml", "r") as ymlfile:
         cfg = yaml.safe_load(stream=ymlfile)
 
@@ -900,7 +902,7 @@ def scraper(**kwargs):
         print("\nStarting Scraping...")
 
         login(cfg["email"], cfg["password"])
-        scrap_profile(ids)
+        scrap_profile(ids, friends=friends, posts=posts)
         driver.close()
     else:
         print("Input file is empty.")
@@ -912,4 +914,4 @@ def scraper(**kwargs):
 
 if __name__ == "__main__":
     # get things rolling
-    scraper()
+    print("you are not supposed to get here")
