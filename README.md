@@ -51,3 +51,5 @@ Currently the program can scrape only profiles, and extract the following from a
 - friends list
 - mutual friends
 - all public posts/statuses available on the user's timeline.
+
+The program can also choose a number of the user's friends in random and scrape them
