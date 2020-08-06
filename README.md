@@ -28,8 +28,8 @@ You will need:
 ```
 
 ### How to Run
-- Enter your facebook username and password in [credentials.yaml]((credentials.yaml))
-- Add profile urls you'd like to scrape in [input.txt]((input.txt))
+- Enter your facebook username and password in [credentials.yaml](credentials.yaml)
+- Add profile urls you'd like to scrape in [input.txt](input.txt)
 - Scrape away!
 
 Run the `python scraper/scraper.py` command in the project folder.
