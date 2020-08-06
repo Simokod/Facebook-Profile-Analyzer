@@ -897,7 +897,7 @@ if __name__ == "__main__":
     friends_small_size = False
     photos_small_size = False
 
-    total_scrolls = int(args["total_scrolls"])
+    total_scrolls = 5
     scroll_time = int(args["scroll_time"])
     number_of_posts = int(args["number_of_posts"])
 
