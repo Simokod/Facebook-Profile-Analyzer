@@ -28,28 +28,16 @@ You will need:
 ```
 
 ### How to Run
-Run the `final-project` command in the project folder.
-Using the built-in menu:
-- Enter your facebook username and password. (or enter them manually in [credentials.yaml](credentials.yaml))
-- Add profile urls you'd like to scrape. (or enter them manually in [input.txt](input.txt))
+- Enter your facebook username and password in [credentials.yaml](credentials.yaml))
+- Add profile urls you'd like to scrape in [input.txt](input.txt))
 - Scrape away!
 
-
-```bash
-# Update configurations:
-> python setup.py develop
-```
+Run the `python scraper/scraper.py` command in the project folder.
 
 ### Note
 
 This tool uses xpaths of **'divs'** to extract data. Since Facebook updates its site frequently, the 'divs' get changed. Consequently, we have to update the divs accordingly to correctly scrape data.
 
-
 ---
 ## Progress:
-Currently the program can scrape only profiles, and extract the following from a user's profile:
-- friends list
-- mutual friends
-- all public posts/statuses available on the user's timeline.
-
-The program can also choose a number of the user's friends in random and scrape them
+Currently the program can scrape only profiles, and extract posts.
