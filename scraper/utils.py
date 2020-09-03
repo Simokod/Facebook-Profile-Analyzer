@@ -43,23 +43,80 @@ def check_height(driver, selectors, old_height):
 
 
 # helper function: used to scroll the page
-def scroll(total_scrolls, driver, selectors, scroll_time):
+# def scroll(total_scrolls, driver, selectors, scroll_time):
+#     global old_height
+#     current_scrolls = 0
+
+#     while True:
+#         try:
+#             if current_scrolls == total_scrolls:
+#                 return
+
+#             old_height = driver.execute_script(selectors.get("height_script"))
+#             driver.execute_script(selectors.get("scroll_script"))
+#             WebDriverWait(driver, scroll_time, 0.05).until(
+#                 lambda driver: check_height(driver, selectors, old_height)
+#             )
+#             current_scrolls += 1
+
+
+#         except TimeoutException:
+#             break
+#     return
+
+def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
     global old_height
-    current_scrolls = 0
+    posts_scraped = 0
 
-    while True:
+    while posts_scraped < number_of_posts:
         try:
-            if current_scrolls == total_scrolls:
-                return
-
             old_height = driver.execute_script(selectors.get("height_script"))
             driver.execute_script(selectors.get("scroll_script"))
             WebDriverWait(driver, scroll_time, 0.05).until(
                 lambda driver: check_height(driver, selectors, old_height)
             )
-            current_scrolls += 1
+
+            data = driver.find_elements_by_xpath(elements_path)
+            data = data[posts_scraped:min(number_of_posts, len(data))]
+            my_extract_and_write_posts(data, filename="Posts.txt")
+            posts_scraped += len(data)
+            
         except TimeoutException:
             break
+    return
+
+def my_extract_and_write_posts(elements, filename):
+    try:
+        f = open(filename, "a", newline="\r\n", encoding="utf-8")
+        f.writelines(
+            " TIME || TYPE  || TITLE || STATUS  ||   LINKS(Shared Posts/Shared Links etc) || POST_ID "
+            + "\n"
+            + "\n"
+        )
+        for x in elements:
+            try:
+                post_id = my_get_post_id(x)
+
+                if post_id != None:
+                    status = my_get_status(x)
+                    line = (
+                        str(post_id)
+                        + " || "
+                        + str(status)
+                        + "\n\n"
+                    )
+                    try:
+                        f.writelines(line)
+                    except Exception:
+                        print("Posts: Could not map encoded characters")
+            except Exception:
+                print("passing")
+                pass
+        f.close()
+    except ValueError:
+        print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
+    except Exception:
+        print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
     return
 
 # -----------------------------------------------------------------------------

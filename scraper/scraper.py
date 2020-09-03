@@ -466,39 +466,18 @@ def scrape_data(url, scan_list, section, elements_path, save_status, file_names)
 
     page += [url + s for s in section]
 
-    for i, _ in enumerate(scan_list):
-        try:
-            driver.get(page[i])
+    try:
+        driver.get(page[0])
+        utils.my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path[0])
 
-            if (
-                (save_status == 0) or (save_status == 1) or (save_status == 2)
-            ):  # Only run this for friends, photos and videos
-
-                # the bar which contains all the sections
-                sections_bar = driver.find_element_by_xpath(
-                    selectors.get("sections_bar")
-                )
-
-                if sections_bar.text.find(scan_list[i]) == -1:
-                    continue
-
-            if save_status != 3:
-                utils.scroll(total_scrolls, driver, selectors, scroll_time)
-                pass
-
-            driver.implicitly_wait(20)
-            time.sleep(20)
-            data = driver.find_elements_by_xpath(elements_path[i])
-            save_to_file(file_names[i], data, save_status, i)
-
-        except Exception:
-            print(
-                "Exception (scrape_data)",
-                str(i),
-                "Status =",
-                str(save_status),
-                sys.exc_info()[0],
-            )
+    except Exception:
+        print(
+            "Exception (scrape_data)",
+            str(i),
+            "Status =",
+            str(save_status),
+            sys.exc_info()[0],
+        )
 
 
 # -----------------------------------------------------------------------------
@@ -867,7 +846,10 @@ if __name__ == "__main__":
         default=2500,
     )
     ap.add_argument(
-        "-st", "--scroll_time", help="How much time should I take to scroll?", default=8
+        "-st",
+        "--scroll_time", 
+        help="How much time should I take to scroll?", 
+        default=8
     )
     ap.add_argument(
         "-nop",
@@ -897,7 +879,7 @@ if __name__ == "__main__":
     friends_small_size = False
     photos_small_size = False
 
-    total_scrolls = 5
+    total_scrolls = int(args["total_scrolls"])
     scroll_time = int(args["scroll_time"])
     number_of_posts = int(args["number_of_posts"])
 
