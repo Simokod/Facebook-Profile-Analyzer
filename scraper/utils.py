@@ -6,7 +6,6 @@ from calendar import calendar
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 
-
 # -----------------------------------------------------------------------------
 #
 # -----------------------------------------------------------------------------
@@ -77,6 +76,8 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
         print("Exception (my_scroll)", "Status =", sys.exc_info()[0])
 
     posts_scraped = 0
+    cur_posts_scraped = 0
+    last_post_id = 0
     while posts_scraped < number_of_posts:
         try:
             old_height = driver.execute_script(selectors.get("height_script"))
@@ -89,8 +90,9 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
             data = remove_comments(data)
             lim = number_of_posts-posts_scraped
 
-            posts_scraped += my_extract_and_write_posts(data[posts_scraped:], filename, lim)
-
+            cur_posts_scraped, last_post_id = my_extract_and_write_posts(data[posts_scraped:], filename, lim, last_post_id)
+            posts_scraped += cur_posts_scraped
+            
         except TimeoutException:
             break
     return
@@ -109,55 +111,48 @@ def remove_comments(data):
     return posts
 
 
-def my_extract_and_write_posts(elements, filename, lim):
+def my_extract_and_write_posts(elements, filename, lim, last_post_id):
     try:
         f = open(filename, "a", newline="\r\n", encoding="utf-8")
         posts_written = 0
-        print(lim)
         for x in elements:
             try:
                 post_id = my_get_post_id(x)
-
+                int_post_id = int(post_id)
                 if post_id != None:
-                    status = my_get_status(x)
-                    line = (
-                            str(post_id)
-                            + " || "
-                            + str(status)
-                            + "\n\n"
-                    )
-                    try:
-                        if str(status) != "":
-                            f.writelines(line)
-                            posts_written += 1
-                            if posts_written == lim:
-                                # print("before break: ", posts_written)
-                                break
-                    except Exception:
-                        print("Posts: Could not map encoded characters")
+                    if int_post_id > last_post_id:
+                        print("post_id:", int_post_id)
+                        print("last_id:", last_post_id)
+                        status = my_get_status(x)   
+                        line = (
+                                str(int_post_id)
+                                + " || "
+                                + str(status)
+                                + "\n\n"
+                        )
+                        try:
+                            if str(status) != "":
+                                f.writelines(line)
+                                posts_written += 1
+                                last_post_id = int_post_id
+                                if posts_written == lim:
+                                    break
+                        except Exception:
+                            print("Posts: Could not map encoded characters")
             except Exception:
-                print("passing")
                 pass
         f.close()
     except ValueError:
         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
     except Exception:
         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-    # print(print("after break: ", posts_written))
-    return posts_written
+    return posts_written, last_post_id
 
 
 # -----------------------------------------------------------------------------
 # MyHelper Functions for Posts
 # -----------------------------------------------------------------------------
-see_more_class = 'oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p'
 
-
-# //*[@id="jsc_c_8l"]/div/div/span/div/div[2]/div
-# //*[@id="jsc_c_4v"]/div/div/span/div[2]/div/div
-# //*[@id="jsc_c_89"]/div/div/span/div[2]/div/div
-# //*[@id="jsc_c_1y"]/div/div/span/div[2]/div
-# jsc_c_4v > div > div > span > div.o9v6fnle.cxmmr5t8.oygrvhab.hcukyx3x.c1et5uql.ii04i59q > div > div
 def my_get_status(x):
     status = ""
     statuses = []
@@ -168,7 +163,6 @@ def my_get_status(x):
             see_more_button.click()
         except NoSuchElementException:
             pass
-            # print('NoSuchElementException')
         statuses = post.find_elements_by_xpath('./*[contains(@class, cxmmr5t8)]/div')
         for item in statuses:
             status += item.text
