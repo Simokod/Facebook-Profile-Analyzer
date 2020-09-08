@@ -1,0 +1,3 @@
+[console_scripts]
+final-project = scraper.__main__:scraper
+
