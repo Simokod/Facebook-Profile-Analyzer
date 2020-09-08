@@ -1,0 +1,63 @@
+Metadata-Version: 2.1
+Name: ultimate-facebook-scraper
+Version: 0.0.1
+Summary: A bot which scrapes almost everything about a Facebook user's profile
+Home-page: https://github.com/harismuneer/Ultimate-Facebook-Scraper
+Author: Haris Muneer
+Author-email: haris.muneer@conradlabs.com
+License: MIT
+Description: # Projects and having fun
+        
+        ### Installation
+        
+        You will need:
+        
+        - Latest version of Google Chrome.
+        - Python 3.
+        - A facebook account.
+        
+        ```bash
+        # Clone project:
+        > git clone https://github.com/Simokod/Projects-and-Having-Fun.git
+        > cd Projects-and-Having-Fun
+        
+        # Set up a virtual env
+        > pip install virtualenv
+        > virtualenv venv
+        
+        # Open venv:
+        # Linux:
+        > source venv/bin/activate
+        # Windows:
+        > venv\Scripts\activate.bat
+          
+        # Install Python requirements
+        (venv) > pip install -e .
+        (venv) > pip install webdriver_manager
+        ```
+        
+        ### How to Run
+        - Enter your facebook username and password in [credentials.yaml](credentials.yaml)
+        - Add profile urls you'd like to scrape in [input.txt](input.txt)
+        - Scrape away!
+        
+        Run the `python scraper/scraper.py` command in the project folder.
+        
+        ### Note
+        
+        This tool uses xpaths of **'divs'** to extract data. Since Facebook updates its site frequently, the 'divs' get changed. Consequently, we have to update the divs accordingly to correctly scrape data.
+        
+        ---
+        ## Progress:
+        Currently the program can scrape only profiles, and extract posts.
+        
+Keywords: Facebook Scraper
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Provides-Extra: dev
