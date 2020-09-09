@@ -65,7 +65,6 @@ def check_height(driver, selectors, old_height):
 
 
 # dictionary containing (id, posts)
-
 def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
     my_posts = {}
     global old_height

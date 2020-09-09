@@ -443,14 +443,10 @@ def create_post_file(filename):
 # ----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 
-
-def scrape_data(url, scan_list, section, elements_path, save_status, file_names):
-    """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
+# returns a dictionary containing the user's posts
+def scrape_posts(url, scan_list, section, elements_path):
     page = []
-
-    if save_status == 4 or save_status == 5:
-        page.append(url)
-
+    page.append(url)
     page += [url + s for s in section]
 
     try:
@@ -465,7 +461,42 @@ def scrape_data(url, scan_list, section, elements_path, save_status, file_names)
             str(save_status),
             sys.exc_info()[0],
         )
+    return my_posts
+# returns total number of friends, and number of mutual friends
+def parse_friends_count(friend_count):
+    numbers = friend_count.split()
+    return int(numbers[0]), int(numbers[1][1:])
+    
+# returns user's friends total friends count and mutual friends count
+def scrape_friends(url, scan_list, section, elements_path):
+    friends_count_path = '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span'
+    try:
+        driver.implicitly_wait(5)
+        time.sleep(5)
+        friend_count = driver.find_element_by_xpath(friends_count_path).text
+    except Exception:
+        print("find_element_by_xpath FAILED")
+    return parse_friends_count(friend_count)
 
+# returns info about the user
+def scrape_about(url, scan_list, section, elements_path):
+    pass
+
+
+
+
+def scrape_data(url, scan_list, section, elements_path, save_status):
+    """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
+    if save_status == 4:
+        posts = scrape_posts(url, scan_list, section, elements_path)
+    elif save_status == 0:
+        friends = scrape_friends(url, scan_list, section, elements_path)
+    elif save_status == 3:
+        about = scrape_about(url, scan_list, section, elements_path)
+    else:
+        print("what the cat")
+    return ""
+    # return posts, friends, about
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -519,7 +550,7 @@ def scrap_profile():
         return
 
     # to_scrap = ["Friends", "Photos", "Videos", "About", "Posts"]
-    to_scrap = ["Posts"]
+    to_scrap = ["Friends"]
     for item in to_scrap:
         print("----------------------------------------")
         print("Scraping {}..".format(item))
@@ -533,9 +564,8 @@ def scrap_profile():
 
         section = params[item]["section"]
         elements_path = params[item]["elements_path"]
-        file_names = params[item]["file_names"]
         save_status = params[item]["save_status"]
-        scrape_data(user_id, scan_list, section, elements_path, save_status, file_names)
+        scrape_data(user_id, scan_list, section, elements_path, save_status)
 
         print("{} Done!".format(item))
 
