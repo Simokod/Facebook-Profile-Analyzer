@@ -121,8 +121,6 @@ def my_extract_and_write_posts(elements, filename, lim, last_post_id):
                 int_post_id = int(post_id)
                 if post_id != None:
                     if int_post_id > last_post_id:
-                        print("post_id:", int_post_id)
-                        print("last_id:", last_post_id)
                         status = my_get_status(x)   
                         line = (
                                 str(int_post_id)

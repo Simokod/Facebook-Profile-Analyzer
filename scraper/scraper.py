@@ -109,26 +109,12 @@ def extract_and_write_posts(elements, filename):
         for x in elements:
             try:
                 link = ""
-                # id
                 post_id = utils.my_get_post_id(x)
-                # ids.append(post_id)
                 if post_id != None:
                     print("id:", post_id)
-                # time = utils.get_time(x)  
-
-                # link, status, title, post_type = get_status_and_title(link, x)
-                # status = utils.get_status(x, selectors)
                 if post_id != None:
                     status = utils.my_get_status(x)
                     line = (
-                        # str(time)
-                        # + " || "
-                        # + str(post_type)
-                        # + " || "
-                        # + str(title)
-                        # + " || "
-                        # + str(link)
-                        # + " || "
                         str(post_id)
                         + " || "
                         + str(status)
@@ -254,203 +240,203 @@ def create_post_file(filename):
 # -------------------------------------------------------------
 
 
-def save_to_file(name, elements, status, current_section):
-    """helper function used to save links to files"""
+# def save_to_file(name, elements, status, current_section):
+#     """helper function used to save links to files"""
 
-    # status 0 = dealing with friends list
-    # status 1 = dealing with photos
-    # status 2 = dealing with videos
-    # status 3 = dealing with about section
-    # status 4 = dealing with posts
-    # status 5 = dealing with group posts
+#     # status 0 = dealing with friends list
+#     # status 1 = dealing with photos
+#     # status 2 = dealing with videos
+#     # status 3 = dealing with about section
+#     # status 4 = dealing with posts
+#     # status 5 = dealing with group posts
 
-    try:
-        f = None  # file pointer
+#     try:
+#         f = None  # file pointer
 
-        if status != 4 and status != 5:
-            f = open(name, "w", encoding="utf-8", newline="\r\n")
+#         if status != 4 and status != 5:
+#             f = open(name, "w", encoding="utf-8", newline="\r\n")
 
-        results = []
-        img_names = []
+#         results = []
+#         img_names = []
 
-        # dealing with Friends
-        if status == 0:
-            # get profile links of friends
-            results = [x.get_attribute("href") for x in elements]
-            results = [create_original_link(x) for x in results]
+#         # dealing with Friends
+#         if status == 0:
+#             # get profile links of friends
+#             results = [x.get_attribute("href") for x in elements]
+#             results = [create_original_link(x) for x in results]
 
-            # get names of friends
-            people_names = [
-                x.find_element_by_tag_name("img").get_attribute("aria-label")
-                for x in elements
-            ]
+#             # get names of friends
+#             people_names = [
+#                 x.find_element_by_tag_name("img").get_attribute("aria-label")
+#                 for x in elements
+#             ]
 
-            # download friends' photos
-            try:
-                if download_friends_photos:
-                    if friends_small_size:
-                        img_links = [
-                            x.find_element_by_css_selector("img").get_attribute("src")
-                            for x in elements
-                        ]
-                    else:
-                        links = []
-                        for friend in results:
-                            try:
-                                driver.get(friend)
-                                WebDriverWait(driver, 30).until(
-                                    EC.presence_of_element_located(
-                                        (
-                                            By.CLASS_NAME,
-                                            selectors.get("profilePicThumb"),
-                                        )
-                                    )
-                                )
-                                l = driver.find_element_by_class_name(
-                                    selectors.get("profilePicThumb")
-                                ).get_attribute("href")
-                            except Exception:
-                                l = "None"
+#             # download friends' photos
+#             try:
+#                 if download_friends_photos:
+#                     if friends_small_size:
+#                         img_links = [
+#                             x.find_element_by_css_selector("img").get_attribute("src")
+#                             for x in elements
+#                         ]
+#                     else:
+#                         links = []
+#                         for friend in results:
+#                             try:
+#                                 driver.get(friend)
+#                                 WebDriverWait(driver, 30).until(
+#                                     EC.presence_of_element_located(
+#                                         (
+#                                             By.CLASS_NAME,
+#                                             selectors.get("profilePicThumb"),
+#                                         )
+#                                     )
+#                                 )
+#                                 l = driver.find_element_by_class_name(
+#                                     selectors.get("profilePicThumb")
+#                                 ).get_attribute("href")
+#                             except Exception:
+#                                 l = "None"
 
-                            links.append(l)
+#                             links.append(l)
 
-                        for i, _ in enumerate(links):
-                            if links[i] is None:
-                                links[i] = "None"
-                            elif links[i].find("picture/view") != -1:
-                                links[i] = "None"
+#                         for i, _ in enumerate(links):
+#                             if links[i] is None:
+#                                 links[i] = "None"
+#                             elif links[i].find("picture/view") != -1:
+#                                 links[i] = "None"
 
-                        img_links = get_facebook_images_url(links)
+#                         img_links = get_facebook_images_url(links)
 
-                    folder_names = [
-                        "Friend's Photos",
-                        "Mutual Friends' Photos",
-                        "Following's Photos",
-                        "Follower's Photos",
-                        "Work Friends Photos",
-                        "College Friends Photos",
-                        "Current City Friends Photos",
-                        "Hometown Friends Photos",
-                    ]
-                    print("Downloading " + folder_names[current_section])
+#                     folder_names = [
+#                         "Friend's Photos",
+#                         "Mutual Friends' Photos",
+#                         "Following's Photos",
+#                         "Follower's Photos",
+#                         "Work Friends Photos",
+#                         "College Friends Photos",
+#                         "Current City Friends Photos",
+#                         "Hometown Friends Photos",
+#                     ]
+#                     print("Downloading " + folder_names[current_section])
 
-                    img_names = image_downloader(
-                        img_links, folder_names[current_section]
-                    )
-                else:
-                    img_names = ["None"] * len(results)
-            except Exception:
-                print(
-                    "Exception (Images)",
-                    str(status),
-                    "Status =",
-                    current_section,
-                    sys.exc_info()[0],
-                )
+#                     img_names = image_downloader(
+#                         img_links, folder_names[current_section]
+#                     )
+#                 else:
+#                     img_names = ["None"] * len(results)
+#             except Exception:
+#                 print(
+#                     "Exception (Images)",
+#                     str(status),
+#                     "Status =",
+#                     current_section,
+#                     sys.exc_info()[0],
+#                 )
 
-        # dealing with Photos
-        elif status == 1:
-            results = [x.get_attribute("href") for x in elements]
-            results.pop(0)
+#         # dealing with Photos
+#         elif status == 1:
+#             results = [x.get_attribute("href") for x in elements]
+#             results.pop(0)
 
-            try:
-                if download_uploaded_photos:
-                    if photos_small_size:
-                        background_img_links = driver.find_elements_by_xpath(
-                            selectors.get("background_img_links")
-                        )
-                        background_img_links = [
-                            x.get_attribute("style") for x in background_img_links
-                        ]
-                        background_img_links = [
-                            ((x.split("(")[1]).split(")")[0]).strip('"')
-                            for x in background_img_links
-                        ]
-                    else:
-                        background_img_links = get_facebook_images_url(results)
+#             try:
+#                 if download_uploaded_photos:
+#                     if photos_small_size:
+#                         background_img_links = driver.find_elements_by_xpath(
+#                             selectors.get("background_img_links")
+#                         )
+#                         background_img_links = [
+#                             x.get_attribute("style") for x in background_img_links
+#                         ]
+#                         background_img_links = [
+#                             ((x.split("(")[1]).split(")")[0]).strip('"')
+#                             for x in background_img_links
+#                         ]
+#                     else:
+#                         background_img_links = get_facebook_images_url(results)
 
-                    folder_names = ["Uploaded Photos", "Tagged Photos"]
-                    print("Downloading " + folder_names[current_section])
+#                     folder_names = ["Uploaded Photos", "Tagged Photos"]
+#                     print("Downloading " + folder_names[current_section])
 
-                    img_names = image_downloader(
-                        background_img_links, folder_names[current_section]
-                    )
-                else:
-                    img_names = ["None"] * len(results)
-            except Exception:
-                print(
-                    "Exception (Images)",
-                    str(status),
-                    "Status =",
-                    current_section,
-                    sys.exc_info()[0],
-                )
+#                     img_names = image_downloader(
+#                         background_img_links, folder_names[current_section]
+#                     )
+#                 else:
+#                     img_names = ["None"] * len(results)
+#             except Exception:
+#                 print(
+#                     "Exception (Images)",
+#                     str(status),
+#                     "Status =",
+#                     current_section,
+#                     sys.exc_info()[0],
+#                 )
 
-        # dealing with Videos
-        elif status == 2:
-            results = elements[0].find_elements_by_css_selector("li")
-            results = [
-                x.find_element_by_css_selector("a").get_attribute("href")
-                for x in results
-            ]
+#         # dealing with Videos
+#         elif status == 2:
+#             results = elements[0].find_elements_by_css_selector("li")
+#             results = [
+#                 x.find_element_by_css_selector("a").get_attribute("href")
+#                 for x in results
+#             ]
 
-            try:
-                if results[0][0] == "/":
-                    results = [r.pop(0) for r in results]
-                    results = [(selectors.get("fb_link") + x) for x in results]
-            except Exception:
-                pass
+#             try:
+#                 if results[0][0] == "/":
+#                     results = [r.pop(0) for r in results]
+#                     results = [(selectors.get("fb_link") + x) for x in results]
+#             except Exception:
+#                 pass
 
-        # dealing with About Section
-        elif status == 3:
-            results = elements[0].text
-            f.writelines(results)
+#         # dealing with About Section
+#         elif status == 3:
+#             results = elements[0].text
+#             f.writelines(results)
 
-        # dealing with Posts
-        elif status == 4:
-            extract_and_write_posts(elements, name)
-            return
+#         # dealing with Posts
+#         elif status == 4:
+#             extract_and_write_posts(elements, name)
+#             return
 
-        # dealing with Group Posts
-        elif status == 5:
-            extract_and_write_group_posts(elements, name)
-            return
+#         # dealing with Group Posts
+#         elif status == 5:
+#             extract_and_write_group_posts(elements, name)
+#             return
 
-        """Write results to file"""
-        if status == 0:
-            for i, _ in enumerate(results):
-                # friend's profile link
-                f.writelines(results[i])
-                f.write(",")
+#         """Write results to file"""
+#         if status == 0:
+#             for i, _ in enumerate(results):
+#                 # friend's profile link
+#                 f.writelines(results[i])
+#                 f.write(",")
 
-                # friend's name
-                f.writelines(people_names[i])
-                f.write(",")
+#                 # friend's name
+#                 f.writelines(people_names[i])
+#                 f.write(",")
 
-                # friend's downloaded picture id
-                f.writelines(img_names[i])
-                f.write("\n")
+#                 # friend's downloaded picture id
+#                 f.writelines(img_names[i])
+#                 f.write("\n")
 
-        elif status == 1:
-            for i, _ in enumerate(results):
-                # image's link
-                f.writelines(results[i])
-                f.write(",")
+#         elif status == 1:
+#             for i, _ in enumerate(results):
+#                 # image's link
+#                 f.writelines(results[i])
+#                 f.write(",")
 
-                # downloaded picture id
-                f.writelines(img_names[i])
-                f.write("\n")
+#                 # downloaded picture id
+#                 f.writelines(img_names[i])
+#                 f.write("\n")
 
-        elif status == 2:
-            for x in results:
-                f.writelines(x + "\n")
+#         elif status == 2:
+#             for x in results:
+#                 f.writelines(x + "\n")
 
-        f.close()
+#         f.close()
 
-    except Exception:
-        print("Exception (save_to_file)", "Status =", str(status), sys.exc_info()[0])
+#     except Exception:
+#         print("Exception (save_to_file)", "Status =", str(status), sys.exc_info()[0])
 
-    return
+#     return
 
 
 # ----------------------------------------------------------------------------
