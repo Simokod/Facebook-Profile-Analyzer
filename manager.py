@@ -29,11 +29,6 @@ class Application(tk.Frame):
         self.quit.pack(side="bottom")
         return 
 
-    def example(self):
-        self.analyze_result = tk.Label(root, text= "Hello World!")
-        self.analyze_result.pack()
-        return
-
     def scrape_and_analyze(self):
         settings.init()
         posts = scraper.main().values()
