@@ -3,10 +3,12 @@ import os
 import sys
 import urllib.request
 import yaml
-import utils
+# import utils
 import argparse
 import time
 
+from . import settings
+from . import utils
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
@@ -450,15 +452,15 @@ def scrape_posts(url, scan_list, section, elements_path):
     page += [url + s for s in section]
 
     try:
-        driver.get(page[0])
+        settings.driver.get(page[0])
         # my_posts = {key: post_id, value: actual post}
-        my_posts = utils.my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path[0])
+        my_posts = utils.my_scroll(settings.number_of_posts, settings.driver, settings.selectors, settings.scroll_time, elements_path[0])
 
     except Exception:
         print(
             "Exception (scrape_data)",
             "Status =",
-            str(save_status),
+            # str(save_status),
             sys.exc_info()[0],
         )
     return my_posts
@@ -471,9 +473,9 @@ def parse_friends_count(friend_count):
 def scrape_friends(url, scan_list, section, elements_path):
     friends_count_path = '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span'
     try:
-        driver.implicitly_wait(5)
+        settings.driver.implicitly_wait(5)
         time.sleep(5)
-        friend_count = driver.find_element_by_xpath(friends_count_path).text
+        friend_count = settings.driver.find_element_by_xpath(friends_count_path).text
     except Exception:
         print("find_element_by_xpath FAILED")
     return parse_friends_count(friend_count)
@@ -487,15 +489,17 @@ def scrape_about(url, scan_list, section, elements_path):
 
 def scrape_data(url, scan_list, section, elements_path, save_status):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
-    if save_status == 4:
-        posts = scrape_posts(url, scan_list, section, elements_path)
-    elif save_status == 0:
-        friends = scrape_friends(url, scan_list, section, elements_path)
-    elif save_status == 3:
-        about = scrape_about(url, scan_list, section, elements_path)
-    else:
-        print("what the cat")
-    return ""
+    # if save_status == 4:
+    posts = scrape_posts(url, scan_list, section, elements_path)
+    # elif save_status == 0:
+    #     pass
+    #     # friends = scrape_friends(url, scan_list, section, elements_path)
+    # elif save_status == 3:
+    #     pass
+    #     # about = scrape_about(url, scan_list, section, elements_path)
+    # else:
+    #     print("what the cat")
+    return posts
     # return posts, friends, about
 
 # -----------------------------------------------------------------------------
@@ -505,7 +509,7 @@ def scrape_data(url, scan_list, section, elements_path, save_status):
 def create_original_link(url):
     if url.find(".php") != -1:
         original_link = (
-            facebook_https_prefix + facebook_link_body + ((url.split("="))[1])
+            settings.facebook_https_prefix + settings.facebook_link_body + ((url.split("="))[1])
         )
 
         if original_link.find("&") != -1:
@@ -513,14 +517,14 @@ def create_original_link(url):
 
     elif url.find("fnr_t") != -1:
         original_link = (
-            facebook_https_prefix
-            + facebook_link_body
+            settings.facebook_https_prefix
+            + settings.facebook_link_body
             + ((url.split("/"))[-1].split("?")[0])
         )
     elif url.find("_tab") != -1:
         original_link = (
-            facebook_https_prefix
-            + facebook_link_body
+            settings.facebook_https_prefix
+            + settings.facebook_link_body
             + (url.split("?")[0]).split("/")[-1]
         )
     else:
@@ -535,7 +539,7 @@ def scrap_profile():
     os.chdir(data_folder)
 
     # execute for all profiles given in input.txt file
-    url = driver.current_url
+    url = settings.driver.current_url
     user_id = create_original_link(url)
 
     print("\nScraping:", user_id)
@@ -550,7 +554,7 @@ def scrap_profile():
         return
 
     # to_scrap = ["Friends", "Photos", "Videos", "About", "Posts"]
-    to_scrap = ["Friends"]
+    to_scrap = ["Posts"]
     for item in to_scrap:
         print("----------------------------------------")
         print("Scraping {}..".format(item))
@@ -560,19 +564,19 @@ def scrap_profile():
         elif item == "About":
             scan_list = [None] * 7
         else:
-            scan_list = params[item]["scan_list"]
+            scan_list = settings.params[item]["scan_list"]
 
-        section = params[item]["section"]
-        elements_path = params[item]["elements_path"]
-        save_status = params[item]["save_status"]
-        scrape_data(user_id, scan_list, section, elements_path, save_status)
+        section = settings.params[item]["section"]
+        elements_path = settings.params[item]["elements_path"]
+        save_status = settings.params[item]["save_status"]
+        data = scrape_data(user_id, scan_list, section, elements_path, save_status)
 
         print("{} Done!".format(item))
 
     print("Finished Scraping Profile " + str(user_id) + ".")
     os.chdir("../..")
 
-    return
+    return data
 
 
 # def get_comments():
@@ -725,7 +729,7 @@ def login(email, password):
     """ Logging into our own profile """
 
     try:
-        global driver
+
 
         options = Options()
 
@@ -736,46 +740,46 @@ def login(email, password):
         # options.add_argument("headless")
 
         try:
-            driver = webdriver.Chrome(
+            settings.driver = webdriver.Chrome(
                 executable_path=ChromeDriverManager().install(), options=options
             )
         except Exception:
             print("Error loading chrome webdriver " + sys.exc_info()[0])
             exit(1)
 
-        fb_path = facebook_https_prefix + facebook_link_body
-        driver.get(fb_path)
-        driver.maximize_window()
+        fb_path = settings.facebook_https_prefix + settings.facebook_link_body
+        settings.driver.get(fb_path)
+        settings.driver.maximize_window()
 
         # filling the form
-        driver.find_element_by_name("email").send_keys(email)
-        driver.find_element_by_name("pass").send_keys(password)
+        settings.driver.find_element_by_name("email").send_keys(email)
+        settings.driver.find_element_by_name("pass").send_keys(password)
 
         try:
             # clicking on login button
-            driver.find_element_by_id("loginbutton").click()
+            settings.driver.find_element_by_id("loginbutton").click()
         except NoSuchElementException:
             # Facebook new design
-            driver.find_element_by_name("login").click()
+            settings.driver.find_element_by_name("login").click()
 
         # if your account uses multi factor authentication
-        mfa_code_input = utils.safe_find_element_by_id(driver, "approvals_code")
+        mfa_code_input = utils.safe_find_element_by_id(settings.driver, "approvals_code")
 
         if mfa_code_input is None:
             return
 
         mfa_code_input.send_keys(input("Enter MFA code: "))
-        driver.find_element_by_id("checkpointSubmitButton").click()
+        settings.driver.find_element_by_id("checkpointSubmitButton").click()
 
         # there are so many screens asking you to verify things. Just skip them all
         while (
-            utils.safe_find_element_by_id(driver, "checkpointSubmitButton") is not None
+            utils.safe_find_element_by_id(settings.driver, "checkpointSubmitButton") is not None
         ):
-            dont_save_browser_radio = utils.safe_find_element_by_id(driver, "u_0_3")
+            dont_save_browser_radio = utils.safe_find_element_by_id(settings.driver, "u_0_3")
             if dont_save_browser_radio is not None:
                 dont_save_browser_radio.click()
 
-            driver.find_element_by_id("checkpointSubmitButton").click()
+            settings.driver.find_element_by_id("checkpointSubmitButton").click()
 
     except Exception:
         print("There's some error in log in.")
@@ -795,7 +799,7 @@ def scraper(**kwargs):
         print("Your email or password is missing. Kindly write them in credentials.txt")
         exit(1)
     urls = [
-        facebook_https_prefix + facebook_link_body + get_item_id(line)
+        settings.facebook_https_prefix + settings.facebook_link_body + get_item_id(line)
         for line in open("input.txt", newline="\r\n")
         if not line.lstrip().startswith("#") and not line.strip() == ""
     ]
@@ -804,25 +808,26 @@ def scraper(**kwargs):
         print("\nStarting Scraping...")
         login(cfg["email"], cfg["password"])
         for url in urls:
-            driver.get(url)
-            link_type = utils.identify_url(driver.current_url)
+            settings.driver.get(url)
+            link_type = utils.identify_url(settings.driver.current_url)
             if link_type == 0:
-                scrap_profile()
+                result = scrap_profile()
             elif link_type == 1:
                 # scrap_post(url)
                 pass
             elif link_type == 2:
-                scrape_group(driver.current_url)
+                scrape_group(settings.driver.current_url)
             elif link_type == 3:
-                file_name = params["GroupPosts"]["file_names"][0]
-                item_id = get_item_id(driver.current_url)
+                file_name = settings.params["GroupPosts"]["file_names"][0]
+                item_id = get_item_id(settings.driver.current_url)
                 if create_folders() is None:
                     continue
                 f = create_post_file(file_name)
                 add_group_post_to_file(f, file_name, item_id)
                 f.close()
                 os.chdir("../..")
-        driver.close()
+        settings.driver.close()
+        return result
     else:
         print("Input file is empty.")
 
@@ -831,54 +836,55 @@ def scraper(**kwargs):
 # -------------------------------------------------------------
 # -------------------------------------------------------------
 
-if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
+# if __name__ == "__main__":
+def main():
+    settings.ap = argparse.ArgumentParser()
     # PLS CHECK IF HELP CAN BE BETTER / LESS AMBIGUOUS
-    ap.add_argument(
+    settings.ap.add_argument(
         "-dup",
         "--uploaded_photos",
         help="download users' uploaded photos?",
         default=True,
     )
-    ap.add_argument(
+    settings.ap.add_argument(
         "-dfp", 
         "--friends_photos", 
         help="download users' photos?", 
         default=True
     )
-    ap.add_argument(
+    settings.ap.add_argument(
         "-fss",
         "--friends_small_size",
         help="Download friends pictures in small size?",
         default=True,
     )
-    ap.add_argument(
+    settings.ap.add_argument(
         "-pss",
         "--photos_small_size",
         help="Download photos in small size?",
         default=True,
     )
-    ap.add_argument(
+    settings.ap.add_argument(
         "-ts",
         "--total_scrolls",
         help="How many times should I scroll down?",
         default=2500,
     )
-    ap.add_argument(
+    settings.ap.add_argument(
         "-st",
         "--scroll_time", 
         help="How much time should I take to scroll?", 
         default=8
     )
-    ap.add_argument(
+    settings.ap.add_argument(
         "-nop",
         "--number_of_posts",
         help="How many posts should i take?",
         default=10
     )
 
-    args = vars(ap.parse_args())
-    print(args)
+    settings.args = vars(settings.ap.parse_args())
+    print(settings.args)
 
     # ---------------------------------------------------------
     # Global Variables
@@ -887,34 +893,35 @@ if __name__ == "__main__":
     # whether to download photos or not
     # download_uploaded_photos = utils.to_bool(args["uploaded_photos"])
     # download_friends_photos = utils.to_bool(args["friends_photos"])
-    download_uploaded_photos = False
-    download_friends_photos = False
+    # download_uploaded_photos = False
+    # download_friends_photos = False
 
     # whether to download the full image or its thumbnail (small size)
     # if small size is True then it will be very quick else if its false then it will open each photo to download it
     # and it will take much more time
     # friends_small_size = utils.to_bool(args["friends_small_size"])
     # photos_small_size = utils.to_bool(args["photos_small_size"])
-    friends_small_size = False
-    photos_small_size = False
+    # friends_small_size = False
+    # photos_small_size = False
 
-    total_scrolls = int(args["total_scrolls"])
-    scroll_time = int(args["scroll_time"])
-    number_of_posts = int(args["number_of_posts"])
+    # settings.total_scrolls = int(args["total_scrolls"])
+    settings.scroll_time = int(settings.args["scroll_time"])
+    settings.number_of_posts = int(settings.args["number_of_posts"])
 
-    current_scrolls = 0
-    old_height = 0
+    # current_scrolls = 0
+    # old_height = 0
 
-    driver = None
+    settings.driver = None
 
     with open("selectors.json") as a, open("params.json") as b:
-        selectors = json.load(a)
-        params = json.load(b)
+        settings.selectors = json.load(a)
+        settings.params = json.load(b)
 
-    firefox_profile_path = selectors.get("firefox_profile_path")
-    facebook_https_prefix = selectors.get("facebook_https_prefix")
-    facebook_link_body = selectors.get("facebook_link_body")
+    # firefox_profile_path = settings.selectors.get("firefox_profile_path")
+    settings.facebook_https_prefix = settings.selectors.get("facebook_https_prefix")
+    settings.facebook_link_body = settings.selectors.get("facebook_link_body")
 
     # get things rolling
-    scraper()
+    x = scraper()
+    return x
 
