@@ -154,3 +154,5 @@ fabric.properties
 input.txt
 credentials.yaml
 data/
+scraper/__pycache__/
+ultimate_facebook_scraper.egg-info/SOURCES.txt
