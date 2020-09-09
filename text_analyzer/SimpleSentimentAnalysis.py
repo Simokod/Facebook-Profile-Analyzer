@@ -18,14 +18,13 @@ def detect_language(post):
 def find_word_in_subjects(word):
     subjects = Subjects.subjects
     for subject in subjects:
-        print(subject)
         if word in subjects[subject]:  
             return subject
     return
 
 # calculate post's subject
 # improve - currently returns only one subject per post
-def detect_post_subject(post):
+def detect_post_subject(post: str) -> str:
     subjects_word_count = {}    # holds word count per subject
     postWords = post.split()
     threshold = 0.5*len(postWords)  # super strict threshold!
@@ -41,7 +40,7 @@ def detect_post_subject(post):
     for subject in subjects_word_count:
         if subjects_word_count[subject] >= threshold:
             return subject
-    return
+    return ""
 
 def analyze_post(post):
     # translate text
