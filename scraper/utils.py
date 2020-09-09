@@ -69,15 +69,6 @@ def check_height(driver, selectors, old_height):
 def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
     my_posts = {}
     global old_height
-    # my_posts = {}
-    # try:
-    #     f = open(filename, "w", newline="\r\n", encoding="utf-8")
-    #     f.writelines(" TIME || TYPE  || TITLE || STATUS  ||   LINKS(Shared Posts/Shared Links etc) || POST_ID\n\n")
-    #     f.close()
-    # except ValueError:
-    #     print("Exception (my_scroll)", "Status =", sys.exc_info()[0])
-    # except Exception:
-    #     print("Exception (my_scroll)", "Status =", sys.exc_info()[0])
 
     posts_scraped = 0
     cur_posts_scraped = 0
@@ -116,7 +107,6 @@ def remove_comments(data):
 
 def my_extract_and_write_posts(elements, lim, last_post_id, my_posts):
     try:
-        # f = open(filename, "a", newline="\r\n", encoding="utf-8")
         posts_written = 0
         for x in elements:
             try:
@@ -124,16 +114,9 @@ def my_extract_and_write_posts(elements, lim, last_post_id, my_posts):
                 int_post_id = int(post_id)
                 if post_id != None:
                     if int_post_id > last_post_id:
-                        status = my_get_status(x)   
-                        # line = (
-                        #         str(int_post_id)
-                        #         + " || "
-                        #         + status
-                        #         + "\n\n"
-                        # )
+                        status = my_get_status(x)  
                         try:
                             if status != "":
-                                # f.writelines(line)
                                 my_posts[int_post_id] = status
                                 posts_written += 1
                                 last_post_id = int_post_id
