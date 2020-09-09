@@ -1,12 +1,12 @@
 import nltk
-import Subjects
+from . import Subjects
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from googletrans import Translator
 translator = Translator()
 sid = SentimentIntensityAnalyzer()
 
 def detect_language(post):
-    language = translator.detect(HebrewText)
+    language = translator.detect(post)
     if language.lang == 'iw' or language.lang == 'he':
         language = 'Hebrew'
     elif language == 'en': language = 'English'
@@ -58,4 +58,4 @@ def analyze_post(post):
 
     return sentimentDict
 
-analyze_post("בדיקה")
+# analyze_post("בדיקה")

@@ -2,6 +2,7 @@ import tkinter as tk
 # from subprocess import call
 from scraper import scraper
 from scraper import settings
+from text_analyzer import SimpleSentimentAnalysis
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -11,10 +12,10 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Scrape Away!\n(click me)"
-        self.hi_there["command"] = self.init_scrape
-        self.hi_there.pack(side="top")
+        self.analyze = tk.Button(self)
+        self.analyze["text"] = "Analyze Profile\n(click me)"
+        self.analyze["command"] = self.init_scrape
+        self.analyze.pack(side="top")
 
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
@@ -22,8 +23,10 @@ class Application(tk.Frame):
 
     def init_scrape(self):
         settings.init()
-        x = scraper.main()
-        print(x)
+        posts = scraper.main().values()
+        for post in posts:
+            SimpleSentimentAnalysis.analyze_post(post)
+        # print(x)
         # call(["python", "scraper/scraper.py"])
 
 
