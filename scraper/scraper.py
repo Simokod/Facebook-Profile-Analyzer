@@ -16,224 +16,225 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-def get_facebook_images_url(img_links):
-    urls = []
+# def get_facebook_images_url(img_links):
+#     urls = []
 
-    for link in img_links:
-        if link != "None":
-            valid_url_found = False
-            driver.get(link)
+#     for link in img_links:
+#         if link != "None":
+#             valid_url_found = False
+#             driver.get(link)
 
-            try:
-                while not valid_url_found:
-                    WebDriverWait(driver, 30).until(
-                        EC.presence_of_element_located(
-                            (By.CLASS_NAME, selectors.get("spotlight"))
-                        )
-                    )
-                    element = driver.find_element_by_class_name(
-                        selectors.get("spotlight")
-                    )
-                    img_url = element.get_attribute("src")
+#             try:
+#                 while not valid_url_found:
+#                     WebDriverWait(driver, 30).until(
+#                         EC.presence_of_element_located(
+#                             (By.CLASS_NAME, selectors.get("spotlight"))
+#                         )
+#                     )
+#                     element = driver.find_element_by_class_name(
+#                         selectors.get("spotlight")
+#                     )
+#                     img_url = element.get_attribute("src")
 
-                    if img_url.find(".gif") == -1:
-                        valid_url_found = True
-                        urls.append(img_url)
-            except Exception:
-                urls.append("None")
-        else:
-            urls.append("None")
+#                     if img_url.find(".gif") == -1:
+#                         valid_url_found = True
+#                         urls.append(img_url)
+#             except Exception:
+#                 urls.append("None")
+#         else:
+#             urls.append("None")
 
-    return urls
+#     return urls
 
 
 # -------------------------------------------------------------
 # -------------------------------------------------------------
 
 # takes a url and downloads image from that url
-def image_downloader(img_links, folder_name):
-    """
-    Download images from a list of image urls.
-    :param img_links:
-    :param folder_name:
-    :return: list of image names downloaded
-    """
-    img_names = []
+# def image_downloader(img_links, folder_name):
+#     """
+#     Download images from a list of image urls.
+#     :param img_links:
+#     :param folder_name:
+#     :return: list of image names downloaded
+#     """
+#     img_names = []
 
-    try:
-        parent = os.getcwd()
-        try:
-            folder = os.path.join(os.getcwd(), folder_name)
-            utils.create_folder(folder)
-            os.chdir(folder)
-        except Exception:
-            print("Error in changing directory.")
+#     try:
+#         parent = os.getcwd()
+#         try:
+#             folder = os.path.join(os.getcwd(), folder_name)
+#             utils.create_folder(folder)
+#             os.chdir(folder)
+#         except Exception:
+#             print("Error in changing directory.")
 
-        for link in img_links:
-            img_name = "None"
+#         for link in img_links:
+#             img_name = "None"
 
-            if link != "None":
-                img_name = (link.split(".jpg")[0]).split("/")[-1] + ".jpg"
+#             if link != "None":
+#                 img_name = (link.split(".jpg")[0]).split("/")[-1] + ".jpg"
 
-                # this is the image id when there's no profile pic
-                if img_name == selectors.get("default_image"):
-                    img_name = "None"
-                else:
-                    try:
-                        urllib.request.urlretrieve(link, img_name)
-                    except Exception:
-                        img_name = "None"
+#                 # this is the image id when there's no profile pic
+#                 if img_name == selectors.get("default_image"):
+#                     img_name = "None"
+#                 else:
+#                     try:
+#                         urllib.request.urlretrieve(link, img_name)
+#                     except Exception:
+#                         img_name = "None"
 
-            img_names.append(img_name)
+#             img_names.append(img_name)
 
-        os.chdir(parent)
-    except Exception:
-        print("Exception (image_downloader):", sys.exc_info()[0])
-    return img_names
+#         os.chdir(parent)
+#     except Exception:
+#         print("Exception (image_downloader):", sys.exc_info()[0])
+#     return img_names
 
 
 # -------------------------------------------------------------
 # -------------------------------------------------------------
 
 
-def extract_and_write_posts(elements, filename):
-    try:
-        f = open(filename, "w", newline="\r\n", encoding="utf-8")
-        f.writelines(
-            " TIME || TYPE  || TITLE || STATUS  ||   LINKS(Shared Posts/Shared Links etc) || POST_ID "
-            + "\n"
-            + "\n"
-        )
-        # ids = []
-        i = 0
-        for x in elements:
-            try:
-                link = ""
-                post_id = utils.my_get_post_id(x)
-                if post_id != None:
-                    print("id:", post_id)
-                if post_id != None:
-                    status = utils.my_get_status(x)
-                    line = (
-                        str(post_id)
-                        + " || "
-                        + str(status)
-                        + "\n\n"
-                    )
-                    try:
-                        f.writelines(line)
-                    except Exception:
-                        print("Posts: Could not map encoded characters")
-            except Exception:
-                print("passing")
-                pass
-        f.close()
-    except ValueError:
-        print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-    except Exception:
-        print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-    return
+# def extract_and_write_posts(elements, filename):
+#     try:
+#         f = open(filename, "w", newline="\r\n", encoding="utf-8")
+#         f.writelines(
+#             " TIME || TYPE  || TITLE || STATUS  ||   LINKS(Shared Posts/Shared Links etc) || POST_ID "
+#             + "\n"
+#             + "\n"
+#         )
+#         i = 0
+#         for x in elements:
+#             try:
+#                 link = ""
+#                 post_id = utils.my_get_post_id(x)
+#                 if post_id != None:
+#                     print("id:", post_id)
+#                 if post_id != None:
+#                     status = utils.my_get_status(x)
+#                     line = (
+#                         str(post_id)
+#                         + " || "
+#                         + str(status)
+#                         + "\n\n"
+#                     )
+#                     try:
+#                         f.writelines(line)
+#                     except Exception:
+#                         print("Posts: Could not map encoded characters")
+#             except Exception:
+#                 print("passing")
+#                 pass
+#         f.close()
+#     except ValueError:
+#         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
+#     except Exception:
+#         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
+#     return
 
 
-def get_status_and_title(link, x):
-    # title
-    title = utils.get_title(x, selectors)
-    if title.text.find("shared a memory") != -1:
-        x = x.find_element_by_xpath(selectors.get("title_element"))
-        title = utils.get_title(x, selectors)
-    status = utils.get_status(x, selectors)
-    if title.text == driver.find_element_by_id(selectors.get("title_text")).text:
-        if status == "":
-            temp = utils.get_div_links(x, "img", selectors)
-            if temp == "":  # no image tag which means . it is not a life event
-                link = utils.get_div_links(x, "a", selectors).get_attribute("href")
-                post_type = "status update without text"
-            else:
-                post_type = "life event"
-                link = utils.get_div_links(x, "a", selectors).get_attribute("href")
-                status = utils.get_div_links(x, "a", selectors).text
-        else:
-            post_type = "status update"
-            if utils.get_div_links(x, "a", selectors) != "":
-                link = utils.get_div_links(x, "a", selectors).get_attribute("href")
+# def get_status_and_title(link, x):
+#     # title
+#     title = utils.get_title(x, selectors)
+#     if title.text.find("shared a memory") != -1:
+#         x = x.find_element_by_xpath(selectors.get("title_element"))
+#         title = utils.get_title(x, selectors)
+#     status = utils.get_status(x, selectors)
+#     if title.text == driver.find_element_by_id(selectors.get("title_text")).text:
+#         if status == "":
+#             temp = utils.get_div_links(x, "img", selectors)
+#             if temp == "":  # no image tag which means . it is not a life event
+#                 link = utils.get_div_links(x, "a", selectors).get_attribute("href")
+#                 post_type = "status update without text"
+#             else:
+#                 post_type = "life event"
+#                 link = utils.get_div_links(x, "a", selectors).get_attribute("href")
+#                 status = utils.get_div_links(x, "a", selectors).text
+#         else:
+#             post_type = "status update"
+#             if utils.get_div_links(x, "a", selectors) != "":
+#                 link = utils.get_div_links(x, "a", selectors).get_attribute("href")
 
-    elif title.text.find(" shared ") != -1:
-        x1, link = utils.get_title_links(title)
-        post_type = "shared " + x1
-    elif title.text.find(" at ") != -1 or title.text.find(" in ") != -1:
-        if title.text.find(" at ") != -1:
-            x1, link = utils.get_title_links(title)
-            post_type = "check in"
-        elif title.text.find(" in ") != 1:
-            status = utils.get_div_links(x, "a", selectors).text
-    elif title.text.find(" added ") != -1 and title.text.find("photo") != -1:
-        post_type = "added photo"
-        link = utils.get_div_links(x, "a", selectors).get_attribute("href")
+#     elif title.text.find(" shared ") != -1:
+#         x1, link = utils.get_title_links(title)
+#         post_type = "shared " + x1
+#     elif title.text.find(" at ") != -1 or title.text.find(" in ") != -1:
+#         if title.text.find(" at ") != -1:
+#             x1, link = utils.get_title_links(title)
+#             post_type = "check in"
+#         elif title.text.find(" in ") != 1:
+#             status = utils.get_div_links(x, "a", selectors).text
+#     elif title.text.find(" added ") != -1 and title.text.find("photo") != -1:
+#         post_type = "added photo"
+#         link = utils.get_div_links(x, "a", selectors).get_attribute("href")
 
-    elif title.text.find(" added ") != -1 and title.text.find("video") != -1:
-        post_type = "added video"
-        link = utils.get_div_links(x, "a", selectors).get_attribute("href")
+#     elif title.text.find(" added ") != -1 and title.text.find("video") != -1:
+#         post_type = "added video"
+#         link = utils.get_div_links(x, "a", selectors).get_attribute("href")
 
-    else:
-        post_type = "others"
-    if not isinstance(title, str):
-        title = title.text
-    status = status.replace("\n", " ")
-    title = title.replace("\n", " ")
-    return link, status, title, post_type
+#     else:
+#         post_type = "others"
+#     if not isinstance(title, str):
+#         title = title.text
+#     status = status.replace("\n", " ")
+#     title = title.replace("\n", " ")
+#     return link, status, title, post_type
 
 
-def extract_and_write_group_posts(elements, filename):
-    try:
-        f = create_post_file(filename)
-        ids = []
-        for x in elements:
-            try:
-                # id
-                post_id = utils.get_group_post_id(x)
-                ids.append(post_id)
-            except Exception:
-                pass
-        total = len(ids)
-        i = 0
-        for post_id in ids:
-            i += 1
-            try:
-                add_group_post_to_file(f, filename, post_id, i, total, reload=True)
-            except ValueError:
-                pass
-        f.close()
-    except ValueError:
-        print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-    except Exception:
-        print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-    return
+# def extract_and_write_group_posts(elements, filename):
+#     try:
+#         f = create_post_file(filename)
+#         ids = []
+#         for x in elements:
+#             try:
+#                 # id
+#                 post_id = utils.get_group_post_id(x)
+#                 ids.append(post_id)
+#             except Exception:
+#                 pass
+#         total = len(ids)
+#         i = 0
+#         for post_id in ids:
+#             i += 1
+#             try:
+#                 add_group_post_to_file(f, filename, post_id, i, total, reload=True)
+#             except ValueError:
+#                 pass
+#         f.close()
+#     except ValueError:
+#         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
+#     except Exception:
+#         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
+#     return
 
 
 def add_group_post_to_file(f, filename, post_id, number=1, total=1, reload=False):
-    print("Scraping Post(" + post_id + "). " + str(number) + " of " + str(total))
-    photos_dir = os.path.dirname(filename)
-    if reload:
-        driver.get(utils.create_post_link(post_id, selectors))
-    line = get_group_post_as_line(post_id, photos_dir)
-    try:
-        f.writelines(line)
-    except Exception:
-        print("Posts: Could not map encoded characters")
+    # print("Scraping Post(" + post_id + "). " + str(number) + " of " + str(total))
+    # photos_dir = os.path.dirname(filename)
+    # if reload:
+    #     driver.get(utils.create_post_link(post_id, selectors))
+    # line = get_group_post_as_line(post_id, photos_dir)
+    # try:
+    #     f.writelines(line)
+    # except Exception:
+    #     print("Posts: Could not map encoded characters")
+    print("ERROR -- add_group_post_to_file - not supposed to get here")
 
 
 def create_post_file(filename):
-    """
-    Creates post file and header
-    :param filename:
-    :return: file
-    """
-    f = open(filename, "w", newline="\r\n", encoding="utf-8")
-    f.writelines(
-        "TIME || TYPE  || TITLE || STATUS || LINKS(Shared Posts/Shared Links etc) || POST_ID || "
-        "PHOTO || COMMENTS " + "\n"
-    )
-    return f
+    # """
+    # Creates post file and header
+    # :param filename:
+    # :return: file
+    # """
+    # f = open(filename, "w", newline="\r\n", encoding="utf-8")
+    # f.writelines(
+    #     "TIME || TYPE  || TITLE || STATUS || LINKS(Shared Posts/Shared Links etc) || POST_ID || "
+    #     "PHOTO || COMMENTS " + "\n"
+    # )
+    # return f
+    print("ERROR -- create_post_file - not supposed to get here")
 
 
 # -------------------------------------------------------------
@@ -454,12 +455,12 @@ def scrape_data(url, scan_list, section, elements_path, save_status, file_names)
 
     try:
         driver.get(page[0])
-        utils.my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path[0])
+        # my_posts = {key: post_id, value: actual post}
+        my_posts = utils.my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path[0])
 
     except Exception:
         print(
             "Exception (scrape_data)",
-            str(i),
             "Status =",
             str(save_status),
             sys.exc_info()[0],
@@ -544,75 +545,75 @@ def scrap_profile():
     return
 
 
-def get_comments():
-    comments = []
-    try:
-        data = driver.find_element_by_xpath(selectors.get("comment_section"))
-        reply_links = driver.find_elements_by_xpath(
-            selectors.get("more_comment_replies")
-        )
-        for link in reply_links:
-            try:
-                driver.execute_script("arguments[0].click();", link)
-            except Exception:
-                pass
-        see_more_links = driver.find_elements_by_xpath(
-            selectors.get("comment_see_more_link")
-        )
-        for link in see_more_links:
-            try:
-                driver.execute_script("arguments[0].click();", link)
-            except Exception:
-                pass
-        data = data.find_elements_by_xpath(selectors.get("comment"))
-        for d in data:
-            try:
-                author = d.find_element_by_xpath(selectors.get("comment_author")).text
-                text = d.find_element_by_xpath(selectors.get("comment_text")).text
-                replies = utils.get_replies(d, selectors)
-                comments.append([author, text, replies])
-            except Exception:
-                pass
-    except Exception:
-        pass
-    return comments
+# def get_comments():
+#     comments = []
+#     try:
+#         data = driver.find_element_by_xpath(selectors.get("comment_section"))
+#         reply_links = driver.find_elements_by_xpath(
+#             selectors.get("more_comment_replies")
+#         )
+#         for link in reply_links:
+#             try:
+#                 driver.execute_script("arguments[0].click();", link)
+#             except Exception:
+#                 pass
+#         see_more_links = driver.find_elements_by_xpath(
+#             selectors.get("comment_see_more_link")
+#         )
+#         for link in see_more_links:
+#             try:
+#                 driver.execute_script("arguments[0].click();", link)
+#             except Exception:
+#                 pass
+#         data = data.find_elements_by_xpath(selectors.get("comment"))
+#         for d in data:
+#             try:
+#                 author = d.find_element_by_xpath(selectors.get("comment_author")).text
+#                 text = d.find_element_by_xpath(selectors.get("comment_text")).text
+#                 replies = utils.get_replies(d, selectors)
+#                 comments.append([author, text, replies])
+#             except Exception:
+#                 pass
+#     except Exception:
+#         pass
+#     return comments
 
 
-def get_group_post_as_line(post_id, photos_dir):
-    try:
-        data = driver.find_element_by_xpath(selectors.get("single_post"))
-        time = utils.get_time(data)
-        title = utils.get_title(data, selectors).text
-        # link, status, title, type = get_status_and_title(title,data)
-        link = utils.get_div_links(data, "a", selectors)
-        if link != "":
-            link = link.get_attribute("href")
-        post_type = ""
-        status = '"' + utils.get_status(data, selectors).replace("\r\n", " ") + '"'
-        photos = utils.get_post_photos_links(data, selectors, photos_small_size)
-        comments = get_comments()
-        photos = image_downloader(photos, photos_dir)
-        line = (
-            str(time)
-            + "||"
-            + str(post_type)
-            + "||"
-            + str(title)
-            + "||"
-            + str(status)
-            + "||"
-            + str(link)
-            + "||"
-            + str(post_id)
-            + "||"
-            + str(photos)
-            + "||"
-            + str(comments)
-            + "\n"
-        )
-        return line
-    except Exception:
-        return ""
+# def get_group_post_as_line(post_id, photos_dir):
+#     try:
+#         data = driver.find_element_by_xpath(selectors.get("single_post"))
+#         time = utils.get_time(data)
+#         title = utils.get_title(data, selectors).text
+#         # link, status, title, type = get_status_and_title(title,data)
+#         link = utils.get_div_links(data, "a", selectors)
+#         if link != "":
+#             link = link.get_attribute("href")
+#         post_type = ""
+#         status = '"' + utils.get_status(data, selectors).replace("\r\n", " ") + '"'
+#         photos = utils.get_post_photos_links(data, selectors, photos_small_size)
+#         comments = get_comments()
+#         photos = image_downloader(photos, photos_dir)
+#         line = (
+#             str(time)
+#             + "||"
+#             + str(post_type)
+#             + "||"
+#             + str(title)
+#             + "||"
+#             + str(status)
+#             + "||"
+#             + str(link)
+#             + "||"
+#             + str(post_id)
+#             + "||"
+#             + str(photos)
+#             + "||"
+#             + str(comments)
+#             + "\n"
+#         )
+#         return line
+#     except Exception:
+#         return ""
 
 
 def create_folders():
@@ -654,37 +655,36 @@ def get_item_id(url):
 
 
 def scrape_group(url):
-    if create_folders() is None:
-        return
-    group_id = get_item_id(url)
-    # execute for all profiles given in input.txt file
-    print("\nScraping:", group_id)
+    # if create_folders() is None:
+    #     return
+    # group_id = get_item_id(url)
+    # # execute for all profiles given in input.txt file
+    # print("\nScraping:", group_id)
 
-    to_scrap = ["GroupPosts"]  # , "Photos", "Videos", "About"]
-    for item in to_scrap:
-        print("----------------------------------------")
-        print("Scraping {}..".format(item))
+    # to_scrap = ["GroupPosts"]  # , "Photos", "Videos", "About"]
+    # for item in to_scrap:
+    #     print("----------------------------------------")
+    #     print("Scraping {}..".format(item))
 
-        if item == "GroupPosts":
-            scan_list = [None]
-        elif item == "About":
-            scan_list = [None] * 7
-        else:
-            scan_list = params[item]["scan_list"]
+    #     if item == "GroupPosts":
+    #         scan_list = [None]
+    #     elif item == "About":
+    #         scan_list = [None] * 7
+    #     else:
+    #         scan_list = params[item]["scan_list"]
 
-        section = params[item]["section"]
-        elements_path = params[item]["elements_path"]
-        file_names = params[item]["file_names"]
-        save_status = params[item]["save_status"]
+    #     section = params[item]["section"]
+    #     elements_path = params[item]["elements_path"]
+    #     file_names = params[item]["file_names"]
+    #     save_status = params[item]["save_status"]
 
-        scrape_data(url, scan_list, section, elements_path, save_status, file_names)
+    #     scrape_data(url, scan_list, section, elements_path, save_status, file_names)
 
-        print("{} Done!".format(item))
+    #     print("{} Done!".format(item))
 
-    print("Finished Scraping Group " + str(group_id) + ".")
-    os.chdir("../..")
-
-    return
+    # print("Finished Scraping Group " + str(group_id) + ".")
+    # os.chdir("../..")
+    print("Error -- scrape_group - not supposed to get here")
 
 
 # -----------------------------------------------------------------------------
@@ -811,7 +811,10 @@ if __name__ == "__main__":
         default=True,
     )
     ap.add_argument(
-        "-dfp", "--friends_photos", help="download users' photos?", default=True
+        "-dfp", 
+        "--friends_photos", 
+        help="download users' photos?", 
+        default=True
     )
     ap.add_argument(
         "-fss",

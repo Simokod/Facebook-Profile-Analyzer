@@ -18,10 +18,10 @@ def to_bool(x):
         raise argparse.ArgumentTypeError("Boolean value expected")
 
 
-def create_post_link(post_id, selectors):
-    return (
-            selectors["facebook_https_prefix"] + selectors["facebook_link_body"] + post_id
-    )
+# def create_post_link(post_id, selectors):
+#     return (
+#             selectors["facebook_https_prefix"] + selectors["facebook_link_body"] + post_id
+#     )
 
 
 # -----------------------------------------------------------------------------
@@ -63,17 +63,21 @@ def check_height(driver, selectors, old_height):
 #             break
 #     return
 
+
+# dictionary containing (id, posts)
+
 def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
+    my_posts = {}
     global old_height
-    filename = "Posts.txt"
-    try:
-        f = open(filename, "w", newline="\r\n", encoding="utf-8")
-        f.writelines(" TIME || TYPE  || TITLE || STATUS  ||   LINKS(Shared Posts/Shared Links etc) || POST_ID\n\n")
-        f.close()
-    except ValueError:
-        print("Exception (my_scroll)", "Status =", sys.exc_info()[0])
-    except Exception:
-        print("Exception (my_scroll)", "Status =", sys.exc_info()[0])
+    # my_posts = {}
+    # try:
+    #     f = open(filename, "w", newline="\r\n", encoding="utf-8")
+    #     f.writelines(" TIME || TYPE  || TITLE || STATUS  ||   LINKS(Shared Posts/Shared Links etc) || POST_ID\n\n")
+    #     f.close()
+    # except ValueError:
+    #     print("Exception (my_scroll)", "Status =", sys.exc_info()[0])
+    # except Exception:
+    #     print("Exception (my_scroll)", "Status =", sys.exc_info()[0])
 
     posts_scraped = 0
     cur_posts_scraped = 0
@@ -89,13 +93,12 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
             data = driver.find_elements_by_xpath(elements_path)
             data = remove_comments(data)
             lim = number_of_posts-posts_scraped
-
-            cur_posts_scraped, last_post_id = my_extract_and_write_posts(data[posts_scraped:], filename, lim, last_post_id)
+            cur_posts_scraped, last_post_id = my_extract_and_write_posts(data[posts_scraped:], lim, last_post_id, my_posts)
             posts_scraped += cur_posts_scraped
-            
+
         except TimeoutException:
             break
-    return
+    return my_posts
 
 
 def remove_comments(data):
@@ -111,9 +114,9 @@ def remove_comments(data):
     return posts
 
 
-def my_extract_and_write_posts(elements, filename, lim, last_post_id):
+def my_extract_and_write_posts(elements, lim, last_post_id, my_posts):
     try:
-        f = open(filename, "a", newline="\r\n", encoding="utf-8")
+        # f = open(filename, "a", newline="\r\n", encoding="utf-8")
         posts_written = 0
         for x in elements:
             try:
@@ -122,15 +125,16 @@ def my_extract_and_write_posts(elements, filename, lim, last_post_id):
                 if post_id != None:
                     if int_post_id > last_post_id:
                         status = my_get_status(x)   
-                        line = (
-                                str(int_post_id)
-                                + " || "
-                                + str(status)
-                                + "\n\n"
-                        )
+                        # line = (
+                        #         str(int_post_id)
+                        #         + " || "
+                        #         + status
+                        #         + "\n\n"
+                        # )
                         try:
-                            if str(status) != "":
-                                f.writelines(line)
+                            if status != "":
+                                # f.writelines(line)
+                                my_posts[int_post_id] = status
                                 posts_written += 1
                                 last_post_id = int_post_id
                                 if posts_written == lim:
@@ -139,11 +143,10 @@ def my_extract_and_write_posts(elements, filename, lim, last_post_id):
                             print("Posts: Could not map encoded characters")
             except Exception:
                 pass
-        f.close()
     except ValueError:
-        print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
+        print("Exception Value (my_extract_and_write_posts)", "Status =", sys.exc_info()[0])
     except Exception:
-        print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
+        print("Exception General (my_extract_and_write_posts)", "Status =", sys.exc_info()[0])
     return posts_written, last_post_id
 
 
@@ -187,140 +190,140 @@ def my_get_post_id(x):
 # Helper Functions for Posts
 # -----------------------------------------------------------------------------
 
-def get_status(x, selectors):
-    status = ""
-    try:
-        status = x.find_element_by_xpath(
-            selectors.get("status")
-        ).text  # use _1xnd for Pages
-    except Exception:
-        try:
-            status = x.find_element_by_xpath(selectors.get("status_exc")).text
-        except Exception:
-            pass
-    return status
+# def get_status(x, selectors):
+#     status = ""
+#     try:
+#         status = x.find_element_by_xpath(
+#             selectors.get("status")
+#         ).text  # use _1xnd for Pages
+#     except Exception:
+#         try:
+#             status = x.find_element_by_xpath(selectors.get("status_exc")).text
+#         except Exception:
+#             pass
+#     return status
 
 
-def get_post_id(x):
-    post_id = -1
-    try:
-        post_id = x.get_attribute("id")
-        post_id = post_id.split(":")[-1]
-    except Exception:
-        pass
-    return post_id
+# def get_post_id(x):
+#     post_id = -1
+#     try:
+#         post_id = x.get_attribute("id")
+#         post_id = post_id.split(":")[-1]
+#     except Exception:
+#         pass
+#     return post_id
 
 
-def get_group_post_id(x):
-    post_id = -1
-    try:
-        post_id = x.get_attribute("id")
+# def get_group_post_id(x):
+#     post_id = -1
+#     try:
+#         post_id = x.get_attribute("id")
 
-        post_id = post_id.split("_")[-1]
-        if ";" in post_id:
-            post_id = post_id.split(";")
-            post_id = post_id[2]
-        else:
-            post_id = post_id.split(":")[0]
-    except Exception:
-        pass
-    return post_id
-
-
-def get_photo_link(x, selectors, small_photo):
-    link = ""
-    try:
-        if small_photo:
-            link = x.find_element_by_xpath(
-                selectors.get("post_photo_small")
-            ).get_attribute("src")
-        else:
-            link = x.get_attribute("data-ploi")
-    except NoSuchElementException:
-        try:
-            link = x.find_element_by_xpath(
-                selectors.get("post_photo_small_opt1")
-            ).get_attribute("src")
-        except AttributeError:
-            pass
-        except Exception:
-            print("Exception (get_post_photo_link):", sys.exc_info()[0])
-    except Exception:
-        print("Exception (get_post_photo_link):", sys.exc_info()[0])
-    return link
+#         post_id = post_id.split("_")[-1]
+#         if ";" in post_id:
+#             post_id = post_id.split(";")
+#             post_id = post_id[2]
+#         else:
+#             post_id = post_id.split(":")[0]
+#     except Exception:
+#         pass
+#     return post_id
 
 
-def get_post_photos_links(x, selectors, small_photo):
-    links = []
-    photos = safe_find_elements_by_xpath(x, selectors.get("post_photos"))
-    if photos is not None:
-        for el in photos:
-            links.append(get_photo_link(el, selectors, small_photo))
-    return links
+# def get_photo_link(x, selectors, small_photo):
+#     link = ""
+#     try:
+#         if small_photo:
+#             link = x.find_element_by_xpath(
+#                 selectors.get("post_photo_small")
+#             ).get_attribute("src")
+#         else:
+#             link = x.get_attribute("data-ploi")
+#     except NoSuchElementException:
+#         try:
+#             link = x.find_element_by_xpath(
+#                 selectors.get("post_photo_small_opt1")
+#             ).get_attribute("src")
+#         except AttributeError:
+#             pass
+#         except Exception:
+#             print("Exception (get_post_photo_link):", sys.exc_info()[0])
+#     except Exception:
+#         print("Exception (get_post_photo_link):", sys.exc_info()[0])
+#     return link
 
 
-def get_div_links(x, tag, selectors):
-    try:
-        temp = x.find_element_by_xpath(selectors.get("temp"))
-        return temp.find_element_by_tag_name(tag)
-    except Exception:
-        return ""
+# def get_post_photos_links(x, selectors, small_photo):
+#     links = []
+#     photos = safe_find_elements_by_xpath(x, selectors.get("post_photos"))
+#     if photos is not None:
+#         for el in photos:
+#             links.append(get_photo_link(el, selectors, small_photo))
+#     return links
 
 
-def get_title_links(title):
-    l = title.find_elements_by_tag_name("a")
-    return l[-1].text, l[-1].get_attribute("href")
+# def get_div_links(x, tag, selectors):
+#     try:
+#         temp = x.find_element_by_xpath(selectors.get("temp"))
+#         return temp.find_element_by_tag_name(tag)
+#     except Exception:
+#         return ""
 
 
-def get_title(x, selectors):
-    title = ""
-    try:
-        title = x.find_element_by_xpath(selectors.get("title"))
-    except Exception:
-        try:
-            title = x.find_element_by_xpath(selectors.get("title_exc1"))
-        except Exception:
-            try:
-                title = x.find_element_by_xpath(selectors.get("title_exc2"))
-            except Exception:
-                pass
-    finally:
-        return title
+# def get_title_links(title):
+#     l = title.find_elements_by_tag_name("a")
+#     return l[-1].text, l[-1].get_attribute("href")
 
 
-def get_time(x):
-    time = ""
-    try:
-        time = x.find_element_by_tag_name("abbr").get_attribute("title")
-        time = (
-                str("%02d" % int(time.split(", ")[1].split()[1]), )
-                + "-"
-                + str(
-            (
-                    "%02d"
-                    % (
-                        int(
-                            (
-                                list(calendar.month_abbr).index(
-                                    time.split(", ")[1].split()[0][:3]
-                                )
-                            )
-                        ),
-                    )
-            )
-        )
-                + "-"
-                + time.split()[3]
-                + " "
-                + str("%02d" % int(time.split()[5].split(":")[0]))
-                + ":"
-                + str(time.split()[5].split(":")[1])
-        )
-    except Exception:
-        pass
+# def get_title(x, selectors):
+#     title = ""
+#     try:
+#         title = x.find_element_by_xpath(selectors.get("title"))
+#     except Exception:
+#         try:
+#             title = x.find_element_by_xpath(selectors.get("title_exc1"))
+#         except Exception:
+#             try:
+#                 title = x.find_element_by_xpath(selectors.get("title_exc2"))
+#             except Exception:
+#                 pass
+#     finally:
+#         return title
 
-    finally:
-        return time
+
+# def get_time(x):
+#     time = ""
+#     try:
+#         time = x.find_element_by_tag_name("abbr").get_attribute("title")
+#         time = (
+#                 str("%02d" % int(time.split(", ")[1].split()[1]), )
+#                 + "-"
+#                 + str(
+#             (
+#                     "%02d"
+#                     % (
+#                         int(
+#                             (
+#                                 list(calendar.month_abbr).index(
+#                                     time.split(", ")[1].split()[0][:3]
+#                                 )
+#                             )
+#                         ),
+#                     )
+#             )
+#         )
+#                 + "-"
+#                 + time.split()[3]
+#                 + " "
+#                 + str("%02d" % int(time.split()[5].split(":")[0]))
+#                 + ":"
+#                 + str(time.split()[5].split(":")[1])
+#         )
+#     except Exception:
+#         pass
+
+#     finally:
+#         return time
 
 
 def identify_url(url):
@@ -345,24 +348,24 @@ def identify_url(url):
         return 0
 
 
-def safe_find_elements_by_xpath(driver, xpath):
-    try:
-        return driver.find_elements_by_xpath(xpath)
-    except NoSuchElementException:
-        return None
+# def safe_find_elements_by_xpath(driver, xpath):
+#     try:
+#         return driver.find_elements_by_xpath(xpath)
+#     except NoSuchElementException:
+#         return None
 
 
-def get_replies(comment_element, selectors):
-    replies = []
-    data = comment_element.find_elements_by_xpath(selectors.get("comment_reply"))
-    for d in data:
-        try:
-            author = d.find_element_by_xpath(selectors.get("comment_author")).text
-            text = d.find_element_by_xpath(selectors.get("comment_text")).text
-            replies.append([author, text])
-        except Exception:
-            pass
-    return replies
+# def get_replies(comment_element, selectors):
+#     replies = []
+#     data = comment_element.find_elements_by_xpath(selectors.get("comment_reply"))
+#     for d in data:
+#         try:
+#             author = d.find_element_by_xpath(selectors.get("comment_author")).text
+#             text = d.find_element_by_xpath(selectors.get("comment_text")).text
+#             replies.append([author, text])
+#         except Exception:
+#             pass
+#     return replies
 
 
 def safe_find_element_by_id(driver, elem_id):
