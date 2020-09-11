@@ -791,13 +791,17 @@ def login(email, password):
 # -----------------------------------------------------------------------------
 
 
-def scraper(**kwargs):
-    with open("credentials.yaml", "r") as ymlfile:
-        cfg = yaml.safe_load(stream=ymlfile)
+def scraper(email, password, mod, **kwargs):
+    if mod == 0:
+        with open("credentials.yaml", "r") as ymlfile:
+            cfg = yaml.safe_load(stream=ymlfile)
 
-    if ("password" not in cfg) or ("email" not in cfg):
-        print("Your email or password is missing. Kindly write them in credentials.txt")
-        exit(1)
+        if ("password" not in cfg) or ("email" not in cfg):
+            print("Your email or password is missing. Kindly write them in credentials.txt")
+            exit(1)
+        email = cfg["email"]
+        password = cfg["password"]
+
     urls = [
         settings.facebook_https_prefix + settings.facebook_link_body + get_item_id(line)
         for line in open("input.txt", newline="\r\n")
@@ -806,7 +810,7 @@ def scraper(**kwargs):
 
     if len(urls) > 0:
         print("\nStarting Scraping...")
-        login(cfg["email"], cfg["password"])
+        login(email, password)
         for url in urls:
             settings.driver.get(url)
             link_type = utils.identify_url(settings.driver.current_url)
@@ -837,7 +841,8 @@ def scraper(**kwargs):
 # -------------------------------------------------------------
 
 # if __name__ == "__main__":
-def main():
+def main(email, password, mod):
+    # print(email, password)
     settings.ap = argparse.ArgumentParser()
     # PLS CHECK IF HELP CAN BE BETTER / LESS AMBIGUOUS
     settings.ap.add_argument(
@@ -922,6 +927,6 @@ def main():
     settings.facebook_link_body = settings.selectors.get("facebook_link_body")
 
     # get things rolling
-    x = scraper()
+    x = scraper(email, password, mod)
     return x
 
