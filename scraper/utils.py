@@ -89,7 +89,35 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
         except TimeoutException:
             break
     return my_posts
+def friends_scroll(driver, selectors, scroll_time):
+    my_posts = {}
+    global old_height
 
+    posts_scraped = 0
+    cur_posts_scraped = 0
+    last_post_id = 0
+
+    old_height = driver.execute_script(selectors.get("height_script"))
+    while True:
+        try:
+            driver.execute_script(selectors.get("scroll_script"))
+            WebDriverWait(driver, scroll_time, 0.05).until(
+                lambda driver: check_height(driver, selectors, old_height)
+            )
+            new_height = driver.execute_script(selectors.get("height_script"))
+            if old_height == new_height:
+                break
+            old_height = new_height
+            print("scroll loop")
+            # data = driver.find_elements_by_xpath(elements_path)
+            # data = remove_comments(data)
+            # lim = number_of_posts-posts_scraped
+            # cur_posts_scraped, last_post_id = my_extract_and_write_posts(data[posts_scraped:], lim, last_post_id, my_posts)
+            # posts_scraped += cur_posts_scraped
+
+        except TimeoutException:
+            break
+    return
 
 def remove_comments(data):
     posts = []

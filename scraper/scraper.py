@@ -10,7 +10,7 @@ import time
 from . import settings
 from . import utils
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -544,25 +544,7 @@ def scrap_all_profiles():
     time.sleep(0.5)
     url = settings.driver.current_url
     settings.driver.get(url+"/friends")
-
-    # Get scroll height
-    last_height = settings.driver.execute_script("return document.body.scrollHeight")
-
-    while True:
-        # Scroll down to bottom
-        settings.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-        # Wait to load page
-        time.sleep(0.2)
-
-        # Calculate new scroll height and compare with last scroll height
-        new_height = settings.driver.execute_script("return document.body.scrollHeight")
-        if new_height == last_height:
-            break
-        last_height = new_height
-    # settings.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    # settings.driver.find_element_by_css_selector('.bp9cbjyn.j83agx80.pfnyh3mw.frgo5egb.l9j0dhe7.cb02d2ww.hv4rvrfc.dati1w0a').click()
-    time.sleep(20)
+    utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
     return
 
 def scrap_profile():
