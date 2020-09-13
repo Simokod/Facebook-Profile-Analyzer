@@ -447,12 +447,16 @@ def create_post_file(filename):
 
 # returns a dictionary containing the user's posts
 def scrape_posts(url, scan_list, section, elements_path):
-    page = []
-    page.append(url)
-    page += [url + s for s in section]
-
+    # page = []
+    # page.append(url)
+    # page += [url + s for s in section]
     try:
-        settings.driver.get(page[0])
+        # settings.driver.get(page[0])
+        print("scrape_posts")
+        settings.driver.get(url)
+        # time.sleep(3)
+        print("after waiting")
+
         # my_posts = {key: post_id, value: actual post}
         my_posts = utils.my_scroll(settings.number_of_posts, settings.driver, settings.selectors, settings.scroll_time, elements_path[0])
 
@@ -463,6 +467,7 @@ def scrape_posts(url, scan_list, section, elements_path):
             # str(save_status),
             sys.exc_info()[0],
         )
+        return
     return my_posts
 # returns total number of friends, and number of mutual friends
 def parse_friends_count(friend_count):
@@ -532,6 +537,33 @@ def create_original_link(url):
 
     return original_link
 
+def scrap_all_profiles():
+    result = []
+    # profile = settings.driver.find_element_by_xpath('./div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div[1]/ul/li/div/a/div[1]/div[2]/div/div/div/div/span')
+    settings.driver.find_element_by_css_selector('.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw').click()
+    time.sleep(0.5)
+    url = settings.driver.current_url
+    settings.driver.get(url+"/friends")
+
+    # Get scroll height
+    last_height = settings.driver.execute_script("return document.body.scrollHeight")
+
+    while True:
+        # Scroll down to bottom
+        settings.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+        # Wait to load page
+        time.sleep(0.2)
+
+        # Calculate new scroll height and compare with last scroll height
+        new_height = settings.driver.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            break
+        last_height = new_height
+    # settings.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    # settings.driver.find_element_by_css_selector('.bp9cbjyn.j83agx80.pfnyh3mw.frgo5egb.l9j0dhe7.cb02d2ww.hv4rvrfc.dati1w0a').click()
+    time.sleep(20)
+    return
 
 def scrap_profile():
     data_folder = os.path.join(os.getcwd(), "data")
@@ -791,7 +823,8 @@ def login(email, password):
 # -----------------------------------------------------------------------------
 
 
-def scraper(email, password, mod, **kwargs):
+def scraper(email, password, mod, scrape_mod, **kwargs):
+    print(scrape_mod)
     if mod == 0:
         with open("credentials.yaml", "r") as ymlfile:
             cfg = yaml.safe_load(stream=ymlfile)
@@ -807,33 +840,41 @@ def scraper(email, password, mod, **kwargs):
         for line in open("input.txt", newline="\r\n")
         if not line.lstrip().startswith("#") and not line.strip() == ""
     ]
-
-    if len(urls) > 0:
-        print("\nStarting Scraping...")
-        login(email, password)
-        for url in urls:
-            settings.driver.get(url)
-            link_type = utils.identify_url(settings.driver.current_url)
-            if link_type == 0:
-                result = scrap_profile()
-            elif link_type == 1:
-                # scrap_post(url)
-                pass
-            elif link_type == 2:
-                scrape_group(settings.driver.current_url)
-            elif link_type == 3:
-                file_name = settings.params["GroupPosts"]["file_names"][0]
-                item_id = get_item_id(settings.driver.current_url)
-                if create_folders() is None:
-                    continue
-                f = create_post_file(file_name)
-                add_group_post_to_file(f, file_name, item_id)
-                f.close()
-                os.chdir("../..")
-        settings.driver.close()
-        return result
+    login(email, password)
+    if scrape_mod == 0:
+        url = urls[0]
+        settings.driver.get(url)
+        result = scrap_profile()
     else:
-        print("Input file is empty.")
+        settings.selectors
+        result = scrap_all_profiles()
+    settings.driver.close()
+    # if len(urls) > 0:
+    #     print("\nStarting Scraping...")
+    #     login(email, password)
+    #     for url in urls:
+    #         settings.driver.get(url)
+    #         link_type = utils.identify_url(settings.driver.current_url)
+    #         if link_type == 0:
+    #             result = scrap_profile()
+    #         elif link_type == 1:
+    #             # scrap_post(url)
+    #             pass
+    #         elif link_type == 2:
+    #             scrape_group(settings.driver.current_url)
+    #         elif link_type == 3:
+    #             file_name = settings.params["GroupPosts"]["file_names"][0]
+    #             item_id = get_item_id(settings.driver.current_url)
+    #             if create_folders() is None:
+    #                 continue
+    #             f = create_post_file(file_name)
+    #             add_group_post_to_file(f, file_name, item_id)
+    #             f.close()
+    #             os.chdir("../..")
+    #     settings.driver.close()
+    return result
+    # else:
+    #     print("Input file is empty.")
 
 
 # -------------------------------------------------------------
@@ -841,7 +882,7 @@ def scraper(email, password, mod, **kwargs):
 # -------------------------------------------------------------
 
 # if __name__ == "__main__":
-def main(email, password, mod):
+def main(email, password, mod, scrape_mod):
     # print(email, password)
     settings.ap = argparse.ArgumentParser()
     # PLS CHECK IF HELP CAN BE BETTER / LESS AMBIGUOUS
@@ -927,6 +968,6 @@ def main(email, password, mod):
     settings.facebook_link_body = settings.selectors.get("facebook_link_body")
 
     # get things rolling
-    x = scraper(email, password, mod)
+    x = scraper(email, password, mod, scrape_mod)
     return x
 

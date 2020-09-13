@@ -27,7 +27,8 @@ def find_word_in_subjects(word):
 def detect_post_subject(post: str) -> str:
     subjects_word_count = {}    # holds word count per subject
     postWords = post.split()
-    threshold = 0.5*len(postWords)  # super strict threshold!
+    # threshold = 0.5*len(postWords)  # super strict threshold!
+    threshold = 0.05*len(postWords)   # onother threshold!
     print (threshold)
 
     for word in postWords:
