@@ -545,6 +545,23 @@ def scrap_all_profiles():
     url = settings.driver.current_url
     settings.driver.get(url+"/friends")
     utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
+    # friends_block = settings.driver.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div/div/div/div/div[3]')
+    # friends = settings.driver.find_elements_by_xpath('./*[contains(@class, bp9cbjyn ue3kfks5 pw54ja7n uo3d90p7 l82x9zwi n1f8r23x rq0escxv j83agx80 bi6gxh9e discj3wi hv4rvrfc ihqw7lf3 dati1w0a gfomwglr)]/div')
+    # friends = settings.driver.find_elements_by_css_selector('.bp9cbjyn.ue3kfks5.pw54ja7n.uo3d90p7.l82x9zwi.n1f8r23x.rq0escxv.j83agx80.bi6gxh9e.discj3wi.hv4rvrfc.ihqw7lf3.dati1w0a.gfomwglr')
+    friends = settings.driver.find_elements_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla')
+
+    links = [friend.get_attribute('href') for friend in friends]
+
+    for link in links:
+        # elem = friend.find_element_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla [href]')
+        # print(elem)
+        print(link)
+        # settings.driver.execute_script("arguments[0].click();", friend)
+        settings.driver.get(link)
+        time.sleep(2)
+        settings.driver.back()
+        # friend.click()
+        # print(friend)
     return
 
 def scrap_profile():

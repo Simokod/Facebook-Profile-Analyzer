@@ -98,7 +98,9 @@ def friends_scroll(driver, selectors, scroll_time):
     last_post_id = 0
 
     old_height = driver.execute_script(selectors.get("height_script"))
+    loop_count = 0     # just for debug, to prevent long runs
     while True:
+        loop_count += 1
         try:
             driver.execute_script(selectors.get("scroll_script"))
             WebDriverWait(driver, scroll_time, 0.05).until(
@@ -108,7 +110,8 @@ def friends_scroll(driver, selectors, scroll_time):
             if old_height == new_height:
                 break
             old_height = new_height
-            print("scroll loop")
+            if loop_count >=3:
+                break
             # data = driver.find_elements_by_xpath(elements_path)
             # data = remove_comments(data)
             # lim = number_of_posts-posts_scraped

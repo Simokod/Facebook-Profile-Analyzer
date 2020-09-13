@@ -20,3 +20,5 @@ def init():
     facebook_https_prefix = None
     facebook_link_body = None
 
+    friends = None
+
