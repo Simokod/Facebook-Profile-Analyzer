@@ -481,7 +481,7 @@ def scrape_friends_count():
     friends_count_path = '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span'
     try:
         settings.driver.implicitly_wait(5)
-        time.sleep(5)
+        time.sleep(0.5)
         friend_count = settings.driver.find_element_by_xpath(friends_count_path).text
     except Exception:
         try:
@@ -554,27 +554,23 @@ def scrap_all_friends():
     friends_count = scrape_friends_count()
     print(friends_count)
     utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
-    # friends_block = settings.driver.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div/div/div/div/div[3]')
-    # friends = settings.driver.find_elements_by_xpath('./*[contains(@class, bp9cbjyn ue3kfks5 pw54ja7n uo3d90p7 l82x9zwi n1f8r23x rq0escxv j83agx80 bi6gxh9e discj3wi hv4rvrfc ihqw7lf3 dati1w0a gfomwglr)]/div')
-    # friends = settings.driver.find_elements_by_css_selector('.bp9cbjyn.ue3kfks5.pw54ja7n.uo3d90p7.l82x9zwi.n1f8r23x.rq0escxv.j83agx80.bi6gxh9e.discj3wi.hv4rvrfc.ihqw7lf3.dati1w0a.gfomwglr')
     friends_block = settings.driver.find_element_by_css_selector('.dati1w0a.ihqw7lf3.hv4rvrfc.discj3wi')
     friends = friends_block.find_elements_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla')
 
     links = [friend.get_attribute('href') for friend in friends]
-    # links = links[:friends_count]
 
     print(links, "\n", len(links))
+    list = []
+    count = 0           # DEBUG: control num of iterations
     for link in links:
-        # elem = friend.find_element_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla [href]')
-        # print(elem)
-        print(link)
-        # settings.driver.execute_script("arguments[0].click();", friend)
+        count += 1
         settings.driver.get(link)
-        time.sleep(0.5)
-        # settings.driver.back()
-        # friend.click()
-        # print(friend)
-    return
+        list.append(scrap_profile())
+
+        # DEBUG: control num of iterations
+        if count >= 5:
+            break
+    return list
 
 def scrap_profile():
     data_folder = os.path.join(os.getcwd(), "data")

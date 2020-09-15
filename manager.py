@@ -80,10 +80,16 @@ class Application(tk.Frame):
         global scrape_mod
         settings.init()
         # mod = mod.get()
+        if scrape_mod.get() == 0:
+            posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get()).values()
+            for post in posts:
+                self.detect_post_subject(post)
+        elif scrape_mod.get() == 1:
+            all_friends_posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get())
+            for friend in all_friends_posts:
+                for post in friend.values():
+                    self.detect_post_subject(post)
 
-        posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get()).values()
-        for post in posts:
-            self.detect_post_subject(post)
         return 
 
     def detect_post_subject(self, post):
