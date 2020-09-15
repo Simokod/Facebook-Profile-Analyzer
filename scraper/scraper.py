@@ -470,19 +470,24 @@ def scrape_posts(url, scan_list, section, elements_path):
         return
     return my_posts
 # returns total number of friends, and number of mutual friends
-def parse_friends_count(friend_count):
-    numbers = friend_count.split()
-    return int(numbers[0]), int(numbers[1][1:])
+def parse_friends_count(friends_count):
+    # numbers = friends_count.split()
+    return int(friends_count)
+        #, int(numbers[1][1:])
     
 # returns user's friends total friends count and mutual friends count
-def scrape_friends(url, scan_list, section, elements_path):
+# def scrape_friends_count(url, scan_list, section, elements_path):
+def scrape_friends_count():
     friends_count_path = '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span'
     try:
         settings.driver.implicitly_wait(5)
         time.sleep(5)
         friend_count = settings.driver.find_element_by_xpath(friends_count_path).text
     except Exception:
-        print("find_element_by_xpath FAILED")
+        try:
+            friend_count = settings.driver.find_element_by_css_selector('.oi732d6d.ik7dh3pa.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.e9vueds3.j5wam9gi.knj5qynh.q66pz984').text
+        except Exception:
+            print("find_element FAILED")
     return parse_friends_count(friend_count)
 
 # returns info about the user
@@ -498,7 +503,7 @@ def scrape_data(url, scan_list, section, elements_path, save_status):
     posts = scrape_posts(url, scan_list, section, elements_path)
     # elif save_status == 0:
     #     pass
-    #     # friends = scrape_friends(url, scan_list, section, elements_path)
+    #     # friends = scrape_friends_count(url, scan_list, section, elements_path)
     # elif save_status == 3:
     #     pass
     #     # about = scrape_about(url, scan_list, section, elements_path)
@@ -537,13 +542,17 @@ def create_original_link(url):
 
     return original_link
 
-def scrap_all_profiles():
+def scrap_all_friends():
     result = []
     # profile = settings.driver.find_element_by_xpath('./div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div[1]/ul/li/div/a/div[1]/div[2]/div/div/div/div/span')
     settings.driver.find_element_by_css_selector('.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw').click()
     time.sleep(0.5)
     url = settings.driver.current_url
     settings.driver.get(url+"/friends")
+    time.sleep(0.5)
+
+    friends_count = scrape_friends_count()
+    print(friends_count)
     utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
     # friends_block = settings.driver.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div/div/div/div/div/div/div/div[3]')
     # friends = settings.driver.find_elements_by_xpath('./*[contains(@class, bp9cbjyn ue3kfks5 pw54ja7n uo3d90p7 l82x9zwi n1f8r23x rq0escxv j83agx80 bi6gxh9e discj3wi hv4rvrfc ihqw7lf3 dati1w0a gfomwglr)]/div')
@@ -551,15 +560,17 @@ def scrap_all_profiles():
     friends = settings.driver.find_elements_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla')
 
     links = [friend.get_attribute('href') for friend in friends]
+    links = links[:friends_count]
 
+    print(links, "\n", len(links))
     for link in links:
         # elem = friend.find_element_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla [href]')
         # print(elem)
         print(link)
         # settings.driver.execute_script("arguments[0].click();", friend)
         settings.driver.get(link)
-        time.sleep(2)
-        settings.driver.back()
+        time.sleep(0.5)
+        # settings.driver.back()
         # friend.click()
         # print(friend)
     return
@@ -846,7 +857,7 @@ def scraper(email, password, mod, scrape_mod, **kwargs):
         result = scrap_profile()
     else:
         settings.selectors
-        result = scrap_all_profiles()
+        result = scrap_all_friends()
     settings.driver.close()
     # if len(urls) > 0:
     #     print("\nStarting Scraping...")

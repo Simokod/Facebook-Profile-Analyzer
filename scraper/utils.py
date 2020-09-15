@@ -110,8 +110,8 @@ def friends_scroll(driver, selectors, scroll_time):
             if old_height == new_height:
                 break
             old_height = new_height
-            if loop_count >=3:
-                break
+            # if loop_count >=3:
+            #     break
             # data = driver.find_elements_by_xpath(elements_path)
             # data = remove_comments(data)
             # lim = number_of_posts-posts_scraped
