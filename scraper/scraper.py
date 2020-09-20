@@ -833,7 +833,8 @@ def login(email, password):
 def scraper(email, password, mod, scrape_mod, **kwargs):
     print(scrape_mod)
     if mod == 0:
-        with open("credentials.yaml", "r") as ymlfile:
+        working_dir = os.path.dirname(os.path.abspath(__file__))
+        with open(working_dir + "\credentials.yaml", "r") as ymlfile:
             cfg = yaml.safe_load(stream=ymlfile)
 
         if ("password" not in cfg) or ("email" not in cfg):
@@ -844,7 +845,7 @@ def scraper(email, password, mod, scrape_mod, **kwargs):
 
     urls = [
         settings.facebook_https_prefix + settings.facebook_link_body + get_item_id(line)
-        for line in open("input.txt", newline="\r\n")
+        for line in open(working_dir + "\input.txt", newline="\r\n")
         if not line.lstrip().startswith("#") and not line.strip() == ""
     ]
     login(email, password)
@@ -966,15 +967,16 @@ def main(email, password, mod, scrape_mod):
 
     settings.driver = None
 
-    with open("selectors.json") as a, open("params.json") as b:
-        settings.selectors = json.load(a)
-        settings.params = json.load(b)
+    working_dir = os.path.dirname(os.path.abspath(__file__))
+    with open(working_dir + "\selectors.json") as selectors, open(working_dir + "\params.json") as params:
+        settings.selectors = json.load(selectors)
+        settings.params = json.load(params)
 
     # firefox_profile_path = settings.selectors.get("firefox_profile_path")
     settings.facebook_https_prefix = settings.selectors.get("facebook_https_prefix")
     settings.facebook_link_body = settings.selectors.get("facebook_link_body")
 
     # get things rolling
-    x = scraper(email, password, mod, scrape_mod)
-    return x
+    scraper_result = scraper(email, password, mod, scrape_mod)
+    return scraper_result
 
