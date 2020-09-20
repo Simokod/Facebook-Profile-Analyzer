@@ -6,8 +6,8 @@ from selenium.common.exceptions import WebDriverException, NoSuchWindowException
 from scraper import scraper
 from scraper import settings
 from functools import partial
-from text_analyzer import SimpleSentimentAnalysis
-
+from text_analyzer import OffensivenessAnalysis
+from text_analyzer import PotentialFakeNewsAnalysis
 
 class Application(tk.Frame):
     # Dev mode selector
@@ -79,30 +79,32 @@ class Application(tk.Frame):
         global mod
         global scrape_mod
         settings.init()
+
         if scrape_mod.get() == 0:
             posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get()).values()
-            self.analyze_posts_of_profile(posts)
-            for post in posts:
-                self.detect_post_subject(post)
+            self.analyze_profile(posts)
+
         elif scrape_mod.get() == 1:
             all_friends_posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get())
             for friend in all_friends_posts:
-                for post in friend.values():
-                    self.detect_post_subject(post)
+                self.analyze_profile(friend.values())
         return 
 
-    def detect_post_subject(self, post):
-        post_subject = SimpleSentimentAnalysis.detect_post_subject(post)
-        post_subject_text = "The subject of the post is: " + str(post_subject)
-        analyze_result = tk.Label(root, text=post_subject_text)
-        analyze_result.grid(sticky='s')
-        return
+    # gets posts of profile. performs all analysis, and render results
+    def analyze_profile(self, posts):
+        print(posts)
+        
+        # perform all analyses
+        offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
+        potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
 
-    def analyze_posts_of_profile(self, posts):
-        analyze_result = SimpleSentimentAnalysis.analyze_posts_of_profile(posts)
-        analyze_result_label = tk.Label(root, text=analyze_result)
-        analyze_result_label.grid(sticky='s')
-        return
+        # render results of analyses
+        self.render_result(offensiveness_result)
+        self.render_result(potentialFakeNews_result)
+
+    def render_result(self, textResult):
+        result_label = tk.Label(root, text=textResult)
+        result_label.grid(sticky='s')
 
 root = tk.Tk()
 root.geometry('500x250')
