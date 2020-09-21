@@ -72,6 +72,7 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
     posts_scraped = 0
     cur_posts_scraped = 0
     last_post_id = 0
+    exps_in_row = 0
     while posts_scraped < number_of_posts:
         try:
             old_height = driver.execute_script(selectors.get("height_script"))
@@ -83,7 +84,9 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
             data = driver.find_elements_by_xpath(elements_path)
             data = remove_comments(data)
             lim = number_of_posts-posts_scraped
-            cur_posts_scraped, last_post_id = my_extract_and_write_posts(data[posts_scraped:], lim, last_post_id, my_posts)
+            cur_posts_scraped, last_post_id, exps_in_row = my_extract_and_write_posts(data[posts_scraped:], lim, last_post_id, my_posts, exps_in_row)
+            if exps_in_row >= 10:
+                return "Posts Sharer profile"
             posts_scraped += cur_posts_scraped
 
         except TimeoutException:
@@ -135,7 +138,7 @@ def remove_comments(data):
     return posts
 
 
-def my_extract_and_write_posts(elements, lim, last_post_id, my_posts):
+def my_extract_and_write_posts(elements, lim, last_post_id, my_posts, exps_in_row):
     try:
         posts_written = 0
         for x in elements:
@@ -144,7 +147,7 @@ def my_extract_and_write_posts(elements, lim, last_post_id, my_posts):
                 int_post_id = int(post_id)
                 if post_id != None:
                     if int_post_id > last_post_id:
-                        status = my_get_status(x)  
+                        status, exps_in_row = my_get_status(x, exps_in_row)
                         try:
                             if status != "":
                                 my_posts[int_post_id] = status
@@ -160,14 +163,14 @@ def my_extract_and_write_posts(elements, lim, last_post_id, my_posts):
         print("Exception Value (my_extract_and_write_posts)", "Status =", sys.exc_info()[0])
     except Exception:
         print("Exception General (my_extract_and_write_posts)", "Status =", sys.exc_info()[0])
-    return posts_written, last_post_id
+    return posts_written, last_post_id, exps_in_row
 
 
 # -----------------------------------------------------------------------------
 # MyHelper Functions for Posts
 # -----------------------------------------------------------------------------
 
-def my_get_status(x):
+def my_get_status(x, exps_in_row):
     status = ""
     statuses = []
     try:
@@ -180,14 +183,16 @@ def my_get_status(x):
         statuses = post.find_elements_by_xpath('./*[contains(@class, cxmmr5t8)]/div')
         for item in statuses:
             status += item.text
+        exps_in_row = 0
 
     except Exception:
+        exps_in_row += 1
         #     try:
         #         status = x.find_element_by_xpath(selectors.get("status_exc")).text
         #     except Exception:
         #         pass
         print("my_get_status exception")
-    return status
+    return status, exps_in_row
 
 
 def my_get_post_id(x):

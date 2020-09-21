@@ -81,7 +81,7 @@ class Application(tk.Frame):
         settings.init()
 
         if scrape_mod.get() == 0:
-            posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get()).values()
+            posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get())
             self.analyze_profile(posts)
 
         elif scrape_mod.get() == 1:
@@ -92,15 +92,18 @@ class Application(tk.Frame):
 
     # gets posts of profile. performs all analysis, and render results
     def analyze_profile(self, posts):
-        print(posts)
-        
-        # perform all analyses
-        offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
-        potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
+        if isinstance(posts, str):
+            print(posts)
+            self.render_result(posts)
+        else:
+            posts = posts.values()
+            # perform all analyses
+            offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
+            potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
 
-        # render results of analyses
-        self.render_result(offensiveness_result)
-        self.render_result(potentialFakeNews_result)
+            # render results of analyses
+            self.render_result(offensiveness_result)
+            self.render_result(potentialFakeNews_result)
 
     def render_result(self, textResult):
         result_label = tk.Label(root, text=textResult)
