@@ -3,6 +3,11 @@ from . import OffensiveWords
 # main func - determines the offensiveness level of user.
 # gets all posts of profile, calculates offensiveness rate of profile, and returns result as text.
 def analyze_profile_offensiveness(posts):
+    # get total posts num
+    postsNum = len(posts)
+    if postsNum==0:
+        return "User doesn't have any posts."
+    
     offensivePostsNum = 0
 
     for post in posts:
@@ -10,10 +15,6 @@ def analyze_profile_offensiveness(posts):
             offensivePostsNum+=1
 
     # calculate rate
-    postsNum = len(posts)
-    if postsNum==0:
-        return "User doesn't have any posts."
-        
     offensiveRate = offensivePostsNum / postsNum
 
     #convert rates to text result

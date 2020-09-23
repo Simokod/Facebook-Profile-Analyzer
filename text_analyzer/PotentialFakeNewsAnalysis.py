@@ -5,6 +5,11 @@ translator = Translator()
 sid = SentimentIntensityAnalyzer()
 
 def analyze_profile_potential_fake_news(posts):
+    # get total posts num
+    postsNum = len(posts)
+    if postsNum==0:
+        return "User doesn't have any posts."
+
     potentialFakePostsNum = 0
 
     for post in posts:
@@ -12,10 +17,6 @@ def analyze_profile_potential_fake_news(posts):
             potentialFakePostsNum+=1
 
     # calculate rate
-    postsNum = len(posts)
-    if postsNum==0:
-        return "User doesn't have any posts."
-        
     potentialFakeRate = potentialFakePostsNum / postsNum
 
     #convert rate to text result
