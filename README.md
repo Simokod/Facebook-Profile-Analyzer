@@ -38,13 +38,7 @@ You will need:
   (Dev_mode)
   OR
   enter facebook username and password in the Tkinter window after running the program
-- Scrape away!
-
-Run the `python manager.py` command in the project folder.
-
-### Note
-
-This tool uses xpaths of **'divs'** to extract data. Since Facebook updates its site frequently, the 'divs' get changed. Consequently, we have to update the divs accordingly to correctly scrape data.
+- Scrape away! - Run the `python manager.py` command in the project folder.
 
 ---
 ## Progress:
