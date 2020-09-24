@@ -1,4 +1,4 @@
-import Subjects
+from . import Subjects
 from googletrans import Translator
 
 def analyze_profile_subjects(posts):
@@ -10,15 +10,16 @@ def analyze_profile_subjects(posts):
     # check what is the rate of posts of each subject
     # create dict of results: <subject, subjectPostsRate>
     subjects = Subjects.subjects
-    subjectsPostsCount = {}
+    subjectsPostsCount = dict()
     
     # count how may posts are there for each subject
     for post in posts:
-        subjectsPostsCount = detect_post_subjects(post, subjectsPostsCount)
+        postSubjects = detect_post_subjects_V2(post, subjectsPostsCount)
+        increase_count(subjectsPostsCount, postSubjects)
 
     # calculate subjects rates
-    subjectsPostsRates = {}
-    for subject in subjectsPostsCount.keys():
+    subjectsPostsRates = dict()
+    for subject in subjectsPostsCount:
         subjectsPostsRates[subject] = subjectsPostsCount[subject] / postsNum  # calculate rate of posts in this subject
     
     #convert to text result
@@ -35,8 +36,8 @@ def detect_post_subjects(post, counterDictionary):
     threshold = 0.05*postWordsNum   # threshold!
 
     for word in postWords:
-        wordSubjcet = find_word_in_subjects(word)
-        increase_count(subjects_word_count, wordSubjcet)
+        wordSubjcets = find_word_in_subjects(word)
+        increase_count(subjects_word_count, wordSubjcets)
     
     # increase post subject in counter dict
     for subject in subjects_word_count:
@@ -45,30 +46,44 @@ def detect_post_subjects(post, counterDictionary):
             
     return counterDictionary
 
-def increase_count(dictionary, subject):
-    if subject in dictionary.keys():
-        dictionary[subject] += 1
-    else:
-        dictionary.update({subject : 1})
+def detect_post_subjects_V2(post, counterDictionary):
+    post_subjects = set()
+    postSentences = post.split(".")
+    
+    for sentence in postSentences:
+        sentenceWords = post.split()
+        for word in sentenceWords:
+            wordSubjcets = detect_word_subjects(word)
+            if wordSubjcets!=None:
+                for wordSubject in wordSubjcets:    
+                    post_subjects.add(wordSubject)
+            
+    return post_subjects
+
+def increase_count(dictionary, subjects):
+    for subject in subjects:
+        if subject in dictionary.keys():
+            dictionary[subject] += 1
+        else:
+            dictionary.update({subject : 1})
     return
 
 # check if word exist in each subject
 # improve - currently returns only one subject per word
-def find_word_in_subjects(word):
+def detect_word_subjects(word):
     subjects = Subjects.subjects
+    wordSubjects = set()
     for subject in subjects:
-        if word in subjects[subject]:  
-            return subject
-    return
+        for subject_word in subjects[subject]:
+            if word==subject_word or word=="ה"+subject_word:       # check if current word is substring of the subject word 
+                wordSubjects.add(subject)
+    return wordSubjects
 
 def convert_subjects_rates_to_text(subjectsPostsRates):
     textResult = "Posts of user according to subjects: "
 
     for subject in subjectsPostsRates.keys():
-        textResult += subject + ": " + str(subjectsPostsRates[subject]) + ","
+        if subject != None:
+            textResult += subject + ": " + str(subjectsPostsRates[subject]) + ","
     
     return textResult[:-1]  # trim the last ","
-
-
-result = analyze_profile_subjects(["פוליטיקה", "לסביות"])
-print(result)

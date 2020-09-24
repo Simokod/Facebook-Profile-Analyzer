@@ -8,6 +8,7 @@ from scraper import settings
 from functools import partial
 from text_analyzer import OffensivenessAnalysis
 from text_analyzer import PotentialFakeNewsAnalysis
+from text_analyzer import SubjectsAnalysis
 
 class Application(tk.Frame):
     # Dev mode selector
@@ -98,12 +99,14 @@ class Application(tk.Frame):
         else:
             posts = posts.values()
             # perform all analyses
-            offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
-            potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
+            offensiveness_analysis_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
+            potentialFakeNews_analysis_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
+            subjects_analysis_result = SubjectsAnalysis.analyze_profile_subjects(posts)
 
             # render results of analyses
-            self.render_result(offensiveness_result)
-            self.render_result(potentialFakeNews_result)
+            self.render_result(offensiveness_analysis_result)
+            self.render_result(potentialFakeNews_analysis_result)
+            self.render_result(subjects_analysis_result)
 
     def render_result(self, textResult):
         result_label = tk.Label(root, text=textResult)
