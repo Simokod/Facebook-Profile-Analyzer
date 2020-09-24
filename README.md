@@ -35,9 +35,9 @@ You will need:
     email: your_email
     password: your_password
     ```
-    (Dev_mode)
+  (Dev_mode)
   OR
-  enter facebook username and password in the Tkinter window after running the program 
+  enter facebook username and password in the Tkinter window after running the program
 - Scrape away!
 
 Run the `python manager.py` command in the project folder.
