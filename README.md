@@ -29,15 +29,18 @@ You will need:
 ```
 
 ### How to Run
+- Add profile urls you'd like to scrape in [input.txt](input.txt)
 - Enter your facebook username and password in [credentials.yaml](credentials.yaml):
     ```yaml
     email: your_email
     password: your_password
     ```
-- Add profile urls you'd like to scrape in [input.txt](input.txt)
+    (Dev_mode)
+  OR
+  enter facebook username and password in the Tkinter window after running the program 
 - Scrape away!
 
-Run the `python scraper/scraper.py` command in the project folder.
+Run the `python manager.py` command in the project folder.
 
 ### Note
 
