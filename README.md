@@ -26,7 +26,6 @@ You will need:
 # Install Python requirements
 (venv) > pip install -e .
 (venv) > pip install webdriver_manager
-(venv) > pip install Flask
 ```
 
 ### How to Run
