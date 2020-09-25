@@ -11,16 +11,17 @@ from text_analyzer import PotentialFakeNewsAnalysis
 from text_analyzer import SubjectsAnalysis
 
 def scrape_and_analyze(email, password, mod, scrape_mod):
-    print("Got to analyze!")
+    text_result = ""
     if scrape_mod == 0:
         posts = scraper.main(email, password, mod, scrape_mod)
-        analyze_profile(posts)
+        text_result = analyze_profile(posts)
 
     elif scrape_mod == 1:
         all_friends_posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get())
         for friend in all_friends_posts:
-            analyze_profile(friend.values())
-    return 
+            text_result = analyze_profile(friend.values())  
+
+    return text_result
 
 # gets posts of profile. performs all analysis, and render results
 def analyze_profile(posts):
@@ -35,3 +36,5 @@ def analyze_profile(posts):
         subjects_analysis_result = SubjectsAnalysis.analyze_profile_subjects(posts)
 
         print(subjects_analysis_result)
+
+    return subjects_analysis_result

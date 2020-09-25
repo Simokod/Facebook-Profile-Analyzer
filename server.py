@@ -6,9 +6,9 @@ app = Flask(__name__)
 def output():
 	return "Hello World!"
 
-@app.route("/analyze/<email>/<password>/<mod>/<scrape_mod>")
-def analyze(email, password, scrape_mod):
-	managerV2.scrape_and_analyze(email, password, mod, scrape_mod)
+@app.route("/analyze/<email>/<password>/<int:mod>/<int:scrape_mod>", methods=['GET'])
+def analyze(email, password, mod, scrape_mod):
+	return managerV2.scrape_and_analyze(email, password, mod, scrape_mod)
 
 if __name__ == "__main__":
 	app.run()
