@@ -4,3 +4,4 @@ vaderSentiment
 googletrans
 nltk
 flask
+flask-cors
