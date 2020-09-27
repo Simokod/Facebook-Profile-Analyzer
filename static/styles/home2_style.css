@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+@import url(https://fonts.googleapis.com/css?family=Source + Sans + Pro:200,
+ 300);
 @prim: #53e3a6;
 * {
     box-sizing: border-box;
@@ -8,32 +9,32 @@
 }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: "Source Sans Pro", sans-serif;
     color: white;
     font-weight: 300;
-     ::-webkit-input-placeholder {
+    ::-webkit-input-placeholder {
         /* WebKit browsers */
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: "Source Sans Pro", sans-serif;
         color: white;
         font-weight: 300;
     }
-     :-moz-placeholder {
+    ::-moz-placeholder {
         /* Mozilla Firefox 4 to 18 */
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: "Source Sans Pro", sans-serif;
         color: white;
         opacity: 1;
         font-weight: 300;
     }
-     ::-moz-placeholder {
+    ::-moz-placeholder {
         /* Mozilla Firefox 19+ */
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: "Source Sans Pro", sans-serif;
         color: white;
         opacity: 1;
         font-weight: 300;
     }
-     :-ms-input-placeholder {
+    :-ms-input-placeholder {
         /* Internet Explorer 10+ */
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: "Source Sans Pro", sans-serif;
         color: white;
         font-weight: 300;
     }

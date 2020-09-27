@@ -10,7 +10,7 @@ def output():
 
 @app.route('/')
 def home():
-   return render_template('home.html')
+   return render_template('home2.html')
 
 @app.route("/analyze/<email>/<password>/<int:mod>/<int:scrape_mod>", methods=['GET'])
 def analyze(email, password, mod, scrape_mod):
