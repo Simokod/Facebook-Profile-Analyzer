@@ -14,8 +14,8 @@ def home():
 
 @app.route("/analyze/<email>/<password>/<int:mod>/<int:scrape_mod>", methods=['GET'])
 def analyze(email, password, mod, scrape_mod):
-	scan_result = managerV2.scrape_and_analyze(email, password, mod, scrape_mod)
-	return render_template('scan_result.html', scan_result=scan_result)
+	# scan_result = managerV2.scrape_and_analyze(email, password, mod, scrape_mod)
+	return render_template('index.html')
 
 if __name__ == "__main__":
 	app.run()
