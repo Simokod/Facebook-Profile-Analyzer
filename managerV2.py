@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 # from subprocess import call
 from selenium.common.exceptions import WebDriverException, NoSuchWindowException
+from scan_result import ScanResult
 
 from scraper import scraper
 from scraper import settings
@@ -31,10 +32,8 @@ def analyze_profile(posts):
     else:
         posts = posts.values()
         # perform all analyses
-        offensiveness_analysis_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
-        potentialFakeNews_analysis_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
-        subjects_analysis_result = SubjectsAnalysis.analyze_profile_subjects(posts)
+        offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
+        potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
+        subjects_result = SubjectsAnalysis.analyze_profile_subjects(posts)
 
-        print(subjects_analysis_result)
-
-    return subjects_analysis_result
+    return ScanResult(offensiveness_result, potentialFakeNews_result, subjects_result)
