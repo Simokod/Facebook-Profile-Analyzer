@@ -66,7 +66,7 @@ def check_height(driver, selectors, old_height):
 
 # dictionary containing (id, posts)
 def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
-    my_posts = {}
+    my_posts = []
     global old_height
 
     posts_scraped = 0
@@ -101,9 +101,9 @@ def friends_scroll(driver, selectors, scroll_time):
     last_post_id = 0
 
     old_height = driver.execute_script(selectors.get("height_script"))
-    loop_count = 0     # just for debug, to prevent long runs
+    # loop_count = 0     # just for debug, to prevent long runs
     while True:
-        loop_count += 1
+        # loop_count += 1
         try:
             driver.execute_script(selectors.get("scroll_script"))
             WebDriverWait(driver, scroll_time, 0.05).until(
@@ -150,7 +150,7 @@ def my_extract_and_write_posts(elements, lim, last_post_id, my_posts, exps_in_ro
                         status, exps_in_row = my_get_status(x, exps_in_row)
                         try:
                             if status != "":
-                                my_posts[int_post_id] = status
+                                my_posts.append(status)
                                 posts_written += 1
                                 last_post_id = int_post_id
                                 if posts_written == lim:

@@ -1,4 +1,6 @@
 import tkinter as tk
+import fb_user
+
 from tkinter import messagebox
 # from subprocess import call
 from selenium.common.exceptions import WebDriverException, NoSuchWindowException
@@ -82,22 +84,27 @@ class Application(tk.Frame):
         settings.init()
 
         if scrape_mod.get() == 0:
-            posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get())
-            self.analyze_profile(posts)
+            profile = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get())
+            self.analyze_profile(profile)
 
         elif scrape_mod.get() == 1:
             all_friends_posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get())
             for friend in all_friends_posts:
-                self.analyze_profile(friend.values())
+                self.analyze_profile(friend)
         return 
 
     # gets posts of profile. performs all analysis, and render results
-    def analyze_profile(self, posts):
+    def analyze_profile(self, profile):
+        posts = profile.posts
+        self.render_result('url: ' + str(profile.url))
+        self.render_result('age: ' + str(profile.age))
+        self.render_result('total friends: ' + str(profile.total_friends))
+        self.render_result('mutual friends: ' + str(profile.mutual_friends))
+
         if isinstance(posts, str):
             print(posts)
             self.render_result(posts)
         else:
-            posts = posts.values()
             # perform all analyses
             offensiveness_analysis_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
             potentialFakeNews_analysis_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)

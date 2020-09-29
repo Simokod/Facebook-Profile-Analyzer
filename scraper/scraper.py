@@ -2,11 +2,14 @@ import json
 import os
 import sys
 import urllib.request
+from datetime import date
+
 import yaml
 # import utils
 import argparse
 import time
 
+import fb_user
 from . import settings
 from . import utils
 from selenium import webdriver
@@ -470,47 +473,132 @@ def scrape_posts(url, scan_list, section, elements_path):
         return
     return my_posts
 # returns total number of friends, and number of mutual friends
-def parse_friends_count(friends_count):
-    # numbers = friends_count.split()
-    return int(friends_count)
-        #, int(numbers[1][1:])
-    
+
+
+# returns total number of friends, and number of mutual friends
+def parse_friends_data(friends_data):
+    friends_data = friends_data.replace(',', '')
+    print(friends_data)
+    friends_data = friends_data.replace('(', ' ')
+    # print(friends_data)
+    # friends_data = friends_data.replace(')', ' ')
+    friends_data = [int(s) for s in friends_data.split() if s.isdigit()]
+    print(friends_data)
+    return friends_data
+
+
 # returns user's friends total friends count and mutual friends count
 # def scrape_friends_count(url, scan_list, section, elements_path):
 def scrape_friends_count():
-    friends_count_path = '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span'
     try:
+        settings.driver.execute_script(settings.selectors.get("scroll_script"))
+
         settings.driver.implicitly_wait(5)
         time.sleep(0.5)
-        friend_count = settings.driver.find_element_by_xpath(friends_count_path).text
+        friends_element = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span/span')
+        element_text = friends_element.text
+
     except Exception:
-        try:
-            friend_count = settings.driver.find_element_by_css_selector('.oi732d6d.ik7dh3pa.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.e9vueds3.j5wam9gi.knj5qynh.q66pz984').text
-        except Exception:
-            print("find_element FAILED")
-    return parse_friends_count(friend_count)
-
-# returns info about the user
-def scrape_about(url, scan_list, section, elements_path):
-    pass
+        print("find_element FAILED")
+    return parse_friends_data(element_text)
 
 
+def month_switch(argument):
+    switcher = {
+        "January": 1,
+        "February": 2,
+        "March": 3,
+        "April": 4,
+        "May": 5,
+        "June": 6,
+        "July": 7,
+        "August": 8,
+        "September": 9,
+        "October": 10,
+        "November": 11,
+        "December": 12
+    }
+    return switcher.get(argument, "Invalid month")
+
+def calculate_age(profile_date, today):
+    today_day, today_month, today_year = today.split('/')
+    today_day = int(today_day)
+    today_month = int(today_month)
+    today_year = int(today_year)
+    # print('day: ', today_day, '\nmonth: ', today_month, '\nyear: ', today_year)
+    profile_day, profile_month, profile_year = profile_date.split(' ')
+    profile_month = month_switch(profile_month)
+    profile_day = int(profile_day)
+    profile_month = int(profile_month)
+    profile_year = int(profile_year)
+    # print('\nday: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
+    age = today_year-profile_year + (today_month-profile_month)/12 + (today_day-profile_day)/365
+    return age
+
+
+def scrape_account_age(url):
+
+    try:
+        settings.driver.implicitly_wait(5)
+        time.sleep(1)
+        # photos_link = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[3]/div/div/div/div[1]/div/div/div[1]/div/div/div/div[1]/a[4]')
+        photos_link = settings.driver.find_element_by_partial_link_text('Photos')
+        photos_link.click()
+        time.sleep(1)
+        albums = settings.driver.find_element_by_partial_link_text('Albums')
+        time.sleep(0.5)
+        albums.click()
+        time.sleep(0.5)
+        profile_pictures_link = settings.driver.find_element_by_partial_link_text('Profile pictures')
+        time.sleep(0.5)
+        profile_pictures_link.click()
+        profile_pictures = settings.driver.find_elements_by_css_selector('.g6srhlxm.gq8dxoea.bi6gxh9e.oi9244e8.l9j0dhe7')
+        last_pic = profile_pictures[len(profile_pictures)-1]
+        time.sleep(0.5)
+        last_pic.click()
+        date_element = settings.driver.find_element_by_css_selector('.oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw')
+        time.sleep(0.5)
+        profile_date = date_element.get_attribute('aria-label')
+        # print('profile date: ', profile_date)
+        today = date.today().strftime("%d/%m/%Y")
+        # print('today date: ', today)
+        age = calculate_age(profile_date, today)
+        settings.driver.get(url)
+        time.sleep(0.5)
+        return age
+    except Exception:
+        print("find_element FAILED")
 
 
 def scrape_data(url, scan_list, section, elements_path, save_status):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
-    # if save_status == 4:
+    age = scrape_account_age(url)
+    friends_data = scrape_friends_count()
+    total_friends = friends_data[0]
+    if len(friends_data) > 1:
+        mutual_friends = friends_data[1]
+    else:
+        mutual_friends = 0
+    print('total friends: ', total_friends, '\n'
+                                            'mutual friends: ', mutual_friends)
     posts = scrape_posts(url, scan_list, section, elements_path)
     # elif save_status == 0:
     #     pass
-    #     # friends = scrape_friends_count(url, scan_list, section, elements_path)
+
     # elif save_status == 3:
     #     pass
     #     # about = scrape_about(url, scan_list, section, elements_path)
     # else:
     #     print("what the cat")
-    return posts
-    # return posts, friends, about
+    profile = fb_user.FBUser(url, age, total_friends, mutual_friends, posts)
+    print('url: ', profile.url, '\nage: ', profile.age,
+          '\ntotal_friends: ', profile.total_friends,
+          '\nmutual_friends: ', profile.mutual_friends)
+
+    return profile
+
+
+# return posts, friends, about
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -608,14 +696,14 @@ def scrap_profile():
         section = settings.params[item]["section"]
         elements_path = settings.params[item]["elements_path"]
         save_status = settings.params[item]["save_status"]
-        data = scrape_data(user_id, scan_list, section, elements_path, save_status)
+        profile = scrape_data(user_id, scan_list, section, elements_path, save_status)
 
         print("{} Done!".format(item))
 
     print("Finished Scraping Profile " + str(user_id) + ".")
     os.chdir("../..")
 
-    return data
+    return profile
 
 
 # def get_comments():
