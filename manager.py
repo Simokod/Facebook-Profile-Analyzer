@@ -98,6 +98,7 @@ class Application(tk.Frame):
         posts = profile.posts
         self.render_result('url: ' + str(profile.url))
         self.render_result('age: ' + str(profile.age))
+        self.render_result('friendship_duration: ' + str(profile.friendship_duration))
         self.render_result('total friends: ' + str(profile.total_friends))
         self.render_result('mutual friends: ' + str(profile.mutual_friends))
 
