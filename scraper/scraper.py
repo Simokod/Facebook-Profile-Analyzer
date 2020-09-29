@@ -552,6 +552,7 @@ def scrape_account_age(url):
         profile_pictures_link = settings.driver.find_element_by_partial_link_text('Profile pictures')
         time.sleep(0.5)
         profile_pictures_link.click()
+        time.sleep(5)
         profile_pictures = settings.driver.find_elements_by_css_selector('.g6srhlxm.gq8dxoea.bi6gxh9e.oi9244e8.l9j0dhe7')
         last_pic = profile_pictures[len(profile_pictures)-1]
         time.sleep(0.5)
@@ -569,10 +570,59 @@ def scrape_account_age(url):
     except Exception:
         print("find_element FAILED")
 
+def calculate_duration(friendship_year, friendship_month, today):
+    today_day, today_month, today_year = today.split('/')
+    today_day = int(today_day)
+    today_month = int(today_month)
+    today_year = int(today_year)
+    # print('day: ', today_day, '\nmonth: ', today_month, '\nyear: ', today_year)
+    # profile_day, profile_month, profile_year = profile_date.split(' ')
+    friendship_month = month_switch(friendship_month)
+    # profile_day = int(profile_day)
+    friendship_month = int(friendship_month)
+    friendship_year = int(friendship_year)
+    # print('\nday: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
+    duration = today_year-friendship_year + (today_month-friendship_month)/12 + today_day/365
+    return duration
+
+def find_duration(url):
+    try:
+        more_button = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[3]/div/div/div/div[2]/div/div/div[4]/div')
+        time.sleep(0.5)
+        more_button.click()
+        time.sleep(0.5)
+
+        friendship = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div[1]/div/div/div[1]/div/div[1]/div/a')
+        # friendship = settings.driver.find_element_by_partial_link_text('See friendship')
+        friendship.click()
+        time.sleep(2)
+        duration = settings.driver.find_elements_by_css_selector('.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.rrkovp55.a8c37x1j.keod5gw0.nxhoafnm.aigsh9s9.d3f4x2em.fe6kdd0r.mau55g9w.c8b282yb.iv3no6db.jq4qci2q.a3bd9o3v.knj5qynh.oo9gr5id.hzawbc8m')[1]
+        # print(duration)
+        time.sleep(1)
+        duration = duration.text
+        # print(duration)
+        duration = duration.split(" ")
+        # print(duration)
+        year = int(duration[len(duration)-1])
+        month = duration[len(duration)-2]
+        today = date.today().strftime("%d/%m/%Y")
+        duration = calculate_duration(year, month, today)
+        # print(duration)
+        settings.driver.get(url)
+        time.sleep(1)
+        return duration
+    except Exception:
+        print("find_element FAILED")
+        settings.driver.get(url)
+        time.sleep(0.5)
+
 
 def scrape_data(url, scan_list, section, elements_path, save_status):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
+    friendship_duration = find_duration(url)
+    time.sleep(0.5)
     age = scrape_account_age(url)
+    time.sleep(0.5)
     friends_data = scrape_friends_count()
     total_friends = friends_data[0]
     if len(friends_data) > 1:
@@ -590,8 +640,9 @@ def scrape_data(url, scan_list, section, elements_path, save_status):
     #     # about = scrape_about(url, scan_list, section, elements_path)
     # else:
     #     print("what the cat")
-    profile = fb_user.FBUser(url, age, total_friends, mutual_friends, posts)
+    profile = fb_user.FBUser(url, age, friendship_duration, total_friends, mutual_friends, posts)
     print('url: ', profile.url, '\nage: ', profile.age,
+          '\nfriendship_duration: ', profile.friendship_duration,
           '\ntotal_friends: ', profile.total_friends,
           '\nmutual_friends: ', profile.mutual_friends)
 
