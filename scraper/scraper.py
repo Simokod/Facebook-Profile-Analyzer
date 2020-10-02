@@ -472,8 +472,6 @@ def scrape_posts(url, scan_list, section, elements_path):
         )
         return
     return my_posts
-# returns total number of friends, and number of mutual friends
-
 
 # returns total number of friends, and number of mutual friends
 def parse_friends_data(friends_data):
@@ -500,6 +498,7 @@ def scrape_friends_count():
 
     except Exception:
         print("find_element FAILED")
+        return [0]
     return parse_friends_data(element_text)
 
 
@@ -622,6 +621,29 @@ def find_duration(url):
         settings.driver.get(url)
         time.sleep(0.5)
 
+# UTV = user trust level
+# aua = age of user account, fd = friendship duration, tf = total friends, mf = mutual friends
+# all computations are according to Nadav's article
+def calc_UTV(aua, fd, tf, mf):
+    # Thresholds 
+    T_aua = 2
+    T_fd = 1.5
+    T_tf = 245
+    T_mf = 37
+
+    # User credibility attributes
+    U_aua = 1 if aua >= T_aua else aua/T_aua
+    U_tf = 1 if tf >= T_tf else tf/T_tf
+    userCredibility = (U_aua + U_tf)/2
+
+    # Connection strength attributes
+    C_fd = 1 if fd >= T_fd else fd/T_fd
+    C_mf = 1 if mf >= T_mf else mf/T_mf
+    connectionStrength = (C_fd + C_mf)/2
+
+    # UTV = (U*|U| + C*|C|) / |U + C|
+    UTV = (userCredibility*2 + connectionStrength*2)/4
+    return UTV
 
 def scrape_data(url, scan_list, section, elements_path, save_status):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
@@ -638,20 +660,13 @@ def scrape_data(url, scan_list, section, elements_path, save_status):
     print('total friends: ', total_friends, '\n'
                                             'mutual friends: ', mutual_friends)
     posts = scrape_posts(url, scan_list, section, elements_path)
-    # elif save_status == 0:
-    #     pass
-
-    # elif save_status == 3:
-    #     pass
-    #     # about = scrape_about(url, scan_list, section, elements_path)
-    # else:
-    #     print("what the cat")
     profile = fb_user.FBUser(url, age, friendship_duration, total_friends, mutual_friends, posts)
     print('url: ', profile.url, '\nage: ', profile.age,
           '\nfriendship_duration: ', profile.friendship_duration,
           '\ntotal_friends: ', profile.total_friends,
           '\nmutual_friends: ', profile.mutual_friends)
-
+    UTV = calc_UTV(age, friendship_duration, total_friends, mutual_friends)
+    print('UTV:', UTV)
     return profile
 
 
