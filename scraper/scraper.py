@@ -100,354 +100,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 # -------------------------------------------------------------
 # -------------------------------------------------------------
 
-
-# def extract_and_write_posts(elements, filename):
-#     try:
-#         f = open(filename, "w", newline="\r\n", encoding="utf-8")
-#         f.writelines(
-#             " TIME || TYPE  || TITLE || STATUS  ||   LINKS(Shared Posts/Shared Links etc) || POST_ID "
-#             + "\n"
-#             + "\n"
-#         )
-#         i = 0
-#         for x in elements:
-#             try:
-#                 link = ""
-#                 post_id = utils.my_get_post_id(x)
-#                 if post_id != None:
-#                     print("id:", post_id)
-#                 if post_id != None:
-#                     status = utils.my_get_status(x)
-#                     line = (
-#                         str(post_id)
-#                         + " || "
-#                         + str(status)
-#                         + "\n\n"
-#                     )
-#                     try:
-#                         f.writelines(line)
-#                     except Exception:
-#                         print("Posts: Could not map encoded characters")
-#             except Exception:
-#                 print("passing")
-#                 pass
-#         f.close()
-#     except ValueError:
-#         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-#     except Exception:
-#         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-#     return
-
-
-# def get_status_and_title(link, x):
-#     # title
-#     title = utils.get_title(x, selectors)
-#     if title.text.find("shared a memory") != -1:
-#         x = x.find_element_by_xpath(selectors.get("title_element"))
-#         title = utils.get_title(x, selectors)
-#     status = utils.get_status(x, selectors)
-#     if title.text == driver.find_element_by_id(selectors.get("title_text")).text:
-#         if status == "":
-#             temp = utils.get_div_links(x, "img", selectors)
-#             if temp == "":  # no image tag which means . it is not a life event
-#                 link = utils.get_div_links(x, "a", selectors).get_attribute("href")
-#                 post_type = "status update without text"
-#             else:
-#                 post_type = "life event"
-#                 link = utils.get_div_links(x, "a", selectors).get_attribute("href")
-#                 status = utils.get_div_links(x, "a", selectors).text
-#         else:
-#             post_type = "status update"
-#             if utils.get_div_links(x, "a", selectors) != "":
-#                 link = utils.get_div_links(x, "a", selectors).get_attribute("href")
-
-#     elif title.text.find(" shared ") != -1:
-#         x1, link = utils.get_title_links(title)
-#         post_type = "shared " + x1
-#     elif title.text.find(" at ") != -1 or title.text.find(" in ") != -1:
-#         if title.text.find(" at ") != -1:
-#             x1, link = utils.get_title_links(title)
-#             post_type = "check in"
-#         elif title.text.find(" in ") != 1:
-#             status = utils.get_div_links(x, "a", selectors).text
-#     elif title.text.find(" added ") != -1 and title.text.find("photo") != -1:
-#         post_type = "added photo"
-#         link = utils.get_div_links(x, "a", selectors).get_attribute("href")
-
-#     elif title.text.find(" added ") != -1 and title.text.find("video") != -1:
-#         post_type = "added video"
-#         link = utils.get_div_links(x, "a", selectors).get_attribute("href")
-
-#     else:
-#         post_type = "others"
-#     if not isinstance(title, str):
-#         title = title.text
-#     status = status.replace("\n", " ")
-#     title = title.replace("\n", " ")
-#     return link, status, title, post_type
-
-
-# def extract_and_write_group_posts(elements, filename):
-#     try:
-#         f = create_post_file(filename)
-#         ids = []
-#         for x in elements:
-#             try:
-#                 # id
-#                 post_id = utils.get_group_post_id(x)
-#                 ids.append(post_id)
-#             except Exception:
-#                 pass
-#         total = len(ids)
-#         i = 0
-#         for post_id in ids:
-#             i += 1
-#             try:
-#                 add_group_post_to_file(f, filename, post_id, i, total, reload=True)
-#             except ValueError:
-#                 pass
-#         f.close()
-#     except ValueError:
-#         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-#     except Exception:
-#         print("Exception (extract_and_write_posts)", "Status =", sys.exc_info()[0])
-#     return
-
-
-def add_group_post_to_file(f, filename, post_id, number=1, total=1, reload=False):
-    # print("Scraping Post(" + post_id + "). " + str(number) + " of " + str(total))
-    # photos_dir = os.path.dirname(filename)
-    # if reload:
-    #     driver.get(utils.create_post_link(post_id, selectors))
-    # line = get_group_post_as_line(post_id, photos_dir)
-    # try:
-    #     f.writelines(line)
-    # except Exception:
-    #     print("Posts: Could not map encoded characters")
-    print("ERROR -- add_group_post_to_file - not supposed to get here")
-
-
-def create_post_file(filename):
-    # """
-    # Creates post file and header
-    # :param filename:
-    # :return: file
-    # """
-    # f = open(filename, "w", newline="\r\n", encoding="utf-8")
-    # f.writelines(
-    #     "TIME || TYPE  || TITLE || STATUS || LINKS(Shared Posts/Shared Links etc) || POST_ID || "
-    #     "PHOTO || COMMENTS " + "\n"
-    # )
-    # return f
-    print("ERROR -- create_post_file - not supposed to get here")
-
-
-# -------------------------------------------------------------
-# -------------------------------------------------------------
-
-
-# def save_to_file(name, elements, status, current_section):
-#     """helper function used to save links to files"""
-
-#     # status 0 = dealing with friends list
-#     # status 1 = dealing with photos
-#     # status 2 = dealing with videos
-#     # status 3 = dealing with about section
-#     # status 4 = dealing with posts
-#     # status 5 = dealing with group posts
-
-#     try:
-#         f = None  # file pointer
-
-#         if status != 4 and status != 5:
-#             f = open(name, "w", encoding="utf-8", newline="\r\n")
-
-#         results = []
-#         img_names = []
-
-#         # dealing with Friends
-#         if status == 0:
-#             # get profile links of friends
-#             results = [x.get_attribute("href") for x in elements]
-#             results = [create_original_link(x) for x in results]
-
-#             # get names of friends
-#             people_names = [
-#                 x.find_element_by_tag_name("img").get_attribute("aria-label")
-#                 for x in elements
-#             ]
-
-#             # download friends' photos
-#             try:
-#                 if download_friends_photos:
-#                     if friends_small_size:
-#                         img_links = [
-#                             x.find_element_by_css_selector("img").get_attribute("src")
-#                             for x in elements
-#                         ]
-#                     else:
-#                         links = []
-#                         for friend in results:
-#                             try:
-#                                 driver.get(friend)
-#                                 WebDriverWait(driver, 30).until(
-#                                     EC.presence_of_element_located(
-#                                         (
-#                                             By.CLASS_NAME,
-#                                             selectors.get("profilePicThumb"),
-#                                         )
-#                                     )
-#                                 )
-#                                 l = driver.find_element_by_class_name(
-#                                     selectors.get("profilePicThumb")
-#                                 ).get_attribute("href")
-#                             except Exception:
-#                                 l = "None"
-
-#                             links.append(l)
-
-#                         for i, _ in enumerate(links):
-#                             if links[i] is None:
-#                                 links[i] = "None"
-#                             elif links[i].find("picture/view") != -1:
-#                                 links[i] = "None"
-
-#                         img_links = get_facebook_images_url(links)
-
-#                     folder_names = [
-#                         "Friend's Photos",
-#                         "Mutual Friends' Photos",
-#                         "Following's Photos",
-#                         "Follower's Photos",
-#                         "Work Friends Photos",
-#                         "College Friends Photos",
-#                         "Current City Friends Photos",
-#                         "Hometown Friends Photos",
-#                     ]
-#                     print("Downloading " + folder_names[current_section])
-
-#                     img_names = image_downloader(
-#                         img_links, folder_names[current_section]
-#                     )
-#                 else:
-#                     img_names = ["None"] * len(results)
-#             except Exception:
-#                 print(
-#                     "Exception (Images)",
-#                     str(status),
-#                     "Status =",
-#                     current_section,
-#                     sys.exc_info()[0],
-#                 )
-
-#         # dealing with Photos
-#         elif status == 1:
-#             results = [x.get_attribute("href") for x in elements]
-#             results.pop(0)
-
-#             try:
-#                 if download_uploaded_photos:
-#                     if photos_small_size:
-#                         background_img_links = driver.find_elements_by_xpath(
-#                             selectors.get("background_img_links")
-#                         )
-#                         background_img_links = [
-#                             x.get_attribute("style") for x in background_img_links
-#                         ]
-#                         background_img_links = [
-#                             ((x.split("(")[1]).split(")")[0]).strip('"')
-#                             for x in background_img_links
-#                         ]
-#                     else:
-#                         background_img_links = get_facebook_images_url(results)
-
-#                     folder_names = ["Uploaded Photos", "Tagged Photos"]
-#                     print("Downloading " + folder_names[current_section])
-
-#                     img_names = image_downloader(
-#                         background_img_links, folder_names[current_section]
-#                     )
-#                 else:
-#                     img_names = ["None"] * len(results)
-#             except Exception:
-#                 print(
-#                     "Exception (Images)",
-#                     str(status),
-#                     "Status =",
-#                     current_section,
-#                     sys.exc_info()[0],
-#                 )
-
-#         # dealing with Videos
-#         elif status == 2:
-#             results = elements[0].find_elements_by_css_selector("li")
-#             results = [
-#                 x.find_element_by_css_selector("a").get_attribute("href")
-#                 for x in results
-#             ]
-
-#             try:
-#                 if results[0][0] == "/":
-#                     results = [r.pop(0) for r in results]
-#                     results = [(selectors.get("fb_link") + x) for x in results]
-#             except Exception:
-#                 pass
-
-#         # dealing with About Section
-#         elif status == 3:
-#             results = elements[0].text
-#             f.writelines(results)
-
-#         # dealing with Posts
-#         elif status == 4:
-#             extract_and_write_posts(elements, name)
-#             return
-
-#         # dealing with Group Posts
-#         elif status == 5:
-#             extract_and_write_group_posts(elements, name)
-#             return
-
-#         """Write results to file"""
-#         if status == 0:
-#             for i, _ in enumerate(results):
-#                 # friend's profile link
-#                 f.writelines(results[i])
-#                 f.write(",")
-
-#                 # friend's name
-#                 f.writelines(people_names[i])
-#                 f.write(",")
-
-#                 # friend's downloaded picture id
-#                 f.writelines(img_names[i])
-#                 f.write("\n")
-
-#         elif status == 1:
-#             for i, _ in enumerate(results):
-#                 # image's link
-#                 f.writelines(results[i])
-#                 f.write(",")
-
-#                 # downloaded picture id
-#                 f.writelines(img_names[i])
-#                 f.write("\n")
-
-#         elif status == 2:
-#             for x in results:
-#                 f.writelines(x + "\n")
-
-#         f.close()
-
-#     except Exception:
-#         print("Exception (save_to_file)", "Status =", str(status), sys.exc_info()[0])
-
-#     return
-
-
-# ----------------------------------------------------------------------------
-# -----------------------------------------------------------------------------
-
 # returns a dictionary containing the user's posts
 def scrape_posts(url, scan_list, section, elements_path):
     # page = []
@@ -455,10 +107,10 @@ def scrape_posts(url, scan_list, section, elements_path):
     # page += [url + s for s in section]
     try:
         # settings.driver.get(page[0])
-        print("scrape_posts")
+        # print("scrape_posts")
         settings.driver.get(url)
         # time.sleep(3)
-        print("after waiting")
+        # print("after waiting")
 
         # my_posts = {key: post_id, value: actual post}
         my_posts = utils.my_scroll(settings.number_of_posts, settings.driver, settings.selectors, settings.scroll_time, elements_path[0])
@@ -497,7 +149,7 @@ def scrape_friends_count():
         element_text = friends_element.text
 
     except Exception:
-        print("find_element FAILED")
+        print("scrape_friends_count: find_element FAILED")
         return [0]
     return parse_friends_data(element_text)
 
@@ -530,13 +182,12 @@ def calculate_age(profile_date, today):
     profile_day = int(profile_day)
     profile_month = int(profile_month)
     profile_year = int(profile_year)
-    # print('\nday: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
+    print('day: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
     age = today_year-profile_year + (today_month-profile_month)/12 + (today_day-profile_day)/365
     return age
 
 
 def scrape_account_age(url):
-
     try:
         settings.driver.implicitly_wait(5)
         time.sleep(1)
@@ -568,7 +219,8 @@ def scrape_account_age(url):
         time.sleep(0.5)
         return age
     except Exception:
-        print("find_element FAILED")
+        print("scrape_account_age: find_element FAILED")
+
 
 def calculate_duration(friendship_year, friendship_month, today):
     today_day, today_month, today_year = today.split('/')
@@ -584,6 +236,7 @@ def calculate_duration(friendship_year, friendship_month, today):
     # print('\nday: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
     duration = today_year-friendship_year + (today_month-friendship_month)/12 + today_day/365
     return duration
+
 
 def find_duration(url):
     # try:
@@ -602,22 +255,22 @@ def find_duration(url):
             duration = common_things[1]
         else:
             duration = common_things[0]
-        print(duration)
+        # print(duration)
         time.sleep(1)
         duration = duration.text
-        print(duration)
+        # print(duration)
         duration = duration.split(" ")
-        print(duration)
+        # print(duration)
         year = int(duration[len(duration)-1])
         month = duration[len(duration)-2]
         today = date.today().strftime("%d/%m/%Y")
         duration = calculate_duration(year, month, today)
-        print(duration)
+        # print(duration)
         settings.driver.get(url)
         time.sleep(1)
         return duration
     # except Exception:
-        print("find_element FAILED")
+        print("find_duration: find_element FAILED")
         settings.driver.get(url)
         time.sleep(0.5)
 
@@ -657,14 +310,13 @@ def scrape_data(url, scan_list, section, elements_path, save_status):
         mutual_friends = friends_data[1]
     else:
         mutual_friends = 0
-    print('total friends: ', total_friends, '\n'
-                                            'mutual friends: ', mutual_friends)
+    print('total friends: ', total_friends, '\n', 'mutual friends: ', mutual_friends)
     posts = scrape_posts(url, scan_list, section, elements_path)
     profile = fb_user.FBUser(url, age, friendship_duration, total_friends, mutual_friends, posts)
-    print('url: ', profile.url, '\nage: ', profile.age,
-          '\nfriendship_duration: ', profile.friendship_duration,
-          '\ntotal_friends: ', profile.total_friends,
-          '\nmutual_friends: ', profile.mutual_friends)
+    # print('url: ', profile.url, '\nage: ', profile.age,
+    #       '\nfriendship_duration: ', profile.friendship_duration,
+    #       '\ntotal_friends: ', profile.total_friends,
+    #       '\nmutual_friends: ', profile.mutual_friends)
     UTV = calc_UTV(age, friendship_duration, total_friends, mutual_friends)
     print('UTV:', UTV)
     return profile
@@ -674,7 +326,6 @@ def scrape_data(url, scan_list, section, elements_path, save_status):
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
-
 
 def create_original_link(url):
     if url.find(".php") != -1:
@@ -701,6 +352,7 @@ def create_original_link(url):
         original_link = url
 
     return original_link
+
 
 def scrap_all_friends():
     result = []
@@ -731,6 +383,7 @@ def scrap_all_friends():
         if count >= 5:
             break
     return list
+
 
 def scrap_profile():
     data_folder = os.path.join(os.getcwd(), "data")
@@ -778,98 +431,6 @@ def scrap_profile():
     return profile
 
 
-# def get_comments():
-#     comments = []
-#     try:
-#         data = driver.find_element_by_xpath(selectors.get("comment_section"))
-#         reply_links = driver.find_elements_by_xpath(
-#             selectors.get("more_comment_replies")
-#         )
-#         for link in reply_links:
-#             try:
-#                 driver.execute_script("arguments[0].click();", link)
-#             except Exception:
-#                 pass
-#         see_more_links = driver.find_elements_by_xpath(
-#             selectors.get("comment_see_more_link")
-#         )
-#         for link in see_more_links:
-#             try:
-#                 driver.execute_script("arguments[0].click();", link)
-#             except Exception:
-#                 pass
-#         data = data.find_elements_by_xpath(selectors.get("comment"))
-#         for d in data:
-#             try:
-#                 author = d.find_element_by_xpath(selectors.get("comment_author")).text
-#                 text = d.find_element_by_xpath(selectors.get("comment_text")).text
-#                 replies = utils.get_replies(d, selectors)
-#                 comments.append([author, text, replies])
-#             except Exception:
-#                 pass
-#     except Exception:
-#         pass
-#     return comments
-
-
-# def get_group_post_as_line(post_id, photos_dir):
-#     try:
-#         data = driver.find_element_by_xpath(selectors.get("single_post"))
-#         time = utils.get_time(data)
-#         title = utils.get_title(data, selectors).text
-#         # link, status, title, type = get_status_and_title(title,data)
-#         link = utils.get_div_links(data, "a", selectors)
-#         if link != "":
-#             link = link.get_attribute("href")
-#         post_type = ""
-#         status = '"' + utils.get_status(data, selectors).replace("\r\n", " ") + '"'
-#         photos = utils.get_post_photos_links(data, selectors, photos_small_size)
-#         comments = get_comments()
-#         photos = image_downloader(photos, photos_dir)
-#         line = (
-#             str(time)
-#             + "||"
-#             + str(post_type)
-#             + "||"
-#             + str(title)
-#             + "||"
-#             + str(status)
-#             + "||"
-#             + str(link)
-#             + "||"
-#             + str(post_id)
-#             + "||"
-#             + str(photos)
-#             + "||"
-#             + str(comments)
-#             + "\n"
-#         )
-#         return line
-#     except Exception:
-#         return ""
-
-
-def create_folders():
-    """
-    Creates folder for saving data (profile, post or group) according to current driver url
-    Changes current dir to target_dir
-    :return: target_dir or None in case of failure
-    """
-    folder = os.path.join(os.getcwd(), "data")
-    utils.create_folder(folder)
-    os.chdir(folder)
-    try:
-        item_id = get_item_id(driver.current_url)
-        target_dir = os.path.join(folder, item_id)
-        utils.create_folder(target_dir)
-        os.chdir(target_dir)
-        return target_dir
-    except Exception:
-        print("Some error occurred in creating the group directory.")
-        os.chdir("../..")
-        return None
-
-
 def get_item_id(url):
     """
     Gets item id from url
@@ -886,52 +447,14 @@ def get_item_id(url):
         print("Failed to get id: " + format(e))
     return ret
 
-
-def scrape_group(url):
-    # if create_folders() is None:
-    #     return
-    # group_id = get_item_id(url)
-    # # execute for all profiles given in input.txt file
-    # print("\nScraping:", group_id)
-
-    # to_scrap = ["GroupPosts"]  # , "Photos", "Videos", "About"]
-    # for item in to_scrap:
-    #     print("----------------------------------------")
-    #     print("Scraping {}..".format(item))
-
-    #     if item == "GroupPosts":
-    #         scan_list = [None]
-    #     elif item == "About":
-    #         scan_list = [None] * 7
-    #     else:
-    #         scan_list = params[item]["scan_list"]
-
-    #     section = params[item]["section"]
-    #     elements_path = params[item]["elements_path"]
-    #     file_names = params[item]["file_names"]
-    #     save_status = params[item]["save_status"]
-
-    #     scrape_data(url, scan_list, section, elements_path, save_status, file_names)
-
-    #     print("{} Done!".format(item))
-
-    # print("Finished Scraping Group " + str(group_id) + ".")
-    # os.chdir("../..")
-    print("Error -- scrape_group - not supposed to get here")
-
-
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 
 
 def login(email, password):
     """ Logging into our own profile """
-
     try:
-
-
         options = Options()
-
         #  Code to disable notifications pop up of Chrome Browser
         options.add_argument("--disable-notifications")
         options.add_argument("--disable-infobars")
@@ -1017,33 +540,7 @@ def scraper(email, password, mod, scrape_mod, **kwargs):
         settings.selectors
         result = scrap_all_friends()
     settings.driver.close()
-    # if len(urls) > 0:
-    #     print("\nStarting Scraping...")
-    #     login(email, password)
-    #     for url in urls:
-    #         settings.driver.get(url)
-    #         link_type = utils.identify_url(settings.driver.current_url)
-    #         if link_type == 0:
-    #             result = scrap_profile()
-    #         elif link_type == 1:
-    #             # scrap_post(url)
-    #             pass
-    #         elif link_type == 2:
-    #             scrape_group(settings.driver.current_url)
-    #         elif link_type == 3:
-    #             file_name = settings.params["GroupPosts"]["file_names"][0]
-    #             item_id = get_item_id(settings.driver.current_url)
-    #             if create_folders() is None:
-    #                 continue
-    #             f = create_post_file(file_name)
-    #             add_group_post_to_file(f, file_name, item_id)
-    #             f.close()
-    #             os.chdir("../..")
-    #     settings.driver.close()
     return result
-    # else:
-    #     print("Input file is empty.")
-
 
 # -------------------------------------------------------------
 # -------------------------------------------------------------
@@ -1100,30 +597,8 @@ def main(email, password, mod, scrape_mod):
     settings.args = vars(settings.ap.parse_args())
     print(settings.args)
 
-    # ---------------------------------------------------------
-    # Global Variables
-    # ---------------------------------------------------------
-
-    # whether to download photos or not
-    # download_uploaded_photos = utils.to_bool(args["uploaded_photos"])
-    # download_friends_photos = utils.to_bool(args["friends_photos"])
-    # download_uploaded_photos = False
-    # download_friends_photos = False
-
-    # whether to download the full image or its thumbnail (small size)
-    # if small size is True then it will be very quick else if its false then it will open each photo to download it
-    # and it will take much more time
-    # friends_small_size = utils.to_bool(args["friends_small_size"])
-    # photos_small_size = utils.to_bool(args["photos_small_size"])
-    # friends_small_size = False
-    # photos_small_size = False
-
-    # settings.total_scrolls = int(args["total_scrolls"])
     settings.scroll_time = int(settings.args["scroll_time"])
     settings.number_of_posts = int(settings.args["number_of_posts"])
-
-    # current_scrolls = 0
-    # old_height = 0
 
     settings.driver = None
 
@@ -1139,4 +614,3 @@ def main(email, password, mod, scrape_mod):
     # get things rolling
     scraper_result = scraper(email, password, mod, scrape_mod)
     return scraper_result
-

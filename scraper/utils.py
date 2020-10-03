@@ -92,6 +92,8 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
         except TimeoutException:
             break
     return my_posts
+
+    
 def friends_scroll(driver, selectors, scroll_time):
     my_posts = {}
     global old_height
