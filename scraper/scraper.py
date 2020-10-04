@@ -199,7 +199,11 @@ def scrape_account_age(url):
         time.sleep(0.5)
         albums.click()
         time.sleep(0.5)
-        profile_pictures_link = settings.driver.find_element_by_partial_link_text('Profile pictures')
+        # profile_pictures_link = settings.driver.find_element_by_partial_link_text('Profile pictures')
+        pictures_links = settings.driver.find_elements_by_css_selector('.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.rrkovp55.a8c37x1j.keod5gw0.nxhoafnm.aigsh9s9.d3f4x2em.fe6kdd0r.mau55g9w.c8b282yb.iv3no6db.jq4qci2q.a3bd9o3v.lrazzd5p.oo9gr5id.hzawbc8m')
+        for link in pictures_links:
+            if link.text == 'Profile pictures':
+                profile_pictures_link = link
         time.sleep(0.5)
         profile_pictures_link.click()
         utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
@@ -210,10 +214,8 @@ def scrape_account_age(url):
         last_pic.click()
         date_element = settings.driver.find_element_by_css_selector('.oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw')
         time.sleep(0.5)
-        print(date_element)
-        print(date_element.text)
-        # profile_date = date_element.get_attribute('aria-label')
-        profile_date = date_element.text
+        profile_date = date_element.get_attribute("aria-label")
+        # profile_date = date_element.text
         print('profile date: ', profile_date)
         today = date.today().strftime("%d/%m/%Y")
         print('today date: ', today)
