@@ -152,6 +152,7 @@ fabric.properties
 
 # Crawler
 input.txt
+runtime.txt
 credentials.yaml
 data/
 # scraper/__pycache__/

@@ -210,10 +210,13 @@ def scrape_account_age(url):
         last_pic.click()
         date_element = settings.driver.find_element_by_css_selector('.oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw')
         time.sleep(0.5)
-        profile_date = date_element.get_attribute('aria-label')
-        # print('profile date: ', profile_date)
+        print(date_element)
+        print(date_element.text)
+        # profile_date = date_element.get_attribute('aria-label')
+        profile_date = date_element.text
+        print('profile date: ', profile_date)
         today = date.today().strftime("%d/%m/%Y")
-        # print('today date: ', today)
+        print('today date: ', today)
         age = calculate_age(profile_date, today)
         settings.driver.get(url)
         time.sleep(0.5)
@@ -258,11 +261,19 @@ def find_duration(url):
         # print(duration)
         time.sleep(1)
         duration = duration.text
-        # print(duration)
+        # duration.replace('Your friend since', '')
+        print(duration)
         duration = duration.split(" ")
-        # print(duration)
-        year = int(duration[len(duration)-1])
-        month = duration[len(duration)-2]
+        print(duration)
+
+        duration = duration[3:]
+        print(duration)
+
+        month = duration[0]
+        year = 0
+        if len(duration) > 1:
+            year = int(duration[len(duration)-1])
+
         today = date.today().strftime("%d/%m/%Y")
         duration = calculate_duration(year, month, today)
         # print(duration)

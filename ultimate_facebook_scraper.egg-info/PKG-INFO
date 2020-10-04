@@ -34,18 +34,22 @@ Description: # Projects and having fun
         # Install Python requirements
         (venv) > pip install -e .
         (venv) > pip install webdriver_manager
+        (venv) > pip install Flask
+        (venv) > pip install -U flask-cors
+        
         ```
         
         ### How to Run
-        - Enter your facebook username and password in [credentials.yaml](credentials.yaml)
         - Add profile urls you'd like to scrape in [input.txt](input.txt)
-        - Scrape away!
-        
-        Run the `python scraper/scraper.py` command in the project folder.
-        
-        ### Note
-        
-        This tool uses xpaths of **'divs'** to extract data. Since Facebook updates its site frequently, the 'divs' get changed. Consequently, we have to update the divs accordingly to correctly scrape data.
+        - Enter your facebook username and password in [credentials.yaml](credentials.yaml):
+            ```yaml
+            email: your_email
+            password: your_password
+            ```
+          (Dev_mode)
+          OR
+          enter facebook username and password in the Tkinter window after running the program
+        - Scrape away! - Run the `python manager.py` command in the project folder.
         
         ---
         ## Progress:
