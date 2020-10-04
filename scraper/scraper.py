@@ -177,11 +177,21 @@ def calculate_age(profile_date, today):
     today_month = int(today_month)
     today_year = int(today_year)
     # print('day: ', today_day, '\nmonth: ', today_month, '\nyear: ', today_year)
-    profile_day, profile_month, profile_year = profile_date.split(' ')
-    profile_month = month_switch(profile_month)
-    profile_day = int(profile_day)
-    profile_month = int(profile_month)
+    possible_day, possible_month, profile_year = profile_date.split(' ')
+    possible_month = possible_month.replace(',', '')
+    possible_month = possible_month.replace(' ', '')
+    
+    if possible_month.isdigit():
+        temp = possible_month
+        possible_month = possible_day
+        possible_day = temp
+    
+    profile_month = month_switch(possible_month)
+
+    profile_day = int(possible_day)
+    # profile_month = int(possible_month)
     profile_year = int(profile_year)
+    print("after ints")
     print('day: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
     age = today_year-profile_year + (today_month-profile_month)/12 + (today_day-profile_day)/365
     return age
@@ -189,39 +199,40 @@ def calculate_age(profile_date, today):
 
 def scrape_account_age(url):
     try:
-        settings.driver.implicitly_wait(5)
+        settings.driver.implicitly_wait(1)
         time.sleep(1)
-        # photos_link = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[3]/div/div/div/div[1]/div/div/div[1]/div/div/div/div[1]/a[4]')
         photos_link = settings.driver.find_element_by_partial_link_text('Photos')
         photos_link.click()
+        settings.driver.implicitly_wait(1)
         time.sleep(1)
         albums = settings.driver.find_element_by_partial_link_text('Albums')
-        time.sleep(0.5)
+        settings.driver.implicitly_wait(1)
+        time.sleep(1)
         albums.click()
-        time.sleep(0.5)
-        # profile_pictures_link = settings.driver.find_element_by_partial_link_text('Profile pictures')
-        pictures_links = settings.driver.find_elements_by_css_selector('.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.rrkovp55.a8c37x1j.keod5gw0.nxhoafnm.aigsh9s9.d3f4x2em.fe6kdd0r.mau55g9w.c8b282yb.iv3no6db.jq4qci2q.a3bd9o3v.lrazzd5p.oo9gr5id.hzawbc8m')
-        for link in pictures_links:
-            if link.text == 'Profile pictures':
-                profile_pictures_link = link
-        time.sleep(0.5)
+        settings.driver.implicitly_wait(1)
+        time.sleep(1)
+        profile_pictures_link = settings.driver.find_element_by_partial_link_text('Profile')
+        settings.driver.implicitly_wait(1)
+        time.sleep(1)
         profile_pictures_link.click()
         utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
-        time.sleep(0.5)
+        settings.driver.implicitly_wait(1)
+        time.sleep(1)
         profile_pictures = settings.driver.find_elements_by_css_selector('.g6srhlxm.gq8dxoea.bi6gxh9e.oi9244e8.l9j0dhe7')
         last_pic = profile_pictures[len(profile_pictures)-1]
-        time.sleep(0.5)
+        time.sleep(1)
         last_pic.click()
         date_element = settings.driver.find_element_by_css_selector('.oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw')
-        time.sleep(0.5)
+        time.sleep(1)
         profile_date = date_element.get_attribute("aria-label")
-        # profile_date = date_element.text
         print('profile date: ', profile_date)
         today = date.today().strftime("%d/%m/%Y")
         print('today date: ', today)
         age = calculate_age(profile_date, today)
+        print("before")
         settings.driver.get(url)
-        time.sleep(0.5)
+        print("after")
+        time.sleep(1)
         return age
     except Exception:
         print("scrape_account_age: find_element FAILED")
@@ -232,13 +243,11 @@ def calculate_duration(friendship_year, friendship_month, today):
     today_day = int(today_day)
     today_month = int(today_month)
     today_year = int(today_year)
-    # print('day: ', today_day, '\nmonth: ', today_month, '\nyear: ', today_year)
-    # profile_day, profile_month, profile_year = profile_date.split(' ')
+
     friendship_month = month_switch(friendship_month)
-    # profile_day = int(profile_day)
     friendship_month = int(friendship_month)
     friendship_year = int(friendship_year)
-    # print('\nday: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
+
     duration = today_year-friendship_year + (today_month-friendship_month)/12 + today_day/365
     return duration
 
@@ -252,7 +261,6 @@ def find_duration(url):
         time.sleep(0.5)
 
         friendship = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div[1]/div/div/div[1]/div/div[1]/div/a')
-        # friendship = settings.driver.find_element_by_partial_link_text('See friendship')
         friendship.click()
         time.sleep(3)
         common_things = settings.driver.find_elements_by_css_selector('.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.rrkovp55.a8c37x1j.keod5gw0.nxhoafnm.aigsh9s9.d3f4x2em.fe6kdd0r.mau55g9w.c8b282yb.iv3no6db.jq4qci2q.a3bd9o3v.knj5qynh.oo9gr5id.hzawbc8m')
@@ -260,16 +268,10 @@ def find_duration(url):
             duration = common_things[1]
         else:
             duration = common_things[0]
-        # print(duration)
         time.sleep(1)
         duration = duration.text
-        # duration.replace('Your friend since', '')
-        print(duration)
         duration = duration.split(" ")
-        print(duration)
-
         duration = duration[3:]
-        print(duration)
 
         month = duration[0]
         year = 0
@@ -278,7 +280,7 @@ def find_duration(url):
 
         today = date.today().strftime("%d/%m/%Y")
         duration = calculate_duration(year, month, today)
-        # print(duration)
+
         settings.driver.get(url)
         time.sleep(1)
         return duration
