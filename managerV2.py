@@ -12,9 +12,11 @@ from text_analyzer import PotentialFakeNewsAnalysis
 from text_analyzer import SubjectsAnalysis
 
 def scan_specific_user(email, password, user_url):
-    pass
+    return
+    
 def scan_all_friends(email, password, user_url):
-    pass
+    return 
+
 def scrape_and_analyze(email, password, mod, scrape_mod):
     text_result = ""
     if scrape_mod == 0:

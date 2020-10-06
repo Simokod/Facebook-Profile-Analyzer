@@ -8,13 +8,16 @@
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
     <title>ScanSpecificUser</title>
-    <link rel="stylesheet" href="nicepage.css" media="screen">
-    <link rel="stylesheet" href="ScanSpecificUser.css" media="screen">
-    <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
+
+    <!--==================================   Links   ===========================================-->
+    <link href="{{ url_for('static',filename='nicepage.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static',filename='ScanSpecificUser.css') }}" rel="stylesheet" media="screen">
+    <script class="u-script" type="text/javascript" src="{{url_for('static', filename='jquery.js')}}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{url_for('static', filename='nicepage.js')}}" defer=""></script>
     <meta name="generator" content="Nicepage 2.26.5, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--========================================================================================-->
 
     <script type="application/ld+json">
         {
@@ -24,10 +27,40 @@
             "url": "index.html"
         }
     </script>
+
+    <script>
+        function scan() {
+            const emailInput = document.getElementById('email-input').value;
+            const passwordInput = document.getElementById('password-input').value;
+            const userURLInput = document.getElementById('user-url-input').value;
+            
+            const url = `http://127.0.0.1:5000/scan_specific_user/scan`
+            axios({
+                method: 'post',
+                url: url,
+                data: {
+                    email: emailInput,
+                    password: passwordInput,
+                    user_url: userURLInput
+                }
+            });
+            
+            /*
+            axios.get(url, {
+                params: {
+                    email: emailInput,
+                    password: passwordInput,
+                    user_url: userURLInput
+                }
+            });
+            */
+        }
+    </script>
+
     <meta property="og:title" content="ScanSpecificUser">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#478ac9">
-    <link rel="canonical" href="index.html">
+    <link href="{{ url_for('static',filename='index.html') }}" rel="canonical">
     <meta property="og:url" content="index.html">
 </head>
 
@@ -37,20 +70,20 @@
             <h2 class="u-text u-text-1">Scan specific User</h2>
             <div class="u-expanded-width u-form u-form-1">
                 <form action="#" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px;" source="custom">
-                    <div class="u-form-group u-form-name u-form-group-1">
-                        <label for="name-ef64" class="u-form-control-hidden u-label">Name</label>
-                        <input type="text" placeholder="Email" id="name-ef64" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
+                    <div class="u-form-group u-form-email u-form-group-1">
+                        <label for="email-input" class="u-form-control-hidden u-label">Email</label>
+                        <input type="text" placeholder="Email" id="email-input" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
                     </div>
-                    <div class="u-form-email u-form-group u-form-group-2">
-                        <label for="email-ef64" class="u-form-control-hidden u-label">Email</label>
-                        <input type="password" placeholder="Password" id="email-ef64" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
+                    <div class="u-form-password u-form-group u-form-group-2">
+                        <label for="password-input" class="u-form-control-hidden u-label">Password</label>
+                        <input type="password" placeholder="Password" id="password-input" name="password" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
                     </div>
                     <div class="u-form-group u-form-group-3">
-                        <label for="text-612d" class="u-form-control-hidden u-label"></label>
-                        <input type="text" placeholder="User URL" id="text-612d" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle">
+                        <label for="user-url-input" class="u-form-control-hidden u-label">User URL</label>
+                        <input type="url" placeholder="User URL" id="user-url-input" name="user-url" class="u-border-1 u-border-grey-30 u-input u-input-rectangle">
                     </div>
                     <div class="u-form-group u-form-submit u-form-group-4">
-                        <a href="https://nicepage.com" class="u-btn u-btn-submit u-button-style">Scan!</a>
+                        <a href="https://nicepage.com" class="u-btn u-btn-submit u-button-style" onclick="scan();">Scan!</a>
                         <input type="submit" value="submit" class="u-form-control-hidden">
                     </div>
                     <div class="u-form-send-message u-form-send-success">#FormSendSuccess</div>
