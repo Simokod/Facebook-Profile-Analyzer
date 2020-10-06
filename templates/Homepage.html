@@ -2,22 +2,31 @@
 <html style="font-size: 16px;">
 
 <head>
+    <title>Homepage</title>
+
+    <!--==================================   Metadata   ===========================================-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta name="keywords" content="Analyze">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>Homepage</title>
+    <meta name="generator" content="Nicepage 2.26.5, nicepage.com">
+    <meta property="og:title" content="Homepage">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:url" content="index.html">
+    <!--========================================================================================-->
 
     <!--==================================   Links   ===========================================-->
     <link href="{{ url_for('static',filename='nicepage.css') }}" rel="stylesheet" media="screen">
     <link href="{{ url_for('static',filename='Homepage.css') }}" rel="stylesheet" media="screen">
     <script class="u-script" type="text/javascript" src="{{url_for('static', filename='jquery.js')}}" defer=""></script>
     <script class="u-script" type="text/javascript" src="{{url_for('static', filename='nicepage.js')}}" defer=""></script>
-    <meta name="generator" content="Nicepage 2.26.5, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
+    <link href="{{ url_for('static',filename='index.html') }}" rel="canonical">
     <!--========================================================================================-->
 
+    <!--==================================   Scripts   ===========================================-->
     <script type="application/ld+json">
         {
             "@context": "http://schema.org",
@@ -26,11 +35,8 @@
             "url": "index.html"
         }
     </script>
-    <meta property="og:title" content="Homepage">
-    <meta property="og:type" content="website">
-    <meta name="theme-color" content="#478ac9">
-    <link href="{{ url_for('static',filename='index.html') }}" rel="canonical">
-    <meta property="og:url" content="index.html">
+    <!--========================================================================================-->
+
 </head>
 
 <body class="u-body">
