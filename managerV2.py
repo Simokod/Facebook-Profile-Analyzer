@@ -13,22 +13,25 @@ from text_analyzer import SubjectsAnalysis
 
 def scan_specific_user(email, password, user_url):
     return
-    
+
 def scan_all_friends(email, password, user_url):
     return 
 
 def scrape_and_analyze(email, password, mod, scrape_mod):
-    text_result = ""
+    scan_result = []
     if scrape_mod == 0:
         posts = scraper.main(email, password, mod, scrape_mod)
-        text_result = analyze_profile(posts)
+        profile_result = analyze_profile(posts)
+        scan_result.append(profile_result)
 
     elif scrape_mod == 1:
+        scan_result = []
         all_friends_posts = scraper.main(email.get(), password.get(), mod.get(), scrape_mod.get())
         for friend in all_friends_posts:
-            text_result = analyze_profile(friend.values())  
+            friend_result = analyze_profile(friend.values())
+            scan_result.append(friend_result)  
 
-    return text_result
+    return scan_result
 
 # gets posts of profile. performs all analysis, and render results
 def analyze_profile(posts):

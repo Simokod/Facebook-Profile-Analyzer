@@ -18,12 +18,32 @@
     <!--========================================================================================-->
     
     
-    <script type="application/ld+json">{
-		"@context": "http://schema.org",
-		"@type": "Organization",
-		"name": "",
-		"url": "index.html"
-}</script>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "",
+        "url": "index.html"
+      }
+    </script>
+
+  <script>
+    function scan() {
+        const emailInput = document.getElementById('email-input').value;
+        const passwordInput = document.getElementById('password-input').value;
+        
+        const url = `http://127.0.0.1:5000/scan_all_friends/scan`
+        axios({
+            method: 'post',
+            url: url,
+            data: {
+                email: emailInput,
+                password: passwordInput
+            }
+        });
+    }
+</script>
+
     <meta property="og:title" content="ScanAllFriends">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#478ac9">
@@ -36,16 +56,16 @@
         <h2 class="u-text u-text-1">Scan All friends</h2>
         <div class="u-form u-form-1">
           <form action="#" method="POST" class="u-clearfix u-form-horizontal u-form-spacing-15 u-inner-form" style="padding: 15px;" source="custom">
-            <div class="u-form-group u-form-name u-form-group-1">
-              <label for="name-ef64" class="u-form-control-hidden u-label">Name</label>
-              <input type="text" placeholder="Email" id="name-ef64" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
+            <div class="u-form-group u-form-email u-form-group-1">
+              <label for="email-input" class="u-form-control-hidden u-label">Email</label>
+              <input type="text" placeholder="Email" id="email-input" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
             </div>
-            <div class="u-form-email u-form-group u-form-group-2">
-              <label for="email-ef64" class="u-form-control-hidden u-label">Email</label>
-              <input type="email" placeholder="Password" id="email-ef64" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
+            <div class="u-form-password u-form-group u-form-group-2">
+              <label for="password-input" class="u-form-control-hidden u-label">Password</label>
+              <input type="password" placeholder="Password" id="password-input" name="password" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
             </div>
             <div class="u-form-group u-form-submit u-form-group-3">
-              <a href="https://nicepage.com" class="u-btn u-btn-submit u-button-style">Scan!</a>
+              <a href="https://nicepage.com" class="u-btn u-btn-submit u-button-style" onclick="scan();">Scan!</a>
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
             <div class="u-form-send-message u-form-send-success">#FormSendSuccess</div>
