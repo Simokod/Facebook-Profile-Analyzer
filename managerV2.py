@@ -12,40 +12,23 @@ from text_analyzer import PotentialFakeNewsAnalysis
 from text_analyzer import SubjectsAnalysis
 from text_analyzer import UTVAnalysis
 
-
-def scan_specific_user(email, password, user_url):
-    return
-
-
-def scan_all_friends(email, password, user_url):
-    return 
-
-
-def scrape_and_analyze(email, password, mod, scrape_mod, url):
+def scrape_and_analyze(email, password, user_url, mod, scrape_mod):
     scan_result = []
-    # if scrape_mod == Scrape_mode.Scrape_specific:
-    #     posts = scraper.main(email, password, mod, scrape_mod, url)
-    #     profile_result = analyze_profile(posts)
-    #     scan_result.append(profile_result)
-    #
-    # elif scrape_mod == Scrape_mode.Scrape_all:
-    #     # scan_result = []
-    profiles_to_analyze = scraper.main(email, password, mod, scrape_mod, url)
+    profiles_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod)
     for profile in profiles_to_analyze:
-        friend_result = analyze_profile(profile)
-        scan_result.append(friend_result)
+        profile_result = analyze_profile(profile)
+        scan_result.append(profile_result)
 
     return scan_result
-
 
 # gets posts of profile. performs all analysis, and render results
 def analyze_profile(profile):
     posts = profile.posts
+    
     if isinstance(posts, str):
         print(posts)
         return
     else:
-        # posts = posts.values()
         # perform all analyses
         offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
         potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)

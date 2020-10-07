@@ -14,6 +14,15 @@ CORS(app)
 def home():
    return render_template('Homepage.html')
 
+@app.route('/output')
+def output():
+   return render_template('SpecificUserResult.html',
+   							user_name = "A",
+							offensiveness_result = "A",
+							potentialFakeNews_result = "A",
+							subjects_result = "A",
+							utv_result = "A")
+
 @app.route('/scan_specific_user')
 def scan_specific_user():
    return render_template('ScanSpecificUser.html')
@@ -22,28 +31,33 @@ def scan_specific_user():
 def scan_all_friends():
    return render_template('ScanAllFriends.html')
 
-@app.route("/scan_specific_user/scan", methods=['POST'])
-def scan_specific_user_by_url():
+@app.route("/result_specific_user", methods=['POST'])
+def result_specific_user():
+	print("aaaa")
 	email = request.json['email']
 	password = request.json['password']
 	user_url = request.json['user_url']
 	mod = Mode.Release							# release mode
 	scrape_mod = Scrape_mode.Scrape_specific  	# scrape specific profile
-	scan_result = managerV2.scrape_and_analyze(email, password, mod, scrape_mod, user_url)[0]
+	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)[0]
+	# scan_result = ScanResult("yuvi", "a", "b", "c", 1.0)
 
-	return render_template('scan_result.html',
-							offensiveness_result=scan_result.offensiveness_result,
-							potentialFakeNews_result=scan_result.potentialFakeNews_result,
-							subjects_result=scan_result.subjects_result)
+	return render_template('SpecificUserResult.html',
+							user_name = scan_result.user_name,
+							offensiveness_result = scan_result.offensiveness_result,
+							potentialFakeNews_result = scan_result.potentialFakeNews_result,
+							subjects_result = scan_result.subjects_result,
+							utv_result = scan_result.utv_result.__str__)
 
 @app.route("/scan_all_friends/scan", methods=['POST'])
 def scan_all_friends_scan():
 	print("aaaa")
 	email = request.json['email']
 	password = request.json['password']
+	user_url = ""
 	mod = Mode.Release						# release mode
 	scrape_mod = Scrape_mode.Scrape_all  	# scrape all friends
-	scan_result = managerV2.scrape_and_analyze(email, password, mod, scrape_mod, "")
+	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
 
 	return render_template('scan_result.html',
 							offensiveness_result=scan_result.offensiveness_result,

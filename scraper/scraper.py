@@ -501,7 +501,7 @@ def login(email, password):
 # -----------------------------------------------------------------------------
 
 
-def scraper(email, password, mod, scrape_mod, url, **kwargs):
+def scraper(email, password, mod, user_url, scrape_mod, **kwargs):
     print(scrape_mod)
     working_dir = os.path.dirname(os.path.abspath(__file__))
     if mod == Mode.Dev:
@@ -523,7 +523,7 @@ def scraper(email, password, mod, scrape_mod, url, **kwargs):
     login(email, password)
     if scrape_mod == Scrape_mode.Scrape_specific:
         # url = urls[0]
-        settings.driver.get(url)
+        settings.driver.get(user_url)
         result = [scrap_profile()]
     else:
         settings.selectors
@@ -536,7 +536,7 @@ def scraper(email, password, mod, scrape_mod, url, **kwargs):
 # -------------------------------------------------------------
 
 # if __name__ == "__main__":
-def main(email, password, mod, scrape_mod, url):
+def main(email, password, user_url, mod, scrape_mod):
     # print(email, password)
     settings.ap = argparse.ArgumentParser()
     # PLS CHECK IF HELP CAN BE BETTER / LESS AMBIGUOUS
@@ -601,5 +601,5 @@ def main(email, password, mod, scrape_mod, url):
     settings.facebook_link_body = settings.selectors.get("facebook_link_body")
 
     # get things rolling
-    scraper_result = scraper(email, password, mod, scrape_mod, url)
+    scraper_result = scraper(email, password, user_url, mod, scrape_mod)
     return scraper_result
