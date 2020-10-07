@@ -1,5 +1,6 @@
 import managerV2
 from scan_result import ScanResult
+from modes import Scrape_mode, Mode
 from flask import Flask, request, render_template, jsonify
 from flask_cors import CORS
 app = Flask(__name__)
@@ -26,9 +27,9 @@ def scan_specific_user_by_url():
 	email = request.json['email']
 	password = request.json['password']
 	user_url = request.json['user_url']
-	mod = 1			# release mode
-	scrape_mod = 0  # scrape specific profile
-	scan_result = managerV2.scrape_and_analyze(email, password, mod, scrape_mod)
+	mod = Mode.Release							# release mode
+	scrape_mod = Scrape_mode.Scrape_specific  	# scrape specific profile
+	scan_result = managerV2.scrape_and_analyze(email, password, mod, scrape_mod, user_url)[0]
 
 	return render_template('scan_result.html',
 							offensiveness_result=scan_result.offensiveness_result,
@@ -40,9 +41,9 @@ def scan_all_friends_scan():
 	print("aaaa")
 	email = request.json['email']
 	password = request.json['password']
-	mod = 1			# release mode
-	scrape_mod = 1  # scrape all friends
-	scan_result = managerV2.scrape_and_analyze(email, password, mod, scrape_mod)
+	mod = Mode.Release						# release mode
+	scrape_mod = Scrape_mode.Scrape_all  	# scrape all friends
+	scan_result = managerV2.scrape_and_analyze(email, password, mod, scrape_mod, "")
 
 	return render_template('scan_result.html',
 							offensiveness_result=scan_result.offensiveness_result,

@@ -4,6 +4,7 @@ import sys
 import urllib.request
 from datetime import date
 
+from modes import Scrape_mode, Mode
 import yaml
 # import utils
 import argparse
@@ -180,12 +181,12 @@ def calculate_age(profile_date, today):
     possible_day, possible_month, profile_year = profile_date.split(' ')
     possible_month = possible_month.replace(',', '')
     possible_month = possible_month.replace(' ', '')
-    
+
     if possible_month.isdigit():
         temp = possible_month
         possible_month = possible_day
         possible_day = temp
-    
+
     profile_month = month_switch(possible_month)
 
     profile_day = int(possible_day)
@@ -264,12 +265,11 @@ def find_duration(url):
         friendship.click()
         time.sleep(3)
         common_things = settings.driver.find_elements_by_css_selector('.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.rrkovp55.a8c37x1j.keod5gw0.nxhoafnm.aigsh9s9.d3f4x2em.fe6kdd0r.mau55g9w.c8b282yb.iv3no6db.jq4qci2q.a3bd9o3v.knj5qynh.oo9gr5id.hzawbc8m')
-        if len(common_things) > 1:
-            duration = common_things[1]
-        else:
-            duration = common_things[0]
+        for thing in common_things:
+            if "Your friend since" in thing.text:
+                duration = thing.text
+        print(duration)
         time.sleep(1)
-        duration = duration.text
         duration = duration.split(" ")
         duration = duration[3:]
 
@@ -289,32 +289,11 @@ def find_duration(url):
         settings.driver.get(url)
         time.sleep(0.5)
 
-# UTV = user trust level
-# aua = age of user account, fd = friendship duration, tf = total friends, mf = mutual friends
-# all computations are according to Nadav's article
-def calc_UTV(aua, fd, tf, mf):
-    # Thresholds 
-    T_aua = 2
-    T_fd = 1.5
-    T_tf = 245
-    T_mf = 37
-
-    # User credibility attributes
-    U_aua = 1 if aua >= T_aua else aua/T_aua
-    U_tf = 1 if tf >= T_tf else tf/T_tf
-    userCredibility = (U_aua + U_tf)/2
-
-    # Connection strength attributes
-    C_fd = 1 if fd >= T_fd else fd/T_fd
-    C_mf = 1 if mf >= T_mf else mf/T_mf
-    connectionStrength = (C_fd + C_mf)/2
-
-    # UTV = (U*|U| + C*|C|) / |U + C|
-    UTV = (userCredibility*2 + connectionStrength*2)/4
-    return UTV
 
 def scrape_data(url, scan_list, section, elements_path, save_status):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
+    name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
+    time.sleep(0.5)
     friendship_duration = find_duration(url)
     time.sleep(0.5)
     age = scrape_account_age(url)
@@ -327,13 +306,7 @@ def scrape_data(url, scan_list, section, elements_path, save_status):
         mutual_friends = 0
     print('total friends: ', total_friends, '\n', 'mutual friends: ', mutual_friends)
     posts = scrape_posts(url, scan_list, section, elements_path)
-    profile = fb_user.FBUser(url, age, friendship_duration, total_friends, mutual_friends, posts)
-    # print('url: ', profile.url, '\nage: ', profile.age,
-    #       '\nfriendship_duration: ', profile.friendship_duration,
-    #       '\ntotal_friends: ', profile.total_friends,
-    #       '\nmutual_friends: ', profile.mutual_friends)
-    UTV = calc_UTV(age, friendship_duration, total_friends, mutual_friends)
-    print('UTV:', UTV)
+    profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
     return profile
 
 
@@ -528,10 +501,11 @@ def login(email, password):
 # -----------------------------------------------------------------------------
 
 
-def scraper(email, password, mod, scrape_mod, **kwargs):
+def scraper(email, password, mod, scrape_mod, url, **kwargs):
     print(scrape_mod)
-    if mod == 0:
-        working_dir = os.path.dirname(os.path.abspath(__file__))
+    working_dir = os.path.dirname(os.path.abspath(__file__))
+    if mod == Mode.Dev:
+
         with open(working_dir + "\credentials.yaml", "r") as ymlfile:
             cfg = yaml.safe_load(stream=ymlfile)
 
@@ -541,16 +515,16 @@ def scraper(email, password, mod, scrape_mod, **kwargs):
         email = cfg["email"]
         password = cfg["password"]
 
-    urls = [
-        settings.facebook_https_prefix + settings.facebook_link_body + get_item_id(line)
-        for line in open(working_dir + "\input.txt", newline="\r\n")
-        if not line.lstrip().startswith("#") and not line.strip() == ""
-    ]
+    # urls = [
+    #     settings.facebook_https_prefix + settings.facebook_link_body + get_item_id(line)
+    #     for line in open(working_dir + "\input.txt", newline="\r\n")
+    #     if not line.lstrip().startswith("#") and not line.strip() == ""
+    # ]
     login(email, password)
-    if scrape_mod == 0:
-        url = urls[0]
+    if scrape_mod == Scrape_mode.Scrape_specific:
+        # url = urls[0]
         settings.driver.get(url)
-        result = scrap_profile()
+        result = [scrap_profile()]
     else:
         settings.selectors
         result = scrap_all_friends()
@@ -562,51 +536,51 @@ def scraper(email, password, mod, scrape_mod, **kwargs):
 # -------------------------------------------------------------
 
 # if __name__ == "__main__":
-def main(email, password, mod, scrape_mod):
+def main(email, password, mod, scrape_mod, url):
     # print(email, password)
     settings.ap = argparse.ArgumentParser()
     # PLS CHECK IF HELP CAN BE BETTER / LESS AMBIGUOUS
-    settings.ap.add_argument(
-        "-dup",
-        "--uploaded_photos",
-        help="download users' uploaded photos?",
-        default=True,
-    )
-    settings.ap.add_argument(
-        "-dfp", 
-        "--friends_photos", 
-        help="download users' photos?", 
-        default=True
-    )
-    settings.ap.add_argument(
-        "-fss",
-        "--friends_small_size",
-        help="Download friends pictures in small size?",
-        default=True,
-    )
-    settings.ap.add_argument(
-        "-pss",
-        "--photos_small_size",
-        help="Download photos in small size?",
-        default=True,
-    )
-    settings.ap.add_argument(
-        "-ts",
-        "--total_scrolls",
-        help="How many times should I scroll down?",
-        default=2500,
-    )
+    # settings.ap.add_argument(
+    #     "-dup",
+    #     "--uploaded_photos",
+    #     help="download users' uploaded photos?",
+    #     default=True,
+    # )
+    # settings.ap.add_argument(
+    #     "-dfp",
+    #     "--friends_photos",
+    #     help="download users' photos?",
+    #     default=True
+    # )
+    # settings.ap.add_argument(
+    #     "-fss",
+    #     "--friends_small_size",
+    #     help="Download friends pictures in small size?",
+    #     default=True,
+    # )
+    # settings.ap.add_argument(
+    #     "-pss",
+    #     "--photos_small_size",
+    #     help="Download photos in small size?",
+    #     default=True,
+    # )
+    # settings.ap.add_argument(
+    #     "-ts",
+    #     "--total_scrolls",
+    #     help="How many times should I scroll down?",
+    #     default=2500,
+    # )
     settings.ap.add_argument(
         "-st",
-        "--scroll_time", 
-        help="How much time should I take to scroll?", 
-        default=8
+        "--scroll_time",
+        help="How much time should I take to scroll?",
+        default=4
     )
     settings.ap.add_argument(
         "-nop",
         "--number_of_posts",
         help="How many posts should i take?",
-        default=10
+        default=20
     )
 
     settings.args = vars(settings.ap.parse_args())
@@ -627,5 +601,5 @@ def main(email, password, mod, scrape_mod):
     settings.facebook_link_body = settings.selectors.get("facebook_link_body")
 
     # get things rolling
-    scraper_result = scraper(email, password, mod, scrape_mod)
+    scraper_result = scraper(email, password, mod, scrape_mod, url)
     return scraper_result

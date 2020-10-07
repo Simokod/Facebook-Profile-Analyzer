@@ -11,7 +11,8 @@ def detect_language(post):
     if language.lang == 'iw' or language.lang == 'he':
         language = 'Hebrew'
     elif language == 'en': language = 'English'
-    else: language = language.lang
+    else:
+        language = language.lang
     return language
 
 # check if word exist in each subject
