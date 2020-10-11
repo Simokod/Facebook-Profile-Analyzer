@@ -24,7 +24,6 @@ def example():
 	headers = {'Content-Type': 'text/html'}
 	response = make_response(render_template('SpecificUserResult.html'), 200 ,headers)
 	print (response)
-	return response
 	return render_template('SpecificUserResult.html',
 							user_name = "A",
 							offensiveness_result = "A",
@@ -40,17 +39,15 @@ def scan_specific_user():
 def scan_all_friends():
    return render_template('ScanAllFriends.html')
 
-@app.route("/get_scan_result_specific_user/<email>/<password>")
-def get_scan_result_specific_user(email, password):
-	print("aaaa")
-	#email = request.json['email']
-	#password = request.json['password']
-	#user_url = request.json['user_url']
-	print(email)
+@app.route("/scan_result_specific_user", methods=['POST'])
+def get_scan_result_specific_user():
+	email = request.json['email']
+	password = request.json['password']
+	user_url = request.json['user_url']
 	mod = Mode.Release							# release mode
 	scrape_mod = Scrape_mode.Scrape_specific  	# scrape specific profile
-	# scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)[0]
-	scan_result = ScanResult("yuvi", "a", "b", "c", 1.0)
+	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)[0]
+	# scan_result = ScanResult("yuvi", "a", "b", "c", 1.0)
 
 	return render_template('SpecificUserResult.html',
 							user_name = scan_result.user_name,
@@ -59,9 +56,8 @@ def get_scan_result_specific_user(email, password):
 							subjects_result = scan_result.subjects_result,
 							utv_result = scan_result.utv_result)
 
-@app.route("/scan_all_friends/scan", methods=['POST'])
-def scan_all_friends_scan():
-	print("aaaa")
+@app.route("/scan_result_all_friends", methods=['POST'])
+def scan_result_all_friends():
 	email = request.json['email']
 	password = request.json['password']
 	user_url = ""
