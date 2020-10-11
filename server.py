@@ -46,8 +46,8 @@ def get_scan_result_specific_user():
 	user_url = request.json['user_url']
 	mod = Mode.Release							# release mode
 	scrape_mod = Scrape_mode.Scrape_specific  	# scrape specific profile
-	# scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)[0]
-	scan_result = ScanResult("yuvi", "a", "b", "c", 1.0)
+	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)[0]
+	# scan_result = ScanResult("yuvi", "a", "b", "c", 1.0)
 
 	return render_template('ScanSpecificUserResult.html',
 							user_name = scan_result.user_name,
@@ -63,8 +63,8 @@ def scan_result_all_friends():
 	user_url = ""
 	mod = Mode.Release						# release mode
 	scrape_mod = Scrape_mode.Scrape_all  	# scrape all friends
-	# scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
-	scan_results = [ScanResult("yuvi", "a", "b", "c", 1.0), ScanResult("yuvi", "a", "b", "c", 1.0)]
+	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
+	# scan_results = [ScanResult("yuvi", "a", "b", "c", 1.0), ScanResult("yuvi", "a", "b", "c", 1.0)]
 	
 	return render_template('ScanAllFriendsResult.html',
 							scan_results = scan_results)
