@@ -37,4 +37,9 @@ You will need:
 
 ---
 ## Progress:
+<<<<<<< HEAD
 Currently the program can scrape only profiles, and extract information.
+=======
+Currently the program can scrape only profiles, and extract posts.
+"# FB_Profile_analyzer" 
+>>>>>>> 6158cf1bbbdb35258115f5265a6aeba83485ec64
