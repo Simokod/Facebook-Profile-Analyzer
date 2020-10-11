@@ -46,10 +46,10 @@ def get_scan_result_specific_user():
 	user_url = request.json['user_url']
 	mod = Mode.Release							# release mode
 	scrape_mod = Scrape_mode.Scrape_specific  	# scrape specific profile
-	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)[0]
-	# scan_result = ScanResult("yuvi", "a", "b", "c", 1.0)
+	# scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)[0]
+	scan_result = ScanResult("yuvi", "a", "b", "c", 1.0)
 
-	return render_template('SpecificUserResult.html',
+	return render_template('ScanSpecificUserResult.html',
 							user_name = scan_result.user_name,
 							offensiveness_result = scan_result.offensiveness_result,
 							potentialFakeNews_result = scan_result.potentialFakeNews_result,
@@ -63,12 +63,11 @@ def scan_result_all_friends():
 	user_url = ""
 	mod = Mode.Release						# release mode
 	scrape_mod = Scrape_mode.Scrape_all  	# scrape all friends
-	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
-
-	return render_template('scan_result.html',
-							offensiveness_result=scan_result.offensiveness_result,
-							potentialFakeNews_result=scan_result.potentialFakeNews_result,
-							subjects_result=scan_result.subjects_result)
+	# scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
+	scan_results = [ScanResult("yuvi", "a", "b", "c", 1.0), ScanResult("yuvi", "a", "b", "c", 1.0)]
+	
+	return render_template('ScanAllFriendsResult.html',
+							scan_results = scan_results)
 
 if __name__ == "__main__":
 	app.run()
