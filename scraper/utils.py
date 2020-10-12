@@ -86,7 +86,7 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path):
             lim = number_of_posts-posts_scraped
             cur_posts_scraped, last_post_id, exps_in_row = my_extract_and_write_posts(data[posts_scraped:], lim, last_post_id, my_posts, exps_in_row)
             if exps_in_row >= 10:
-                return "Posts Sharer profile"
+                return my_posts
             posts_scraped += cur_posts_scraped
 
         except TimeoutException:

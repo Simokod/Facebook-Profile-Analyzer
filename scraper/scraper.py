@@ -231,19 +231,33 @@ def find_duration(url):
 def scrape_data(url, elements_path):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
     time.sleep(0.5)
-    name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
+    try:
+        name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
+    except Exception:
+        name = 0
     print(name)
     time.sleep(0.5)
-    friendship_duration = find_duration(url)
+    try:
+        friendship_duration = find_duration(url)
+    except Exception:
+        friendship_duration = 0
     time.sleep(0.5)
-    age = scrape_account_age(url)
+    try:
+        age = scrape_account_age(url)
+    except Exception:
+        age = 0
     time.sleep(0.5)
-    friends_data = scrape_friends_count()
-    total_friends = friends_data[0]
-    if len(friends_data) > 1:
-        mutual_friends = friends_data[1]
-    else:
+    try:
+        friends_data = scrape_friends_count()
+        total_friends = friends_data[0]
+        if len(friends_data) > 1:
+            mutual_friends = friends_data[1]
+        else:
+            mutual_friends = 0
+    except Exception:
+        total_friends = 0
         mutual_friends = 0
+
     print('total friends: ', total_friends, '\n', 'mutual friends: ', mutual_friends)
     posts = scrape_posts(url, elements_path)
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
@@ -301,15 +315,15 @@ def scrap_all_friends():
 
     print(links, "\n", len(links))
     list = []
-    count = 0           # DEBUG: control num of iterations
+    # count = 0           # DEBUG: control num of iterations
     for link in links:
-        count += 1
+        # count += 1
         settings.driver.get(link)
         list.append(scrap_profile())
 
         # DEBUG: control num of iterations
-        if count >= 5:
-            break
+        # if count >= 5:
+        #     break
     return list
 
 
