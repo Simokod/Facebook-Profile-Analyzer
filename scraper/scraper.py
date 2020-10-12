@@ -94,13 +94,22 @@ def month_switch(argument):
     }
     return switcher.get(argument, "Invalid month")
 
+
 def calculate_age(profile_date, today):
     today_day, today_month, today_year = today.split('/')
     today_day = int(today_day)
     today_month = int(today_month)
     today_year = int(today_year)
     # print('day: ', today_day, '\nmonth: ', today_month, '\nyear: ', today_year)
-    possible_day, possible_month, profile_year = profile_date.split(' ')
+    profile_date = profile_date.split(' ')
+    if len(profile_date) == 3:
+        possible_day, possible_month, profile_year = profile_date
+    elif len(profile_date) == 2:
+        possible_day, possible_month = profile_date
+        profile_year = today_year
+    else:
+        return 0
+
     possible_month = possible_month.replace(',', '')
     possible_month = possible_month.replace(' ', '')
 
@@ -145,10 +154,16 @@ def scrape_account_age(url):
         last_pic = profile_pictures[len(profile_pictures)-1]
         # time.sleep(1)
         last_pic.click()
+        settings.driver.implicitly_wait(1.5)
+        time.sleep(1.5)
         date_element = settings.driver.find_element_by_css_selector('.oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw')
+
         settings.driver.implicitly_wait(1)
         time.sleep(1)
         profile_date = date_element.get_attribute("aria-label")
+        if profile_date is None:
+            profile_date = date_element.text
+
         print('profile date: ', profile_date)
         today = date.today().strftime("%d/%m/%Y")
         print('today date: ', today)
@@ -215,6 +230,7 @@ def find_duration(url):
 
 def scrape_data(url, elements_path):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
+    time.sleep(0.5)
     name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
     print(name)
     time.sleep(0.5)
