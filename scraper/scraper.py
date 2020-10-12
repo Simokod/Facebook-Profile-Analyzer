@@ -22,87 +22,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-# def get_facebook_images_url(img_links):
-#     urls = []
-
-#     for link in img_links:
-#         if link != "None":
-#             valid_url_found = False
-#             driver.get(link)
-
-#             try:
-#                 while not valid_url_found:
-#                     WebDriverWait(driver, 30).until(
-#                         EC.presence_of_element_located(
-#                             (By.CLASS_NAME, selectors.get("spotlight"))
-#                         )
-#                     )
-#                     element = driver.find_element_by_class_name(
-#                         selectors.get("spotlight")
-#                     )
-#                     img_url = element.get_attribute("src")
-
-#                     if img_url.find(".gif") == -1:
-#                         valid_url_found = True
-#                         urls.append(img_url)
-#             except Exception:
-#                 urls.append("None")
-#         else:
-#             urls.append("None")
-
-#     return urls
-
-
-# -------------------------------------------------------------
-# -------------------------------------------------------------
-
-# takes a url and downloads image from that url
-# def image_downloader(img_links, folder_name):
-#     """
-#     Download images from a list of image urls.
-#     :param img_links:
-#     :param folder_name:
-#     :return: list of image names downloaded
-#     """
-#     img_names = []
-
-#     try:
-#         parent = os.getcwd()
-#         try:
-#             folder = os.path.join(os.getcwd(), folder_name)
-#             utils.create_folder(folder)
-#             os.chdir(folder)
-#         except Exception:
-#             print("Error in changing directory.")
-
-#         for link in img_links:
-#             img_name = "None"
-
-#             if link != "None":
-#                 img_name = (link.split(".jpg")[0]).split("/")[-1] + ".jpg"
-
-#                 # this is the image id when there's no profile pic
-#                 if img_name == selectors.get("default_image"):
-#                     img_name = "None"
-#                 else:
-#                     try:
-#                         urllib.request.urlretrieve(link, img_name)
-#                     except Exception:
-#                         img_name = "None"
-
-#             img_names.append(img_name)
-
-#         os.chdir(parent)
-#     except Exception:
-#         print("Exception (image_downloader):", sys.exc_info()[0])
-#     return img_names
-
-
-# -------------------------------------------------------------
-# -------------------------------------------------------------
-
 # returns a dictionary containing the user's posts
-def scrape_posts(url, scan_list, section, elements_path):
+def scrape_posts(url, elements_path):
     # page = []
     # page.append(url)
     # page += [url + s for s in section]
@@ -125,6 +46,7 @@ def scrape_posts(url, scan_list, section, elements_path):
         )
         return
     return my_posts
+
 
 # returns total number of friends, and number of mutual friends
 def parse_friends_data(friends_data):
@@ -221,9 +143,10 @@ def scrape_account_age(url):
         time.sleep(1)
         profile_pictures = settings.driver.find_elements_by_css_selector('.g6srhlxm.gq8dxoea.bi6gxh9e.oi9244e8.l9j0dhe7')
         last_pic = profile_pictures[len(profile_pictures)-1]
-        time.sleep(1)
+        # time.sleep(1)
         last_pic.click()
         date_element = settings.driver.find_element_by_css_selector('.oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw')
+        settings.driver.implicitly_wait(1)
         time.sleep(1)
         profile_date = date_element.get_attribute("aria-label")
         print('profile date: ', profile_date)
@@ -231,6 +154,7 @@ def scrape_account_age(url):
         print('today date: ', today)
         age = calculate_age(profile_date, today)
         settings.driver.get(url)
+        settings.driver.implicitly_wait(1)
         time.sleep(1)
         return age
     except Exception:
@@ -253,15 +177,16 @@ def calculate_duration(friendship_year, friendship_month, today):
 
 def find_duration(url):
     # try:
-        time.sleep(0.5)
+    #     time.sleep(0.5)
         more_button = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[3]/div/div/div/div[2]/div/div/div[4]/div')
-        time.sleep(0.5)
+        # time.sleep(0.5)
         more_button.click()
+        settings.driver.implicitly_wait(0.5)
         time.sleep(0.5)
 
         friendship = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div[1]/div/div/div[1]/div/div[1]/div/a')
         friendship.click()
-        time.sleep(3)
+        time.sleep(1)
         common_things = settings.driver.find_elements_by_css_selector('.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.rrkovp55.a8c37x1j.keod5gw0.nxhoafnm.aigsh9s9.d3f4x2em.fe6kdd0r.mau55g9w.c8b282yb.iv3no6db.jq4qci2q.a3bd9o3v.knj5qynh.oo9gr5id.hzawbc8m')
         for thing in common_things:
             if "Your friend since" in thing.text:
@@ -288,9 +213,10 @@ def find_duration(url):
         time.sleep(0.5)
 
 
-def scrape_data(url, scan_list, section, elements_path, save_status):
+def scrape_data(url, elements_path):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
     name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
+    print(name)
     time.sleep(0.5)
     friendship_duration = find_duration(url)
     time.sleep(0.5)
@@ -303,7 +229,7 @@ def scrape_data(url, scan_list, section, elements_path, save_status):
     else:
         mutual_friends = 0
     print('total friends: ', total_friends, '\n', 'mutual friends: ', mutual_friends)
-    posts = scrape_posts(url, scan_list, section, elements_path)
+    posts = scrape_posts(url, elements_path)
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
     return profile
 
@@ -348,9 +274,9 @@ def scrap_all_friends():
     url = settings.driver.current_url
     settings.driver.get(url+"/friends")
     time.sleep(0.5)
-
-    friends_count = scrape_friends_count()
-    print(friends_count)
+    #
+    # friends_count = scrape_friends_count()
+    # print(friends_count)
     utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
     friends_block = settings.driver.find_element_by_css_selector('.dati1w0a.ihqw7lf3.hv4rvrfc.discj3wi')
     friends = friends_block.find_elements_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla')
@@ -372,9 +298,9 @@ def scrap_all_friends():
 
 
 def scrap_profile():
-    data_folder = os.path.join(os.getcwd(), "data")
-    utils.create_folder(data_folder)
-    os.chdir(data_folder)
+    # data_folder = os.path.join(os.getcwd(), "data")
+    # utils.create_folder(data_folder)
+    # os.chdir(data_folder)
 
     # execute for all profiles given in input.txt file
     url = settings.driver.current_url
@@ -382,14 +308,14 @@ def scrap_profile():
 
     print("\nScraping:", user_id)
 
-    try:
-        target_dir = os.path.join(data_folder, user_id.split("/")[-1])
-        utils.create_folder(target_dir)
-        os.chdir(target_dir)
-    except Exception:
-        print("Some error occurred in creating the profile directory.")
-        os.chdir("../..")
-        return
+    # try:
+    #     # target_dir = os.path.join(data_folder, user_id.split("/")[-1])
+    #     # utils.create_folder(target_dir)
+    #     # os.chdir(target_dir)
+    # except Exception:
+    #     print("Some error occurred in creating the profile directory.")
+    #     os.chdir("../..")
+    #     return
 
     # to_scrap = ["Friends", "Photos", "Videos", "About", "Posts"]
     to_scrap = ["Posts"]
@@ -404,15 +330,15 @@ def scrap_profile():
         else:
             scan_list = settings.params[item]["scan_list"]
 
-        section = settings.params[item]["section"]
+        # section = settings.params[item]["section"]
         elements_path = settings.params[item]["elements_path"]
-        save_status = settings.params[item]["save_status"]
-        profile = scrape_data(user_id, scan_list, section, elements_path, save_status)
+        # save_status = settings.params[item]["save_status"]
+        profile = scrape_data(user_id, elements_path)
 
         print("{} Done!".format(item))
 
     print("Finished Scraping Profile " + str(user_id) + ".")
-    os.chdir("../..")
+    # os.chdir("../..")
 
     return profile
 
@@ -524,7 +450,7 @@ def scraper(email, password, user_url, mod, scrape_mod, **kwargs):
         settings.driver.get(user_url)
         result = [scrap_profile()]
     else:
-        settings.selectors
+        # settings.selectors
         result = scrap_all_friends()
     settings.driver.close()
     return result
@@ -532,6 +458,7 @@ def scraper(email, password, user_url, mod, scrape_mod, **kwargs):
 # -------------------------------------------------------------
 # -------------------------------------------------------------
 # -------------------------------------------------------------
+
 
 # if __name__ == "__main__":
 def main(email, password, user_url, mod, scrape_mod):

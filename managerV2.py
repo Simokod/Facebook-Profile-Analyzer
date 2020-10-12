@@ -12,6 +12,7 @@ from text_analyzer import PotentialFakeNewsAnalysis
 from text_analyzer import SubjectsAnalysis
 from text_analyzer import UTVAnalysis
 
+
 def scrape_and_analyze(email, password, user_url, mod, scrape_mod):
     scan_result = []
     profiles_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod)
@@ -26,9 +27,14 @@ def scrape_and_analyze(email, password, user_url, mod, scrape_mod):
 def analyze_profile(profile):
     posts = profile.posts
     name = profile.name
+    print(name)
     if isinstance(posts, str):
-        print(posts)
-        return
+        utv_result = UTVAnalysis.analyze_UTV(profile.age, profile.friendship_duration,
+                                             profile.total_friends, profile.mutual_friends)
+        # text message for none posts profile
+        text = "This user Doesn't have any posts, hence does not have "
+        result = ScanResult(name, text+"offensiveness result", text+"potential fake news result", text+"triggers result", utv_result)
+        return result
     else:
         # perform all analyses
         offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
