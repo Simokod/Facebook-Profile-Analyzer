@@ -1,4 +1,3 @@
-import fb_user
 # UTV = user trust level
 # aua = age of user account, fd = friendship duration, tf = total friends, mf = mutual friends
 # all computations are according to Nadav's article
