@@ -2,6 +2,9 @@
 # aua = age of user account, fd = friendship duration, tf = total friends, mf = mutual friends
 # all computations are according to Nadav's article
 def analyze_UTV(aua, fd, tf, mf):
+
+    if aua == 0 or fd == 0 or tf ==0 or mf == 0:
+        return "Can't calculate User's trust level"
     # Thresholds
     T_aua = 2
     T_fd = 1.5

@@ -51,12 +51,12 @@ def scrape_posts(url, elements_path):
 # returns total number of friends, and number of mutual friends
 def parse_friends_data(friends_data):
     friends_data = friends_data.replace(',', '')
-    print(friends_data)
+    # print(friends_data)
     friends_data = friends_data.replace('(', ' ')
     # print(friends_data)
     # friends_data = friends_data.replace(')', ' ')
     friends_data = [int(s) for s in friends_data.split() if s.isdigit()]
-    print(friends_data)
+    # print(friends_data)
     return friends_data
 
 
@@ -123,8 +123,7 @@ def calculate_age(profile_date, today):
     profile_day = int(possible_day)
     # profile_month = int(possible_month)
     profile_year = int(profile_year)
-    print("after ints")
-    print('day: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
+    # print('day: ', profile_day, '\nmonth: ', profile_month, '\nyear: ', profile_year)
     age = today_year-profile_year + (today_month-profile_month)/12 + (today_day-profile_day)/365
     return age
 
@@ -164,9 +163,9 @@ def scrape_account_age(url):
         if profile_date is None:
             profile_date = date_element.text
 
-        print('profile date: ', profile_date)
+        # print('profile date: ', profile_date)
         today = date.today().strftime("%d/%m/%Y")
-        print('today date: ', today)
+        # print('today date: ', today)
         age = calculate_age(profile_date, today)
         settings.driver.get(url)
         settings.driver.implicitly_wait(1)
@@ -206,7 +205,7 @@ def find_duration(url):
         for thing in common_things:
             if "Your friend since" in thing.text:
                 duration = thing.text
-        print(duration)
+        # print(duration)
         time.sleep(1)
         duration = duration.split(" ")
         duration = duration[3:]
@@ -258,7 +257,6 @@ def scrape_data(url, elements_path):
         total_friends = 0
         mutual_friends = 0
 
-    print('total friends: ', total_friends, '\n', 'mutual friends: ', mutual_friends)
     posts = scrape_posts(url, elements_path)
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
     return profile
