@@ -61,18 +61,18 @@ def analyze_manualy_sentiments_in_post(englishText):
         else:
             neu_word_list.append(word)
 
-    countPos=len(pos_word_list)
-    countNeg=len(neg_word_list)
-    countNeu=len(neu_word_list)
-    countTotal=countNeg+countPos+countNeu
-    sentimentCalc=0
+    countPos = len(pos_word_list)
+    countNeg = len(neg_word_list)
+    countNeu = len(neu_word_list)
+    countTotal = countNeg + countPos + countNeu
+    sentimentCalc = 0
 
-    if(countPos==countNeg):
-        sentimentCalc=0
-    elif(countPos>countNeg):
-        sentimentCalc=countPos/(countPos+countNeg)
+    if(countPos == countNeg):
+        sentimentCalc = 0
+    elif(countPos > countNeg):
+        sentimentCalc = countPos / (countPos + countNeg)
     else:
-        sentimentCalc=countNeg/(countPos+countNeg) * (-1)
+        sentimentCalc = countNeg / (countPos + countNeg) * (-1)
     return sentimentCalc
 
 
