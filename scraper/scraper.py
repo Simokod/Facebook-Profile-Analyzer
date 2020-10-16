@@ -241,9 +241,8 @@ def scrape_data(url, elements_path):
             mutual_friends = 0
     except Exception:
         print("find friends data failed")
-
-        # total_friends = 0
-        # mutual_friends = 0
+        total_friends = 0
+        mutual_friends = 0
 
     posts = scrape_posts(url, elements_path)
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
