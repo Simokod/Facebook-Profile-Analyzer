@@ -63,17 +63,14 @@ def parse_friends_data(friends_data):
 # returns user's friends total friends count and mutual friends count
 # def scrape_friends_count(url, scan_list, section, elements_path):
 def scrape_friends_count():
-    try:
-        settings.driver.execute_script(settings.selectors.get("scroll_script"))
+    # try:
+    settings.driver.execute_script(settings.selectors.get("scroll_script"))
 
-        settings.driver.implicitly_wait(5)
-        time.sleep(0.5)
-        friends_element = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span/span')
-        element_text = friends_element.text
+    element_text = WebDriverWait(settings.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span/span'))
+        ).text
 
-    except Exception:
-        print("scrape_friends_count: find_element FAILED")
-        return [0]
+    # friends_element = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div[2]/span/span')
     return parse_friends_data(element_text)
 
 
@@ -129,50 +126,33 @@ def calculate_age(profile_date, today):
 
 
 def scrape_account_age(url):
-    try:
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        photos_link = settings.driver.find_element_by_partial_link_text('Photos')
-        photos_link.click()
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        albums = settings.driver.find_element_by_partial_link_text('Albums')
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        albums.click()
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        profile_pictures_link = settings.driver.find_element_by_partial_link_text('Profile')
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        profile_pictures_link.click()
-        utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        profile_pictures = settings.driver.find_elements_by_css_selector('.g6srhlxm.gq8dxoea.bi6gxh9e.oi9244e8.l9j0dhe7')
-        last_pic = profile_pictures[len(profile_pictures)-1]
-        # time.sleep(1)
-        last_pic.click()
-        settings.driver.implicitly_wait(1.5)
-        time.sleep(1.5)
-        date_element = settings.driver.find_element_by_css_selector('.oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw')
+    settings.driver.get(url+'/photos_albums')
 
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        profile_date = date_element.get_attribute("aria-label")
-        if profile_date is None:
-            profile_date = date_element.text
+    WebDriverWait(settings.driver, 10).until(
+        EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, 'Profile'))).click()
 
-        # print('profile date: ', profile_date)
-        today = date.today().strftime("%d/%m/%Y")
-        # print('today date: ', today)
-        age = calculate_age(profile_date, today)
-        settings.driver.get(url)
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        return age
-    except Exception:
-        print("scrape_account_age: find_element FAILED")
+    utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
+
+    profile_pictures = WebDriverWait(settings.driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.g6srhlxm.gq8dxoea.bi6gxh9e.oi9244e8.l9j0dhe7')))
+
+    last_pic = profile_pictures[len(profile_pictures)-1]
+    last_pic.click()
+
+    date_element = WebDriverWait(settings.driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '.oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw')))
+
+    profile_date = date_element.get_attribute("aria-label")
+    if profile_date is None:
+        profile_date = date_element.text
+
+    print('profile date: ', profile_date)
+    today = date.today().strftime("%d/%m/%Y")
+    # print('today date: ', today)
+    age = calculate_age(profile_date, today)
+    settings.driver.get(url)
+
+    return age
 
 
 def calculate_duration(friendship_year, friendship_month, today):
@@ -190,72 +170,80 @@ def calculate_duration(friendship_year, friendship_month, today):
 
 
 def find_duration(url):
-    # try:
-    #     time.sleep(0.5)
-        more_button = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[3]/div/div/div/div[2]/div/div/div[4]/div')
-        # time.sleep(0.5)
-        more_button.click()
-        settings.driver.implicitly_wait(0.5)
-        time.sleep(0.5)
 
-        friendship = settings.driver.find_element_by_xpath('/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div[1]/div/div/div[1]/div/div[1]/div/a')
-        friendship.click()
-        time.sleep(1)
-        common_things = settings.driver.find_elements_by_css_selector('.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.rrkovp55.a8c37x1j.keod5gw0.nxhoafnm.aigsh9s9.d3f4x2em.fe6kdd0r.mau55g9w.c8b282yb.iv3no6db.jq4qci2q.a3bd9o3v.knj5qynh.oo9gr5id.hzawbc8m')
-        for thing in common_things:
-            if "Your friend since" in thing.text:
-                duration = thing.text
-        # print(duration)
-        time.sleep(1)
-        duration = duration.split(" ")
-        duration = duration[3:]
+    # More button click
+    WebDriverWait(settings.driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH,
+                                        '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div/div[3]/div/div/div/div[2]/div/div/div[4]/div'))).click()
+    # Friendship click
+    WebDriverWait(settings.driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH,
+                                    '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div[1]/div/div/div[1]/div/div[1]/div/a'))).click()
+    settings.driver.implicitly_wait(2)
+    time.sleep(2)
+    common_things = WebDriverWait(settings.driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR,
+                                '.d2edcug0.hpfvmrgz.qv66sw1b.c1et5uql.rrkovp55.a8c37x1j.keod5gw0.nxhoafnm.aigsh9s9.d3f4x2em.fe6kdd0r.mau55g9w.c8b282yb.iv3no6db.jq4qci2q.a3bd9o3v.knj5qynh.oo9gr5id.hzawbc8m')))
+    for thing in common_things:
+        if "Your friend since" in thing.text:
+            duration = thing.text
+    duration = duration.split(" ")
+    duration = duration[3:]
+    month = duration[0]
+    year = 0
+    if len(duration) > 1:
+        year = int(duration[len(duration)-1])
 
-        month = duration[0]
-        year = 0
-        if len(duration) > 1:
-            year = int(duration[len(duration)-1])
+    today = date.today().strftime("%d/%m/%Y")
+    duration = calculate_duration(year, month, today)
 
-        today = date.today().strftime("%d/%m/%Y")
-        duration = calculate_duration(year, month, today)
+    settings.driver.get(url)
+    return duration
 
-        settings.driver.get(url)
-        time.sleep(1)
-        return duration
-    # except Exception:
-        print("find_duration: find_element FAILED")
-        settings.driver.get(url)
-        time.sleep(0.5)
 
 
 def scrape_data(url, elements_path):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
     time.sleep(0.5)
     try:
-        name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
+
+        name = WebDriverWait(settings.driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '.gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80'))).text
+        print("name:", name)
+        # name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
     except Exception:
+        print("find name failed")
         name = 0
-    print(name)
-    time.sleep(0.5)
+    # print(name)
+    # # time.sleep(0.5)
     try:
         friendship_duration = find_duration(url)
+        print("friendship_duration:", friendship_duration)
     except Exception:
+        print("find friendship duration failed")
+
         friendship_duration = 0
-    time.sleep(0.5)
+    # time.sleep(0.5)
     try:
         age = scrape_account_age(url)
+        print("age:", age)
     except Exception:
+        print("find age failed")
         age = 0
-    time.sleep(0.5)
+    # time.sleep(0.5)
     try:
         friends_data = scrape_friends_count()
+        print("friends data:", friends_data)
         total_friends = friends_data[0]
         if len(friends_data) > 1:
             mutual_friends = friends_data[1]
         else:
             mutual_friends = 0
     except Exception:
-        total_friends = 0
-        mutual_friends = 0
+        print("find friends data failed")
+
+        # total_friends = 0
+        # mutual_friends = 0
 
     posts = scrape_posts(url, elements_path)
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
@@ -316,11 +304,15 @@ def scrap_all_friends():
     # count = 0           # DEBUG: control num of iterations
     for link in links:
         # count += 1
+        settings.driver.implicitly_wait(1)
+        time.sleep(1)
         settings.driver.get(link)
         list.append(scrap_profile())
+        settings.driver.implicitly_wait(1)
+        time.sleep(1)
 
         # DEBUG: control num of iterations
-        # if count >= 5:
+        # if count >= 20:
         #     break
     return list
 
@@ -396,6 +388,8 @@ def login(email, password):
     try:
         options = Options()
         #  Code to disable notifications pop up of Chrome Browser
+        prefs = {"profile.managed_default_content_settings.images": 2}
+        options.add_experimental_option("prefs", prefs)
         options.add_argument("--disable-notifications")
         options.add_argument("--disable-infobars")
         options.add_argument("--mute-audio")

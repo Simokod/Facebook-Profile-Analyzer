@@ -28,16 +28,16 @@ def analyze_profile(profile):
     posts = profile.posts
     name = profile.name
     print(name)
-    if posts==[]:
-        # text message for none posts profile
-        text = "This user Doesn't have any posts, hence does not have "
-        result = ScanResult(name, text+"offensiveness result", text+"potential fake news result", text+"triggers result", utv_result)
-        return result
-    else:
+    # if posts==[]:
+    #     # text message for none posts profile
+    #     text = "This user Doesn't have any posts, hence does not have "
+    #     result = ScanResult(name, text+"offensiveness result", text+"potential fake news result", text+"triggers result", utv_result)
+    #     return result
+    # else:
         # perform all analyses
-        offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
-        potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
-        subjects_result = SubjectsAnalysis.analyze_profile_subjects(posts)
+    offensiveness_result = OffensivenessAnalysis.analyze_profile_offensiveness(posts)
+    potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
+    subjects_result = SubjectsAnalysis.analyze_profile_subjects(posts)
     utv_result = UTVAnalysis.analyze_UTV(profile.age, profile.friendship_duration,
                                     profile.total_friends, profile.mutual_friends)
 
