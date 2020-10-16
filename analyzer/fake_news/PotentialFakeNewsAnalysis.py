@@ -25,24 +25,34 @@ def analyze_user(fb_user):
     return AnalysisResult(percentResult, textResult)
 
 # check if a post might be fake by analyzing it's polarity
+# idea:
+# auto check >= high threshold --- return true
+# auto check >= mid threshold && manual check >= super high threshold -- return true
+# algo: 
+# get auto calculated sentiments
+# if sentiments pass high treshold - return true
+# if sentiments pass mid threshold - check also manually
+# if manual chack pass the super high threshold - return true
 def check_fake_potential(post):  
-    fake_threshold = 0.7
+    fake_threshold_super_high = 0.9
+    fake_threshold_high = 0.7
+    fake_threshold_mid = 0.5
     englishText = translator.translate(post).text   # translate text
     print(englishText)
 
     # auto analysis by nltk
     sentimentDict = sid.polarity_scores(englishText)    # get sentiments of text
-    print(sentimentDict)
-    if sentimentDict['neg'] >= fake_threshold or sentimentDict['pos'] >= fake_threshold:
+    
+    # check if sentiments indicates high fake potential
+    if sentimentDict['neg'] >= fake_threshold_immediate or sentimentDict['pos'] >= fake_threshold_immediate:
         return True
     
-    # manual analysis
-    manualSentimentCalc = analyze_manualy_sentiments_in_post(englishText) # get sentiments balance by counting words
-    print(manualSentimentCalc)
-    if abs(manualSentimentCalc) >= fake_threshold:
-        if manualSentimentCalc >= 0.9:    # probably because of low amount of pos/neg words
-            return max(sentimentDict['pos'], sentimentDict['neg'])
-        return True
+    # check if sentiments indicates mid fake potential
+    elif sentimentDict['neg'] >= fake_threshold_manual_check or sentimentDict['pos'] >= fake_threshold_manual_check:
+        # manual analysis
+        manualSentimentCalc = analyze_manualy_sentiments_in_post(englishText) # get sentiments balance by counting words
+        if abs(manualSentimentCalc) >= fake_threshold_super_high:    # probably because of low amount of pos/neg words
+            return True
 
     return False   
 
