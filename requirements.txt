@@ -5,4 +5,3 @@ googletrans
 nltk
 flask
 flask-cors
-python-interface

@@ -37,14 +37,15 @@ def scan_result_all_friends():
 	user_url = ""
 	mod = Mode.Release						# release mode
 	scrape_mod = Scrape_mode.Scrape_all  	# scrape all friends
-	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
-	
-	return render_template('ScanAllFriendsResult.html',
+	# scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
+	scan_results = [ ScanResult("Yuvi", "https://www.facebook.com", AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A")) ]
+
+	return render_template('ScanAllFriendsResultV2.html',
 							scan_results = scan_results)
 
 # create html template according to scan result
 def create_specific_user_result_template(scan_result):
-	return render_template('ScanSpecificUserResult.html',
+	return render_template('ScanSpecificUserResultV2.html',
 							user_name = scan_result.user_name,
 							offensiveness_result_percent = scan_result.offensiveness_result.percent,
 							offensiveness_result_text = scan_result.offensiveness_result.text,
