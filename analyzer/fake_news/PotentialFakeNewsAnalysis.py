@@ -2,16 +2,14 @@ import re
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from googletrans import Translator
+from data_contracts.analysis_result import AnalysisResult
 translator = Translator()
 sid = SentimentIntensityAnalyzer()
 
-def analyze_profile_potential_fake_news(posts):
-    # get total posts num
-    postsNum = len(posts)
-    if postsNum <= 10:
-        return "User doesn't have enough posts in order to calculate fake news potential."
-
+def analyze_user(fb_user):
+    posts = fb_user.posts
     potentialFakePostsNum = 0
+    postsNum = len(posts) # get total posts num  
 
     for post in posts:
         if check_fake_potential(post):
@@ -20,9 +18,11 @@ def analyze_profile_potential_fake_news(posts):
     # calculate rate
     potentialFakeRate = potentialFakePostsNum / postsNum
 
-    #convert rate to text result
-    fakeResultText = convert_potential_fake_rate_to_text(potentialFakeRate)
-    return fakeResultText
+    #convert to analysis result
+    percentResult = str(potentialFakeRate*100) + "%"
+    textResult = convert_potential_fake_rate_to_text(potentialFakeRate)
+
+    return AnalysisResult(percentResult, textResult)
 
 # check if a post might be fake by analyzing it's polarity
 def check_fake_potential(post):  

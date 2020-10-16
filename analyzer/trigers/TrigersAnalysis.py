@@ -1,15 +1,14 @@
-from . import Subjects
+from . import Trigers
 from googletrans import Translator
+from data_contracts.analysis_result import AnalysisResult
+trigers = Trigers.trigers
 
-def analyze_profile_subjects(posts):
-    # get total posts num
-    postsNum = len(posts)
-    if postsNum==0:
-        return "User doesn't have any posts."
-    
+def analyze_user(fb_user):
+    posts = fb_user.posts
+    postsNum = len(posts) # get total posts num
+   
     # check what is the rate of posts of each subject
     # create dict of results: <subject, subjectPostsRate>
-    subjects = Subjects.subjects
     subjectsPostsCount = dict()
     
     # count how may posts are there for each subject
@@ -22,9 +21,11 @@ def analyze_profile_subjects(posts):
     for subject in subjectsPostsCount:
         subjectsPostsRates[subject] = subjectsPostsCount[subject] / postsNum  # calculate rate of posts in this subject
     
-    #convert to text result
-    subjectsResultText = convert_subjects_rates_to_text(subjectsPostsRates)
-    return subjectsResultText
+    #convert to analysis result
+    percentResult = "See percent of triger in text result."
+    textResult = convert_subjects_rates_to_text(subjectsPostsRates)
+
+    return AnalysisResult(percentResult, textResult)
 
 # calculate post's subject and add to counter dictionary
 # improve - currently returns only one subject per post
@@ -71,13 +72,12 @@ def increase_count(dictionary, subjects):
 # check if word exist in each subject
 # improve - currently returns only one subject per word
 def detect_word_subjects(word):
-    subjects = Subjects.subjects
-    wordSubjects = set()
-    for subject in subjects:
-        for subject_word in subjects[subject]:
-            if word==subject_word or word=="ה"+subject_word:       # check if current word is substring of the subject word 
-                wordSubjects.add(subject)
-    return wordSubjects
+    wordTrigers = set()
+    for triger in trigers:
+        for triger_word in trigers[triger]:
+            if word==triger_word or word=="ה"+triger_word:       # check if current word is substring of the subject word 
+                wordTrigers.add(subject)
+    return wordTrigers
 
 def convert_subjects_rates_to_text(subjectsPostsRates):
     textResult = "Posts of user according to subjects: "

@@ -1,10 +1,16 @@
+from data_contracts.analysis_result import AnalysisResult
+
 # UTV = user trust level
 # aua = age of user account, fd = friendship duration, tf = total friends, mf = mutual friends
 # all computations are according to Nadav's article
-def analyze_UTV(aua, fd, tf, mf):
+def analyze_user(fb_user):
+    aua = fb_user.age
+    fd = fb_user.friendship_duration
+    tf = fb_user.total_friends
+    mf = fb_user.mutual_friends
 
     if aua == 0 or fd == 0 or tf ==0 or mf == 0:
-        return "Can't calculate User's trust level"
+        return AnalysisResult("N\A", "Can't calculate User's trust level")
     # Thresholds
     T_aua = 2
     T_fd = 1.5
@@ -23,4 +29,8 @@ def analyze_UTV(aua, fd, tf, mf):
 
     # UTV = (U*|U| + C*|C|) / |U + C|
     UTV = (userCredibility*2 + connectionStrength*2)/4
-    return UTV
+    
+    # Convert to analysis result
+    UTVPercent = string(UTV*100) + "%"
+    UTVText = "@TODO"
+    return AnalysisResult(UTVPercent, UTVText)

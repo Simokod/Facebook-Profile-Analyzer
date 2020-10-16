@@ -1,14 +1,12 @@
-from . import OffensiveWords
+from analyzer.offensiveness import OffensiveWords
+from data_contracts.analysis_result import AnalysisResult
 
 # main func - determines the offensiveness level of user.
 # gets all posts of profile, calculates offensiveness rate of profile, and returns result as text.
-def analyze_profile_offensiveness(posts):
-    # get total posts num
-    postsNum = len(posts)
-    if postsNum==0:
-        return "User doesn't have any posts."
-    
-    offensivePostsNum = 0
+def analyze_user(fb_user):
+    posts = fb_user.posts
+    offensivePostsNum = 0  
+    postsNum = len(posts) # get total posts num
 
     for post in posts:
         if is_post_offensive(post):
@@ -18,8 +16,10 @@ def analyze_profile_offensiveness(posts):
     offensiveRate = offensivePostsNum / postsNum
 
     #convert rates to text result
+    offensiveResultPercent = str(offensiveRate*100) + "%"
     offensiveResultText = convert_offensive_rate_to_text(offensiveRate)
-    return offensiveResultText
+
+    return AnalysisResult(offensiveResultPercent, offensiveResultText)
 
 # check if post is offenive by counting offensive words in it
 def is_post_offensive(post):

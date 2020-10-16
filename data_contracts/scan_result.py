@@ -3,12 +3,6 @@ from data_contracts.analysis_result import AnalysisResult
 # the output of the analyzer - manager of all the analysis
 # gathers all outputs of all aalysis
 class ScanResult:
-    user_name: str
-    offensiveness_result: AnalysisResult
-    potentialFakeNews_result: AnalysisResult
-    subjects_result: AnalysisResult
-    utv_result: AnalysisResult
-
     def __init__(self, user_name, offensiveness_result: AnalysisResult, potentialFakeNews_result: AnalysisResult, subjects_result: AnalysisResult, utv_result: AnalysisResult):
         self.user_name = user_name
         self.offensiveness_result = offensiveness_result

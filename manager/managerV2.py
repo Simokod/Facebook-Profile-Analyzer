@@ -2,29 +2,31 @@ import tkinter as tk
 from tkinter import messagebox
 # from subprocess import call
 from selenium.common.exceptions import WebDriverException, NoSuchWindowException
-from data_contracts.scan_result import ScanResult
-from data_contracts.fb_user import FBUser
+from scan_result import ScanResult
 from modes import Scrape_mode, Mode
 from scraper import scraper
 from scraper import settings
 from functools import partial
-from analyzer import Analyzer
+from text_analyzer import OffensivenessAnalysis
+from text_analyzer import PotentialFakeNewsAnalysis
+from text_analyzer import SubjectsAnalysis
+from text_analyzer import UTVAnalysis
 
 
 def scrape_and_analyze(email, password, user_url, mod, scrape_mod):
     scan_result = []
-    users_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod)
-    for fb_user in users_to_analyze:
-        user_result = Analyzer.analyze_user(fb_user)
-        scan_result.append(user_result)
+    profiles_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod)
+    for profile in profiles_to_analyze:
+        profile_result = analyze_profile(profile)
+        scan_result.append(profile_result)
 
+    print("scan result:", scan_result)
     return scan_result
 
-# gets facebook user object, performs all analysis, and returns results as ScanResult object
-def analyze_user(fb_user):
-    posts = fb_user.posts
-    name = fb_user.name
-    print(name)
+# gets posts of profile. performs all analysis, and render results
+def analyze_profile(profile):
+    posts = profile.posts
+    name = profile.name
     if posts==[]:
         # text message for none posts profile
         text = "This user Doesn't have any posts, hence does not have "
@@ -36,6 +38,6 @@ def analyze_user(fb_user):
         potentialFakeNews_result = PotentialFakeNewsAnalysis.analyze_profile_potential_fake_news(posts)
         subjects_result = SubjectsAnalysis.analyze_profile_subjects(posts)
         utv_result = UTVAnalysis.analyze_UTV(profile.age, profile.friendship_duration,
-                                    profile.total_friends, profile.mutual_friends)
+                                        profile.total_friends, profile.mutual_friends)
 
-    return ScanResult(name, offensiveness_result, potentialFakeNews_result, subjects_result, utv_result)
+        return ScanResult(name, offensiveness_result, potentialFakeNews_result, subjects_result, utv_result)
