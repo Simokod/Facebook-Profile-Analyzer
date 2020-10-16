@@ -7,83 +7,83 @@ def analyze_user(fb_user):
     posts = fb_user.posts
     postsNum = len(posts) # get total posts num
    
-    # check what is the rate of posts of each subject
-    # create dict of results: <subject, subjectPostsRate>
-    subjectsPostsCount = dict()
+    # check what is the rate of posts of each triger
+    # create dict of results: <triger, trigerPostsRate>
+    trigersPostsCount = dict()
     
-    # count how may posts are there for each subject
+    # count how may posts are there for each triger
     for post in posts:
-        postSubjects = detect_post_subjects_V2(post, subjectsPostsCount)
-        increase_count(subjectsPostsCount, postSubjects)
+        postTrigers = detect_post_trigers_V2(post, trigersPostsCount)
+        increase_count(trigersPostsCount, postTrigers)
 
-    # calculate subjects rates
-    subjectsPostsRates = dict()
-    for subject in subjectsPostsCount:
-        subjectsPostsRates[subject] = subjectsPostsCount[subject] / postsNum  # calculate rate of posts in this subject
+    # calculate trigers rates
+    trigersPostsRates = dict()
+    for triger in trigersPostsCount:
+        trigersPostsRates[triger] = trigersPostsCount[triger] / postsNum  # calculate rate of posts in this triger
     
     #convert to analysis result
     percentResult = "See percent of triger in text result."
-    textResult = convert_subjects_rates_to_text(subjectsPostsRates)
+    textResult = convert_trigers_rates_to_text(trigersPostsRates)
 
     return AnalysisResult(percentResult, textResult)
 
-# calculate post's subject and add to counter dictionary
-# improve - currently returns only one subject per post
-def detect_post_subjects(post, counterDictionary):
-    subjects_word_count = {}    # holds word count per subject
+# calculate post's trigers and add to counter dictionary
+# improve - currently returns only one triger per post
+def detect_post_trigers(post, counterDictionary):
+    trigers_word_count = {}    # holds word count per triger
     postWords = post.split()
     postWordsNum = len(postWords)
 
     threshold = 0.05*postWordsNum   # threshold!
 
     for word in postWords:
-        wordSubjcets = find_word_in_subjects(word)
-        increase_count(subjects_word_count, wordSubjcets)
+        wordSubjcets = find_word_in_trigers(word)
+        increase_count(trigers_word_count, wordSubjcets)
     
-    # increase post subject in counter dict
-    for subject in subjects_word_count:
-        if subjects_word_count[subject] >= threshold:
-            increase_count(counterDictionary, subject)
+    # increase post triger in counter dict
+    for triger in trigers_word_count:
+        if trigers_word_count[triger] >= threshold:
+            increase_count(counterDictionary, trigers)
             
     return counterDictionary
 
-def detect_post_subjects_V2(post, counterDictionary):
-    post_subjects = set()
+def detect_post_trigers_V2(post, counterDictionary):
+    post_trigers = set()
     postSentences = post.split(".")
     
     for sentence in postSentences:
         sentenceWords = post.split()
         for word in sentenceWords:
-            wordSubjcets = detect_word_subjects(word)
+            wordSubjcets = detect_word_trigers(word)
             if wordSubjcets!=None:
-                for wordSubject in wordSubjcets:    
-                    post_subjects.add(wordSubject)
+                for wordTriger in wordSubjcets:    
+                    post_trigers.add(wordTriger)
             
-    return post_subjects
+    return post_trigers
 
-def increase_count(dictionary, subjects):
-    for subject in subjects:
-        if subject in dictionary.keys():
-            dictionary[subject] += 1
+def increase_count(dictionary, trigers):
+    for triger in trigers:
+        if triger in dictionary.keys():
+            dictionary[triger] += 1
         else:
-            dictionary.update({subject : 1})
+            dictionary.update({triger : 1})
     return
 
-# check if word exist in each subject
-# improve - currently returns only one subject per word
-def detect_word_subjects(word):
+# check if word exist in each triger
+# improve - currently returns only one triger per word
+def detect_word_trigers(word):
     wordTrigers = set()
     for triger in trigers:
         for triger_word in trigers[triger]:
-            if word==triger_word or word=="ה"+triger_word:       # check if current word is substring of the subject word 
-                wordTrigers.add(subject)
+            if word==triger_word or word=="ה"+triger_word:       # check if current word is substring of the triger word 
+                wordTrigers.add(triger)
     return wordTrigers
 
-def convert_subjects_rates_to_text(subjectsPostsRates):
-    textResult = "Posts of user according to subjects: "
+def convert_trigers_rates_to_text(trigersPostsRates):
+    textResult = "Posts of user according to trigers: "
 
-    for subject in subjectsPostsRates.keys():
-        if subject != None:
-            textResult += subject + ": " + str(subjectsPostsRates[subject]) + ","
+    for triger in trigersPostsRates.keys():
+        if triger != None:
+            textResult += triger + ": " + str(trigersPostsRates[triger]) + ","
     
     return textResult[:-1]  # trim the last ","
