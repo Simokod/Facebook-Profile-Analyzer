@@ -3,12 +3,17 @@ from data_contracts.analysis_result import AnalysisResult
 # UTV = user trust level
 # aua = age of user account, fd = friendship duration, tf = total friends, mf = mutual friends
 # all computations are according to Nadav's article
+<<<<<<< HEAD:analyzer/utv/UTVAnalysis.py
 def analyze_user(fb_user):
     aua = fb_user.age
     fd = fb_user.friendship_duration
     tf = fb_user.total_friends
     mf = fb_user.mutual_friends
 
+=======
+def analyze_UTV(aua, fd, tf, mf):
+    print("aua: ", aua, "\nfd: ", fd, "\ntf: ", tf, "\nfd: ", mf)
+>>>>>>> 551aa351abbcd88fe7ce48f87e2bb26d4c764486:text_analyzer/UTVAnalysis.py
     if aua == 0 or fd == 0 or tf ==0 or mf == 0:
         return AnalysisResult("N\A", "Can't calculate User's trust level")
     # Thresholds
