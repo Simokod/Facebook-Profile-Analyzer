@@ -1,7 +1,7 @@
 import managerV2
 from scan_result import ScanResult
 from analysis_result import AnalysisResult
-from modes import Scrape_mode, Mode
+from modes import Scrape_mode, Mode, Scan_type
 from flask import Flask, request, render_template, jsonify, make_response 
 from flask_cors import CORS
 app = Flask(__name__)
@@ -26,7 +26,8 @@ def get_scan_result_specific_user():
 	user_url = request.json['user_url']
 	mod = Mode.Release							# release mode
 	scrape_mod = Scrape_mode.Scrape_specific  	# scrape specific profile
-	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)[0]
+	scan_type = Scan_type.full_scan
+	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type)[0]
 
 	return create_specific_user_result_template(scan_result)
 
@@ -37,7 +38,8 @@ def scan_result_all_friends():
 	user_url = ""
 	mod = Mode.Release						# release mode
 	scrape_mod = Scrape_mode.Scrape_all  	# scrape all friends
-	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
+	scan_type = Scan_type.quick_scan			# run full scan
+	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type)
 	# scan_results = [ ScanResult("Yuvi", "https://www.facebook.com", AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A")) ]
 
 	return render_template('ScanAllFriendsResultV2.html',

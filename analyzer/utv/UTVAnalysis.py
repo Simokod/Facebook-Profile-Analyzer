@@ -31,6 +31,6 @@ def analyze_user(fb_user):
     UTV = (userCredibility*2 + connectionStrength*2)/4
     
     # Convert to analysis result
-    UTVPercent = string(UTV*100) + "%"
+    UTVPercent = str(UTV*100) + "%"
     UTVText = "@TODO"
     return AnalysisResult(UTVPercent, UTVText)

@@ -4,7 +4,7 @@ import sys
 import urllib.request
 from datetime import date
 
-from modes import Scrape_mode, Mode
+from modes import Scrape_mode, Mode, Scan_type
 import yaml
 # import utils
 import argparse
@@ -23,10 +23,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 # returns a dictionary containing the user's posts
-def scrape_posts(url, elements_path):
+def scrape_posts(url, elements_path, scan_type):
     # page = []
     # page.append(url)
     # page += [url + s for s in section]
+    start = time.time()
     try:
         # settings.driver.get(page[0])
         # print("scrape_posts")
@@ -35,7 +36,7 @@ def scrape_posts(url, elements_path):
         # print("after waiting")
 
         # my_posts = {key: post_id, value: actual post}
-        my_posts = utils.my_scroll(settings.number_of_posts, settings.driver, settings.selectors, settings.scroll_time, elements_path[0])
+        my_posts = utils.my_scroll(settings.number_of_posts, settings.driver, settings.selectors, settings.scroll_time, elements_path[0], start, scan_type)
 
     except Exception:
         print(
@@ -205,53 +206,57 @@ def find_duration(url):
 
 
 
-def scrape_data(url, elements_path):
+def scrape_data(url, elements_path, scan_type):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
-    time.sleep(0.5)
-    try:
+    if scan_type == Scan_type.full_scan:
+        time.sleep(0.5)
+        try:
 
-        name = WebDriverWait(settings.driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '.gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80'))).text
-        print("name:", name)
-        # name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
-    except Exception:
-        print("find name failed")
-        name = 0
-    # print(name)
-    # # time.sleep(0.5)
-    try:
-        friendship_duration = find_duration(url)
-        print("friendship_duration:", friendship_duration)
-    except Exception:
-        print("find friendship duration failed")
+            name = WebDriverWait(settings.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, '.gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80'))).text
+            print("name:", name)
+            # name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
+        except Exception:
+            print("find name failed")
+            name = 0
+        # print(name)
+        # # time.sleep(0.5)
+        try:
+            friendship_duration = find_duration(url)
+            print("friendship_duration:", friendship_duration)
+        except Exception:
+            print("find friendship duration failed")
 
-        friendship_duration = 0
-    # time.sleep(0.5)
-    try:
-        age = scrape_account_age(url)
-        print("age:", age)
-    except Exception:
-        print("find age failed")
-        age = 0
-    # time.sleep(0.5)
-    try:
-        friends_data = scrape_friends_count()
-        print("friends data:", friends_data)
-        total_friends = friends_data[0]
-        if len(friends_data) > 1:
-            mutual_friends = friends_data[1]
-        else:
+            friendship_duration = 0
+        # time.sleep(0.5)
+        try:
+            age = scrape_account_age(url)
+            print("age:", age)
+        except Exception:
+            print("find age failed")
+            age = 0
+        # time.sleep(0.5)
+        try:
+            friends_data = scrape_friends_count()
+            print("friends data:", friends_data)
+            total_friends = friends_data[0]
+            if len(friends_data) > 1:
+                mutual_friends = friends_data[1]
+            else:
+                mutual_friends = 0
+        except Exception:
+            print("find friends data failed")
+            total_friends = 0
             mutual_friends = 0
-    except Exception:
-        print("find friends data failed")
+
+    else:
+        name = 0
+        age = 0
+        friendship_duration = 0
         total_friends = 0
         mutual_friends = 0
-    # name = 0
-    # age = 0
-    # friendship_duration = 0
-    # total_friends = 0
-    # mutual_friends = 0
-    posts = scrape_posts(url, elements_path)
+    posts = scrape_posts(url, elements_path, scan_type)
+    # posts = []
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
     return profile
 
@@ -288,7 +293,7 @@ def create_original_link(url):
     return original_link
 
 
-def scrap_all_friends():
+def scrap_all_friends(scan_type):
     result = []
     # profile = settings.driver.find_element_by_xpath('./div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div[1]/ul/li/div/a/div[1]/div[2]/div/div/div/div/span')
     settings.driver.find_element_by_css_selector('.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw').click()
@@ -315,7 +320,7 @@ def scrap_all_friends():
         count += 1
         this_start = time.time()
         settings.driver.get(link)
-        list.append(scrap_profile())
+        list.append(scrap_profile(scan_type))
         settings.driver.implicitly_wait(1)
         time.sleep(1)
         this_end = time.time()
@@ -330,43 +335,19 @@ def scrap_all_friends():
     return list
 
 
-def scrap_profile():
-    # data_folder = os.path.join(os.getcwd(), "data")
-    # utils.create_folder(data_folder)
-    # os.chdir(data_folder)
+def scrap_profile(scan_type):
 
-    # execute for all profiles given in input.txt file
     url = settings.driver.current_url
     user_id = create_original_link(url)
 
     print("\nScraping:", user_id)
 
-    # try:
-    #     # target_dir = os.path.join(data_folder, user_id.split("/")[-1])
-    #     # utils.create_folder(target_dir)
-    #     # os.chdir(target_dir)
-    # except Exception:
-    #     print("Some error occurred in creating the profile directory.")
-    #     os.chdir("../..")
-    #     return
 
-    # to_scrap = ["Friends", "Photos", "Videos", "About", "Posts"]
-    # to_scrap = ["Posts"]
-    # for item in to_scrap:
     print("----------------------------------------")
     print("Scraping {}..".format("Posts"))
-    #
-    # if item == "Posts":
-    #     scan_list = [None]
-    # elif item == "About":
-    #     scan_list = [None] * 7
-    # else:
-    #     scan_list = settings.params[item]["scan_list"]
 
-    # section = settings.params[item]["section"]
     elements_path = settings.params["Posts"]["elements_path"]
-    # save_status = settings.params[item]["save_status"]
-    profile = scrape_data(user_id, elements_path)
+    profile = scrape_data(user_id, elements_path, scan_type)
 
     print("{} Done!".format("item"))
 
@@ -406,7 +387,8 @@ def login(email, password):
         options.add_argument("--disable-notifications")
         options.add_argument("--disable-infobars")
         options.add_argument("--mute-audio")
-        # options.add_argument("headless")
+        options.add_argument('--disable-browser-side-navigation')
+        # options.add_argument("--headless")
 
         try:
             settings.driver = webdriver.Chrome(
@@ -460,8 +442,9 @@ def login(email, password):
 # -----------------------------------------------------------------------------
 
 
-def scraper(email, password, user_url, mod, scrape_mod, **kwargs):
+def scraper(email, password, user_url, mod, scrape_mod, scan_type, **kwargs):
     print(scrape_mod)
+
     working_dir = os.path.dirname(os.path.abspath(__file__))
     if mod == Mode.Dev:
 
@@ -483,10 +466,10 @@ def scraper(email, password, user_url, mod, scrape_mod, **kwargs):
     if scrape_mod == Scrape_mode.Scrape_specific:
         # url = urls[0]
         settings.driver.get(user_url)
-        result = [scrap_profile()]
+        result = [scrap_profile(scan_type)]
     else:
         # settings.selectors
-        result = scrap_all_friends()
+        result = scrap_all_friends(scan_type)
     settings.driver.close()
     return result
 
@@ -496,7 +479,7 @@ def scraper(email, password, user_url, mod, scrape_mod, **kwargs):
 
 
 # if __name__ == "__main__":
-def main(email, password, user_url, mod, scrape_mod):
+def main(email, password, user_url, mod, scrape_mod, scan_mode):
     # print(email, password)
     settings.ap = argparse.ArgumentParser()
     # PLS CHECK IF HELP CAN BE BETTER / LESS AMBIGUOUS
@@ -561,5 +544,5 @@ def main(email, password, user_url, mod, scrape_mod):
     settings.facebook_link_body = settings.selectors.get("facebook_link_body")
 
     # get things rolling
-    scraper_result = scraper(email, password, user_url, mod, scrape_mod)
+    scraper_result = scraper(email, password, user_url, mod, scrape_mod, scan_mode)
     return scraper_result
