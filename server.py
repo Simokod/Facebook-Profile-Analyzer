@@ -37,8 +37,8 @@ def scan_result_all_friends():
 	user_url = ""
 	mod = Mode.Release						# release mode
 	scrape_mod = Scrape_mode.Scrape_all  	# scrape all friends
-	# scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
-	scan_results = [ ScanResult("Yuvi", "https://www.facebook.com", AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A")) ]
+	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod)
+	# scan_results = [ ScanResult("Yuvi", "https://www.facebook.com", AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A")) ]
 
 	return render_template('ScanAllFriendsResultV2.html',
 							scan_results = scan_results)
