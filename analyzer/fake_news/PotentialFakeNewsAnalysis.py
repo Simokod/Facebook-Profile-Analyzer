@@ -38,7 +38,6 @@ def check_fake_potential(post):
     fake_threshold_high = 0.7
     fake_threshold_mid = 0.5
     englishText = translator.translate(post).text   # translate text
-    print(englishText)
 
     # auto analysis by nltk
     sentimentDict = sid.polarity_scores(englishText)    # get sentiments of text

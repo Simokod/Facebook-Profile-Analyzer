@@ -20,3 +20,17 @@ def scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type):
         scan_result.append(user_result)
 
     return scan_result
+
+
+### test
+posts = [ "הפיגוע שהיה אתמול היה מחריד", "הפיגוע שהיה אתמול היה מחריד", "שחקני כדורגל הם מטומטמים", "הגברת התלוננה על הטרדה מינית", "מכירת סמי פיצוציות זה פאסה", "הפיגוע שהיה אתמול היה מחריד" ]
+fb_user = FBUser("Yuvi", "www.facebook.com", 1, 1, 1, 1, posts)
+user_result = Analyzer.analyze_user(fb_user)
+
+off = user_result.offensiveness_result
+fake = user_result.potentialFakeNews_result
+trigers = user_result.trigers_result
+
+print("1. " + off.percent + " " + off.text)
+print("2. " + fake.percent + " " + fake.text)
+print("3. " + trigers.percent + " " + trigers.text)
