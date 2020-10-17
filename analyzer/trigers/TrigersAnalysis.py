@@ -13,8 +13,8 @@ def analyze_user(fb_user):
     
     # count how may posts are there for each triger
     for post in posts:
-        postTrigers = detect_post_trigers_V2(post, trigersPostsCount)
-        increase_count(trigersPostsCount, postTrigers)
+        postTrigers = detect_post_trigers_V3(post)      # get tigers that appear in post
+        increase_count(trigersPostsCount, postTrigers)  # add the trigers we found to count
 
     # calculate trigers rates
     trigersPostsRates = dict()
@@ -22,7 +22,7 @@ def analyze_user(fb_user):
         trigersPostsRates[triger] = trigersPostsCount[triger] / postsNum  # calculate rate of posts in this triger
     
     #convert to analysis result
-    percentResult = "See percent of triger in text result."
+    percentResult = "See percent of trigers in text result."
     textResult = convert_trigers_rates_to_text(trigersPostsRates)
 
     return AnalysisResult(percentResult, textResult)
@@ -47,7 +47,9 @@ def detect_post_trigers(post, counterDictionary):
             
     return counterDictionary
 
-def detect_post_trigers_V2(post, counterDictionary):
+# returns post's trigers
+# improved - it is able to return few triger per post
+def detect_post_trigers_V2(post):
     post_trigers = set()
     postSentences = post.split(".")
     
@@ -59,6 +61,19 @@ def detect_post_trigers_V2(post, counterDictionary):
                 for wordTriger in wordSubjcets:    
                     post_trigers.add(wordTriger)
             
+    return post_trigers
+
+# returns post's trigers
+# idea: for each triger, check if one of its words or phrases appear in post, if so, add to set
+# we claim that one word or phrase is enough
+def detect_post_trigers_V3(post):
+    post_trigers = set()
+    for triger in trigers:
+        for triger_word in trigers[triger]:
+            if triger_word in post:
+                post_trigers.add(triger)
+                break
+    
     return post_trigers
 
 def increase_count(dictionary, trigers):
@@ -84,6 +99,7 @@ def convert_trigers_rates_to_text(trigersPostsRates):
 
     for triger in trigersPostsRates.keys():
         if triger != None:
-            textResult += triger + ": " + str(trigersPostsRates[triger]) + ","
+            percent = int((trigersPostsRates[triger] * 100) // 1)
+            textResult += triger + ": " + str(percent) + "%,"
     
     return textResult[:-1]  # trim the last ","

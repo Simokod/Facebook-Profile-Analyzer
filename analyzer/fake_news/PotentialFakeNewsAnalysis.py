@@ -19,7 +19,8 @@ def analyze_user(fb_user):
     potentialFakeRate = potentialFakePostsNum / postsNum
 
     #convert to analysis result
-    percentResult = str(potentialFakeRate*100) + "%"
+    percent = int((potentialFakeRate*100) // 1)
+    percentResult = str(percent) + "%"
     textResult = convert_potential_fake_rate_to_text(potentialFakeRate)
 
     return AnalysisResult(percentResult, textResult)

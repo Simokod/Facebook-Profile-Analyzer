@@ -9,19 +9,21 @@ def analyze_user(fb_user):
     postsNum = len(posts) # get total posts num
 
     for post in posts:
-        if is_post_offensive(post):
+        if is_post_offensive_V2(post):
             offensivePostsNum+=1
 
     # calculate rate
     offensiveRate = offensivePostsNum / postsNum
 
     #convert rates to text result
-    offensiveResultPercent = str(offensiveRate*100) + "%"
+    percent = int((offensiveRate*100) // 1)
+    offensiveResultPercent = str(percent) + "%"
     offensiveResultText = convert_offensive_rate_to_text(offensiveRate)
 
     return AnalysisResult(offensiveResultPercent, offensiveResultText)
 
-# check if post is offenive by counting offensive words in it
+# check if post is offenive by 
+# idea: counting offensive words in it, and compare offensive words rate to threshold
 def is_post_offensive(post):
     postWords = post.split()
     postWordsNum = len(postWords)
@@ -36,6 +38,19 @@ def is_post_offensive(post):
         return True
     else:
         return False
+
+# check if post is offensive
+# idea: check if one of the offensive words or phrases appears in the post
+# we claim that only one word or ohrase is enough.
+def is_post_offensive_V2(post):
+    offensiveWords = OffensiveWords.offensiveWords 
+
+    # if one of the offensive words or phrases appears in post - return true
+    for word in offensiveWords:
+        if word in post:
+            return True
+
+    return False
 
 # converts offensivenes rate to text result.
 def convert_offensive_rate_to_text(offensiveRate):
