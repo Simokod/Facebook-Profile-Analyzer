@@ -163,7 +163,10 @@ def calculate_duration(friendship_year, friendship_month, today):
 
     friendship_month = month_switch(friendship_month)
     friendship_month = int(friendship_month)
+
     friendship_year = int(friendship_year)
+    if friendship_year == 0:
+        friendship_year = today_year
 
     duration = today_year-friendship_year + (today_month-friendship_month)/12 + today_day/365
     return duration
@@ -243,7 +246,11 @@ def scrape_data(url, elements_path):
         print("find friends data failed")
         total_friends = 0
         mutual_friends = 0
-
+    # name = 0
+    # age = 0
+    # friendship_duration = 0
+    # total_friends = 0
+    # mutual_friends = 0
     posts = scrape_posts(url, elements_path)
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
     return profile
@@ -300,19 +307,26 @@ def scrap_all_friends():
 
     print(links, "\n", len(links))
     list = []
-    # count = 0           # DEBUG: control num of iterations
+    # Helper: time counter
+    start = time.time()
+    # DEBUG: control num of iterations
+    count = 0
     for link in links:
-        # count += 1
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
+        count += 1
+        this_start = time.time()
         settings.driver.get(link)
         list.append(scrap_profile())
         settings.driver.implicitly_wait(1)
         time.sleep(1)
-
+        this_end = time.time()
+        print("this profile took:", this_end-this_start)
         # DEBUG: control num of iterations
-        # if count >= 20:
-        #     break
+        if count >= 10:
+            break
+    end = time.time()
+    print("all profiles took:", end - start)
+    print("all profiles average:", (end - start)/count)
+
     return list
 
 
@@ -337,24 +351,24 @@ def scrap_profile():
     #     return
 
     # to_scrap = ["Friends", "Photos", "Videos", "About", "Posts"]
-    to_scrap = ["Posts"]
-    for item in to_scrap:
-        print("----------------------------------------")
-        print("Scraping {}..".format(item))
+    # to_scrap = ["Posts"]
+    # for item in to_scrap:
+    print("----------------------------------------")
+    print("Scraping {}..".format("Posts"))
+    #
+    # if item == "Posts":
+    #     scan_list = [None]
+    # elif item == "About":
+    #     scan_list = [None] * 7
+    # else:
+    #     scan_list = settings.params[item]["scan_list"]
 
-        if item == "Posts":
-            scan_list = [None]
-        elif item == "About":
-            scan_list = [None] * 7
-        else:
-            scan_list = settings.params[item]["scan_list"]
+    # section = settings.params[item]["section"]
+    elements_path = settings.params["Posts"]["elements_path"]
+    # save_status = settings.params[item]["save_status"]
+    profile = scrape_data(user_id, elements_path)
 
-        # section = settings.params[item]["section"]
-        elements_path = settings.params[item]["elements_path"]
-        # save_status = settings.params[item]["save_status"]
-        profile = scrape_data(user_id, elements_path)
-
-        print("{} Done!".format(item))
+    print("{} Done!".format("item"))
 
     print("Finished Scraping Profile " + str(user_id) + ".")
     # os.chdir("../..")
@@ -526,7 +540,7 @@ def main(email, password, user_url, mod, scrape_mod):
         "-nop",
         "--number_of_posts",
         help="How many posts should i take?",
-        default=20
+        default=15
     )
 
     settings.args = vars(settings.ap.parse_args())
