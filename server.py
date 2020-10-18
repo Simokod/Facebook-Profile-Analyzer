@@ -53,8 +53,8 @@ def create_specific_user_result_template(scan_result):
 							offensiveness_result_text = scan_result.offensiveness_result.text,
 							potentialFakeNews_result_percent = scan_result.potentialFakeNews_result.percent,
 							potentialFakeNews_result_text = scan_result.potentialFakeNews_result.text,
-							trigers_result_percent = scan_result.subjects_result.percent,
-							trigers_result_text = scan_result.subjects_result.text,
+							trigers_result_percent = scan_result.trigers_result.percent,
+							trigers_result_text = scan_result.trigers_result.text,
 							utv_result_percent = scan_result.utv_result.percent,
 							utv_result_text = scan_result.utv_result.text)
 

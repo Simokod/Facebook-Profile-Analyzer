@@ -16,6 +16,7 @@ def scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type):
 
     users_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod, scan_type)
     for fb_user in users_to_analyze:
+        print(fb_user.url)
         user_result = Analyzer.analyze_user(fb_user)
         scan_result.append(user_result)
 
