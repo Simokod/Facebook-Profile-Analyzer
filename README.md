@@ -34,12 +34,3 @@ You will need:
 ### How to Run
 - Run the `python server.py` command in the project folder.
 - Scrape away! - Open your browser at http://127.0.0.1:5000/ and start scraping and analyzing profiles
-
----
-## Progress:
-
-Currently the program can scrape only profiles, and extract information.
-=======
-
-
-
