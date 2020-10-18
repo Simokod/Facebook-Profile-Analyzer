@@ -1,4 +1,4 @@
-# Projects and having fun
+# Facebook Profile Analyzer
 
 ### Installation
 
