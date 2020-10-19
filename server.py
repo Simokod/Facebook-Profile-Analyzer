@@ -36,9 +36,11 @@ def scan_result_all_friends():
 	email = request.json['email']
 	password = request.json['password']
 	user_url = ""
-	mod = Mode.Release						# release mode
-	scrape_mod = Scrape_mode.Scrape_all  	# scrape all friends
-	scan_type = Scan_type.quick_scan			# run quick scan
+	mod = Mode.Release							# release mode
+	scrape_mod = Scrape_mode.Scrape_all  		# scrape all friends
+	# scan_type = Scan_type.quick_scan			# run quick scan
+	scan_type = Scan_type.full_scan				# run full scan
+
 	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type)
 	# scan_results = [ ScanResult("Yuvi", "https://www.facebook.com", AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A")) ]
 
