@@ -16,7 +16,7 @@ import fb_user
 from . import settings
 from . import utils
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -312,17 +312,22 @@ def scrap_all_friends(scan_type):
     count = 0
     for link in links:
         count += 1
-        this_start = time.time()
-        settings.driver.get(link)
-        list.append(scrap_profile(scan_type))
-        settings.driver.implicitly_wait(1)
-        time.sleep(1)
-        this_end = time.time()
-        print("this profile took:", this_end-this_start)
-        # DEBUG: control num of iterations
-        if count >= 100:
+        try:
+            this_start = time.time()
+            settings.driver.get(link)
+            list.append(scrap_profile(scan_type))
+            settings.driver.implicitly_wait(1)
+            time.sleep(1)
+            this_end = time.time()
+            print("this profile took:", this_end-this_start)
+            end = time.time()
+            print("current profiles average:", (end - start) / count)
+        except WebDriverException:
             break
-    end = time.time()
+        # DEBUG: control num of iterations
+        if count >= 10:
+            break
+
     print("all profiles took:", end - start)
     print("all profiles average:", (end - start)/count)
 
