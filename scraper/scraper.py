@@ -4,6 +4,8 @@ import sys
 import urllib.request
 from datetime import date
 
+from selenium.webdriver import DesiredCapabilities
+
 from modes import Scrape_mode, Mode, Scan_type
 import yaml
 # import utils
@@ -24,17 +26,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # returns a dictionary containing the user's posts
 def scrape_posts(url, elements_path, scan_type):
-    # page = []
-    # page.append(url)
-    # page += [url + s for s in section]
-    try:
-        # settings.driver.get(page[0])
-        # print("scrape_posts")
-        settings.driver.get(url)
-        # time.sleep(3)
-        # print("after waiting")
 
-        # my_posts = {key: post_id, value: actual post}
+    try:
         my_posts = utils.my_scroll(settings.number_of_posts, settings.driver, settings.selectors, settings.scroll_time, elements_path[0], scan_type)
 
     except Exception:
@@ -218,8 +211,7 @@ def scrape_data(url, elements_path, scan_type):
         except Exception:
             print("find name failed")
             name = 0
-        # print(name)
-        # # time.sleep(0.5)
+
         try:
             friendship_duration = find_duration(url)
             print("friendship_duration:", friendship_duration)
@@ -294,8 +286,13 @@ def create_original_link(url):
 
 def scrap_all_friends(scan_type):
     result = []
+    print("scrape all")
     # profile = settings.driver.find_element_by_xpath('./div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div[1]/ul/li/div/a/div[1]/div[2]/div/div/div/div/span')
-    settings.driver.find_element_by_css_selector('.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw').click()
+    WebDriverWait(settings.driver, 10).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR,
+                                   '.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw'))
+    ).click()
+    # settings.driver.find_element_by_css_selector('.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw').click()
     time.sleep(0.5)
     url = settings.driver.current_url
     settings.driver.get(url+"/friends")
@@ -388,9 +385,11 @@ def login(email, password):
         # options.add_argument("--headless")
 
         try:
+
             settings.driver = webdriver.Chrome(
                 executable_path=ChromeDriverManager().install(), options=options
             )
+            # settings.driver.set_headless(headless=True)
         except Exception:
             print("Error loading chrome webdriver " + sys.exc_info()[0])
             exit(1)

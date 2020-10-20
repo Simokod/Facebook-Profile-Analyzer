@@ -75,18 +75,20 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path, sc
     cur_posts_scraped = 0
     last_post_id = 0
     start = time.time()
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight/3);")
+
     while posts_scraped < number_of_posts:
         try:
             old_height = driver.execute_script(selectors.get("height_script"))
-            driver.execute_script(selectors.get("scroll_script"))
-            WebDriverWait(driver, scroll_time, 0.05).until(
-                lambda driver: check_height(driver, selectors, old_height)
-            )
-            # WebDriverWait(driver, 10).until(
-            #     EC.presence_of_all_elements_located((By.XPATH, elements_path))
-            #     and (lambda driver: check_height(driver, selectors, old_height))
+            # WebDriverWait(driver, scroll_time, 0.05).until(
+            #     lambda driver: check_height(driver, selectors, old_height)
             # )
-            data = driver.find_elements_by_xpath(elements_path)
+            data = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.XPATH, elements_path))
+            )
+            driver.execute_script(selectors.get("scroll_script"))
+            # driver.execute_script(selectors.get("scroll_script"))
+            # data = driver.find_elements_by_xpath(elements_path)
             data = remove_comments(data)
             lim = number_of_posts-posts_scraped
             cur_posts_scraped, last_post_id, to_stop = my_extract_and_write_posts(data[posts_scraped:], lim, last_post_id, my_posts, start, scan_type)
@@ -97,7 +99,9 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path, sc
             posts_scraped += cur_posts_scraped
 
         except TimeoutException:
-            break
+            print("posts took:", time.time() - start, "seconds")
+            return my_posts
+    print("posts took:", time.time()-start, "seconds")
     return my_posts
 
     
