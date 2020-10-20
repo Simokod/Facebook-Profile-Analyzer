@@ -80,14 +80,14 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path, sc
 
     while posts_scraped < number_of_posts:
         try:
-            # WebDriverWait(driver, scroll_time, 0.05).until(
-            #     lambda driver: check_height(driver, selectors, old_height)
-            # )
-            data = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.XPATH, elements_path))
+            WebDriverWait(driver, scroll_time, 0.05).until(
+                lambda driver: check_height(driver, selectors, old_height)
             )
+            # data = WebDriverWait(driver, 10).until(
+            #     EC.presence_of_all_elements_located((By.XPATH, elements_path))
+            # )
             # driver.execute_script(selectors.get("scroll_script"))
-            # data = driver.find_elements_by_xpath(elements_path)
+            data = driver.find_elements_by_xpath(elements_path)
             data = remove_comments(data)
             lim = number_of_posts-posts_scraped
             cur_posts_scraped, last_post_id, to_stop = my_extract_and_write_posts(data[posts_scraped:], lim, last_post_id, my_posts, start, scan_type)

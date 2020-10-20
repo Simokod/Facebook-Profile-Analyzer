@@ -8,6 +8,10 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
+def enter():
+   return render_template('Homepage.html')
+
+@app.route('/home')
 def home():
    return render_template('Homepage.html')
 
@@ -18,6 +22,14 @@ def scan_specific_user():
 @app.route('/scan_all_friends')
 def scan_all_friends():
    return render_template('ScanAllFriends.html')
+
+@app.route('/about')
+def about():
+   return render_template('About.html')
+
+@app.route('/contact')
+def contact():
+   return render_template('Contact.html')
 
 @app.route("/scan_result_specific_user", methods=['POST'])
 def get_scan_result_specific_user():

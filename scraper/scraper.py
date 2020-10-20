@@ -320,7 +320,7 @@ def scrap_all_friends(scan_type):
         this_end = time.time()
         print("this profile took:", this_end-this_start)
         # DEBUG: control num of iterations
-        if count >= 100:
+        if count >= 1:
             break
     end = time.time()
     print("all profiles took:", end - start)
