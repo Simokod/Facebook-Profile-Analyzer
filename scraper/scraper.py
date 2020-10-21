@@ -165,7 +165,7 @@ def calculate_duration(friendship_year, friendship_month, today):
     return duration
 
 
-def find_duration(url):
+def find_duration():
 
     # More button click
     WebDriverWait(settings.driver, 10).until(
@@ -193,7 +193,6 @@ def find_duration(url):
     today = date.today().strftime("%d/%m/%Y")
     duration = calculate_duration(year, month, today)
 
-    settings.driver.get(url)
     return duration
 
 
@@ -213,7 +212,7 @@ def scrape_data(url, elements_path, scan_type):
             name = 0
 
         try:
-            friendship_duration = find_duration(url)
+            friendship_duration = find_duration()
             print("friendship_duration:", friendship_duration)
         except Exception:
             print("find friendship duration failed")
@@ -228,6 +227,7 @@ def scrape_data(url, elements_path, scan_type):
             age = 0
         # time.sleep(0.5)
         try:
+            settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
             friends_data = scrape_friends_count()
             print("friends data:", friends_data)
             total_friends = friends_data[0]
@@ -288,17 +288,25 @@ def scrap_all_friends(scan_type):
     result = []
     print("scrape all")
     # profile = settings.driver.find_element_by_xpath('./div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div[1]/ul/li/div/a/div[1]/div[2]/div/div/div/div/span')
-    WebDriverWait(settings.driver, 10).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR,
-                                   '.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw'))
+    # profile_xpath = '/html/body/div[1]/div/div[1]/div[1]/div[3]/div/div/div[1]/div[1]/div/div[1]/div/div/div[1]/div/div/div[1]/ul/li/div/a/div[1]/div[2]/div'
+
+    # WebDriverWait(settings.driver, 15).until(
+    #     EC.element_to_be_clickable((By.XPATH, profile_xpath))
+    # ).click()
+
+    profile_selector = '.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw'
+    WebDriverWait(settings.driver, 15).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, profile_selector))
     ).click()
+
+
     # settings.driver.find_element_by_css_selector('.gs1a9yip.ow4ym5g4.auili1gw.rq0escxv.j83agx80.cbu4d94t.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.rz4wbd8a.a8nywdso.l9j0dhe7.du4w35lb.rj1gh0hx.pybr56ya.f10w8fjw').click()
     time.sleep(0.5)
     url = settings.driver.current_url
     settings.driver.get(url+"/friends")
     time.sleep(0.5)
 
-    utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
+    # utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
     friends_block = settings.driver.find_element_by_css_selector('.dati1w0a.ihqw7lf3.hv4rvrfc.discj3wi')
     friends = friends_block.find_elements_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla')
 
@@ -321,12 +329,16 @@ def scrap_all_friends(scan_type):
             this_end = time.time()
             print("this profile took:", this_end-this_start)
             end = time.time()
-            print("current profiles average:", (end - start) / count)
+            # print("current profiles average:", (end - start) / count)
         except WebDriverException:
             break
-        # DEBUG: control num of iterations
-        if count >= 10:
+        except Exception:
             break
+
+
+        # DEBUG: control num of iterations
+        # if count >= 10:
+        #     break
 
     print("all profiles took:", end - start)
     print("all profiles average:", (end - start)/count)
