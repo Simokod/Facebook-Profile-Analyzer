@@ -30168,11 +30168,8 @@ a.u-link.u-text-hover-grey-90:hover {
 
 
 /*end-variables sitestylecss*/
- .u-header .u-sheet-1 {min-height: 80px}
-.u-header .u-menu-1 {margin: 22px -32px 22px auto}
-.u-header .u-nav-1 {font-size: 1rem; letter-spacing: 0}
-.u-header .u-nav-2 {font-size: 1.25rem} 
-@media (max-width: 1199px){ .u-header .u-menu-1 {width: auto; margin-right: 0} }
+ .u-header .u-sheet-1 {min-height: 80px} 
+
 
 
 

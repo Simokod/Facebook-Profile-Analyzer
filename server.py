@@ -8,10 +8,6 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
-def enter():
-   return render_template('Homepage.html')
-
-@app.route('/home')
 def home():
    return render_template('Homepage.html')
 
@@ -50,10 +46,11 @@ def scan_result_all_friends():
 	user_url = ""
 	mod = Mode.Release							# release mode
 	scrape_mod = Scrape_mode.Scrape_all  		# scrape all friends
-	# scan_type = Scan_type.quick_scan			# run quick scan
-	scan_type = Scan_type.full_scan				# run full scan
+	# should_run_full_scan = request.json['fullScan'] # if true - run full scan
+	# print(should_run_full_scan)
+	should_run_full_scan = Scan_type.quick_scan
 
-	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type)
+	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, should_run_full_scan)
 	# scan_results = [ ScanResult("Yuvi", "https://www.facebook.com", AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A")) ]
 
 	return render_template('ScanAllFriendsResultV2.html',
