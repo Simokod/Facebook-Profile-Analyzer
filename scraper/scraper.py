@@ -318,6 +318,7 @@ def scrap_all_friends(scan_type):
     list = []
     # Helper: time counter
     start = time.time()
+    end = time.time()
     # DEBUG: control num of iterations
     count = 0
     for link in links:
@@ -337,10 +338,9 @@ def scrap_all_friends(scan_type):
         except Exception:
             break
 
-
         # DEBUG: control num of iterations
-        # if count >= 10:
-        #     break
+        if count >= 1:
+            break
 
     print("all profiles took:", end - start)
     print("all profiles average:", (end - start)/count)
