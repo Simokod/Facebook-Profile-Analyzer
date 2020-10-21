@@ -198,17 +198,18 @@ def find_duration():
 
 def scrape_data(url, elements_path, scan_type):
     """Given some parameters, this function can scrap friends/photos/videos/about/posts(statuses) of a profile"""
-    if scan_type == Scan_type.full_scan:
-        time.sleep(0.5)
-        try:
+    time.sleep(0.5)
+    try:
+        name = WebDriverWait(settings.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, '.gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80'))).text
+        print("name:", name)
+        # name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
+    except Exception:
+        print("find name failed")
+        name = 0
 
-            name = WebDriverWait(settings.driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, '.gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80'))).text
-            print("name:", name)
-            # name = settings.driver.find_element_by_css_selector(".gmql0nx0.l94mrbxd.p1ri9a11.lzcic4wl.bp9cbjyn.j83agx80").text
-        except Exception:
-            print("find name failed")
-            name = 0
+    if scan_type == Scan_type.full_scan:
 
         try:
             friendship_duration = find_duration()
