@@ -22,8 +22,8 @@ def analyze_user(fb_user):
         trigersPostsRates[triger] = trigersPostsCount[triger] / postsNum  # calculate rate of posts in this triger
     
     #convert to analysis result
-    percentResult = "See percent of trigers in text result."
-    textResult = convert_trigers_rates_to_text(trigersPostsRates)
+    percentResult = convert_trigers_rates_to_percent(trigersPostsRates)
+    textResult = get_text_result(trigersPostsRates)
 
     return AnalysisResult(percentResult, textResult)
 
@@ -94,8 +94,9 @@ def detect_word_trigers(word):
                 wordTrigers.add(triger)
     return wordTrigers
 
-def convert_trigers_rates_to_text(trigersPostsRates):
-    textResult = "Posts of user according to trigers: "
+def convert_trigers_rates_to_percent(trigersPostsRates):
+    if len(trigersPostsRates) == 0:  # No trigers found
+        return "0%"
 
     for triger in trigersPostsRates.keys():
         if triger != None:
@@ -103,3 +104,9 @@ def convert_trigers_rates_to_text(trigersPostsRates):
             textResult += triger + ": " + str(percent) + "%,"
     
     return textResult[:-1]  # trim the last ","
+
+def get_text_result(trigersPostsRates):
+    if len(trigersPostsRates) == 0:  # No trigers found
+        return "No trigers detected."
+    else:
+        return "Posts of user according to trigers."
