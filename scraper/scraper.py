@@ -143,7 +143,6 @@ def scrape_account_age(url):
     today = date.today().strftime("%d/%m/%Y")
     # print('today date: ', today)
     age = calculate_age(profile_date, today)
-    settings.driver.get(url)
 
     return age
 
@@ -226,6 +225,8 @@ def scrape_data(url, elements_path, scan_type):
             print("find age failed")
             age = 0
         # time.sleep(0.5)
+        settings.driver.get(url)
+
         try:
             settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
             friends_data = scrape_friends_count()
@@ -246,6 +247,7 @@ def scrape_data(url, elements_path, scan_type):
         friendship_duration = 0
         total_friends = 0
         mutual_friends = 0
+
     posts = scrape_posts(url, elements_path, scan_type)
     # posts = []
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
