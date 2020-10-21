@@ -225,11 +225,11 @@ def scrape_data(url, elements_path, scan_type):
         except Exception:
             print("find age failed")
             age = 0
-        # time.sleep(0.5)
         settings.driver.get(url)
+        settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
+        time.sleep(0.5)
 
         try:
-            settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
             friends_data = scrape_friends_count()
             print("friends data:", friends_data)
             total_friends = friends_data[0]
@@ -241,9 +241,9 @@ def scrape_data(url, elements_path, scan_type):
             print("find friends data failed")
             total_friends = 0
             mutual_friends = 0
-
     else:
-        name = 0
+        settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
+        time.sleep(0.5)
         age = 0
         friendship_duration = 0
         total_friends = 0
@@ -340,7 +340,7 @@ def scrap_all_friends(scan_type):
             break
 
         # DEBUG: control num of iterations
-        if count >= 1:
+        if count >= 10:
             break
 
     print("all profiles took:", end - start)
