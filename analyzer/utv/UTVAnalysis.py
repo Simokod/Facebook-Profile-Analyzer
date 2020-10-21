@@ -10,7 +10,7 @@ def analyze_user(fb_user):
     mf = fb_user.mutual_friends
 
     if aua == 0 or fd == 0 or tf ==0 or mf == 0:
-        return AnalysisResult("N\A", "Can't calculate user's trust level")
+        return AnalysisResult("N\A", "Can't calculate user's trust level", 0)
     # Thresholds
     T_aua = 2
     T_fd = 1.5
@@ -33,4 +33,4 @@ def analyze_user(fb_user):
     # Convert to analysis result
     UTVPercent = str(UTV*100) + "%"
     UTVText = "@TODO"
-    return AnalysisResult(UTVPercent, UTVText)
+    return AnalysisResult(UTVPercent, UTVText, UTV)

@@ -340,7 +340,7 @@ def scrap_all_friends(scan_type):
             break
 
         # DEBUG: control num of iterations
-        if count >= 10:
+        if count >= 4:
             break
 
     print("all profiles took:", end - start)

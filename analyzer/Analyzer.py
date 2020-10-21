@@ -30,7 +30,7 @@ def analyze_user(fb_user):
 
 # create result for profile with not enough posts (0 posts or not enough)
 def create_not_enough_posts_result(fb_user, text_result):
-        text_analyzers_result = AnalysisResult("N\A", text_result)
+        text_analyzers_result = AnalysisResult("N\A", text_result, 0)
         utv_result = UTVAnalysis.analyze_user(fb_user)
         result = ScanResult(fb_user.name, fb_user.url, text_analyzers_result, text_analyzers_result, text_analyzers_result, utv_result)
         return result

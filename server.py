@@ -46,19 +46,25 @@ def scan_result_all_friends():
 	user_url = ""
 	mod = Mode.Release							# release mode
 	scrape_mod = Scrape_mode.Scrape_all  		# scrape all friends
-	# should_run_full_scan = request.json['fullScan'] # if true - run full scan
-	# print(should_run_full_scan)
-	should_run_full_scan = Scan_type.quick_scan
+	scan_type = get_scan_type_from_request(request)
 
-	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, should_run_full_scan)
+	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type)
 	# scan_results = [ ScanResult("Yuvi", "https://www.facebook.com", AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A"), AnalysisResult(70, "A")) ]
 
-	return render_template('ScanAllFriendsResultV2.html',
+	return render_template('ScanAllFriendsResult.html',
 							scan_results = scan_results)
+
+def get_scan_type_from_request(request):
+	should_run_full_scan = request.json['fullScan'] # if true - run full scan
+	print(should_run_full_scan)
+	if should_run_full_scan:
+		return Scan_type.full_scan
+	else:
+		return Scan_type.quick_scan
 
 # create html template according to scan result
 def create_specific_user_result_template(scan_result):
-	return render_template('ScanSpecificUserResultV2.html',
+	return render_template('ScanSpecificUserResult.html',
 							user_name = scan_result.user_name,
 							offensiveness_result_percent = scan_result.offensiveness_result.percent,
 							offensiveness_result_text = scan_result.offensiveness_result.text,

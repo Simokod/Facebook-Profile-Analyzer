@@ -18,14 +18,16 @@ def analyze_user(fb_user):
 
     # calculate trigers rates
     trigersPostsRates = dict()
+    ratesSum = 0
     for triger in trigersPostsCount:
         trigersPostsRates[triger] = trigersPostsCount[triger] / postsNum  # calculate rate of posts in this triger
-    
+        ratesSum += trigersPostsRates[triger]
+
     #convert to analysis result
     percentResult = convert_trigers_rates_to_percent(trigersPostsRates)
     textResult = get_text_result(trigersPostsRates)
 
-    return AnalysisResult(percentResult, textResult)
+    return AnalysisResult(percentResult, textResult, ratesSum)
 
 # calculate post's trigers and add to counter dictionary
 # improve - currently returns only one triger per post
@@ -97,6 +99,8 @@ def detect_word_trigers(word):
 def convert_trigers_rates_to_percent(trigersPostsRates):
     if len(trigersPostsRates) == 0:  # No trigers found
         return "0%"
+    
+    textResult = ""
 
     for triger in trigersPostsRates.keys():
         if triger != None:

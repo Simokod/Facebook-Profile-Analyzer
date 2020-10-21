@@ -20,7 +20,7 @@ def analyze_user(fb_user):
     offensiveResultPercent = str(percent) + "%"
     offensiveResultText = convert_offensive_rate_to_text(offensiveRate)
 
-    return AnalysisResult(offensiveResultPercent, offensiveResultText)
+    return AnalysisResult(offensiveResultPercent, offensiveResultText, offensiveRate)
 
 # check if post is offenive by 
 # idea: counting offensive words in it, and compare offensive words rate to threshold

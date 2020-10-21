@@ -23,7 +23,7 @@ def analyze_user(fb_user):
     percentResult = str(percent) + "%"
     textResult = convert_potential_fake_rate_to_text(potentialFakeRate)
 
-    return AnalysisResult(percentResult, textResult)
+    return AnalysisResult(percentResult, textResult, potentialFakeRate)
 
 # check if a post might be fake by analyzing it's polarity
 # idea:

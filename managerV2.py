@@ -11,27 +11,24 @@ from functools import partial
 from analyzer import Analyzer
 
 
-def scrape_and_analyze(email, password, user_url, mod, scrape_mod, should_run_full_scan):
-    scan_result = []
+def scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type):
+    scan_results = []
 
-    users_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod, should_run_full_scan)
+    users_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod, scan_type)
     for fb_user in users_to_analyze:
         print(fb_user.url)
         user_result = Analyzer.analyze_user(fb_user)
-        scan_result.append(user_result)
+        scan_results.append(user_result)
 
-    return scan_result
+    # sort users result according to dangerous level
+    scan_results.sort(reverse=True, key=calculate_analyzes_sum)  # sort descending, according to sum of analyzes
+    return scan_results
 
+def calculate_analyzes_sum(scan_result):
+    offensive = scan_result.offensiveness_result.numeric
+    fakeNews = scan_result.offensiveness_result.numeric
+    trigers = scan_result.trigers_result.numeric
+    utv = scan_result.utv_result.numeric
 
-### test
-posts = [ "בתחת שלי כל הבלה בלה בלה הזה", "יא הומו!", "שחקני כדורגל הם מטומטמים", "הגברת התלוננה על הטרדה מינית", "מכירת סמי פיצוציות זה פאסה", "הפיגוע שהיה אתמול היה מחריד" ]
-fb_user = FBUser("Yuvi", "www.facebook.com", 1, 1, 1, 1, posts)
-user_result = Analyzer.analyze_user(fb_user)
-
-off = user_result.offensiveness_result
-fake = user_result.potentialFakeNews_result
-trigers = user_result.trigers_result
-
-print("1. " + off.percent + " " + off.text)
-print("2. " + fake.percent + " " + fake.text)
-print("3. " + trigers.percent + " " + trigers.text)
+    # calculate utv as: 1-utv (take the unreliable part)
+    return offensive + fakeNews + trigers + (1-utv)
