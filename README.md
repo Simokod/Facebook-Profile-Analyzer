@@ -10,7 +10,7 @@ You will need:
 
 ```bash
 # Clone project:
-> git clone https://github.com/Simokod/Projects-and-Having-Fun.git
+> git clone https://github.com/Simokod/Facebook-Profile-Analyzer.git
 > cd Projects-and-Having-Fun
 
 # Set up a virtual env
