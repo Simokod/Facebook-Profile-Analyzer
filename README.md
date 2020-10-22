@@ -24,7 +24,7 @@ You will need:
 > venv\Scripts\activate.bat
   
 # Install Python requirements
-(venv) > pip install -e .
+(venv) > pip install -r requirements.txt
 (venv) > pip install webdriver_manager
 (venv) > pip install Flask
 (venv) > pip install -U flask-cors
