@@ -210,7 +210,6 @@ def scrape_data(url, elements_path, scan_type):
         name = 0
 
     if scan_type == Scan_type.full_scan:
-
         try:
             friendship_duration = find_duration()
             print("friendship_duration:", friendship_duration)
@@ -227,7 +226,7 @@ def scrape_data(url, elements_path, scan_type):
             age = 0
         settings.driver.get(url)
         settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
-        time.sleep(0.5)
+        time.sleep(1)
 
         try:
             friends_data = scrape_friends_count()
@@ -243,7 +242,7 @@ def scrape_data(url, elements_path, scan_type):
             mutual_friends = 0
     else:
         settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
-        time.sleep(0.5)
+        time.sleep(1)
         age = 0
         friendship_duration = 0
         total_friends = 0
@@ -331,19 +330,24 @@ def scrap_all_friends(scan_type):
             settings.driver.implicitly_wait(1)
             time.sleep(1)
             this_end = time.time()
+            print("this profile is the", count, "profile being scraped")
             print("this profile took:", this_end-this_start)
             end = time.time()
-            # print("current profiles average:", (end - start) / count)
+            print("time passed so far (hours):", str(int((end - start)/3600)) +
+                  ":"+str(int((end - start)/60) % 60)+":"+str(int((end - start) % 60)))
+
         except WebDriverException:
             break
         except Exception:
             break
 
         # DEBUG: control num of iterations
-        if count >= 4:
-            break
+        # if count >= :
+        #     break
 
-    print("all profiles took:", end - start)
+    print("all profiles took (hours):", str(int((end - start)/3600)) +
+                  ":" + str(int((end - start)/60) % 60)+":"+str(int((end - start) % 60)))
+
     print("all profiles average:", (end - start)/count)
 
     return list
