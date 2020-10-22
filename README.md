@@ -13,7 +13,7 @@ You will need:
 > git clone https://github.com/Simokod/Facebook-Profile-Analyzer.git
 > cd Facebook-Profile-Analyzer
 
-# Set up a virtual env
+# Set up a virtual env:
 > pip install virtualenv
 > virtualenv venv
 
@@ -23,9 +23,14 @@ You will need:
 # Windows:
 > venv\Scripts\activate.bat
   
-# Install Python requirements
+# Install Python requirements:
 (venv) > pip install -r requirements.txt
 (venv) > pip install webdriver_manager
+
+# Download nltk data:
+(venv) > python
+(venv) > import nltk
+(venv) > nltk.download('vader_lexicon')
 
 ```
 
