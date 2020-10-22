@@ -11,7 +11,7 @@ You will need:
 ```bash
 # Clone project:
 > git clone https://github.com/Simokod/Facebook-Profile-Analyzer.git
-> cd Projects-and-Having-Fun
+> cd Facebook-Profile-Analyzer
 
 # Set up a virtual env
 > pip install virtualenv
