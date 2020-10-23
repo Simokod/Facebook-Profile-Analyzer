@@ -42,13 +42,13 @@ def scrape_posts(url, elements_path, scan_type):
 
 
 # returns total number of friends, and number of mutual friends
-def parse_friends_data(friends_data):
-    friends_data = friends_data.replace(',', '')
+def parse_friends_data(friends_data_str):
+    friends_data_str = friends_data_str.replace(',', '')
     # print(friends_data)
-    friends_data = friends_data.replace('(', ' ')
+    friends_data_str = friends_data_str.replace('(', ' ')
     # print(friends_data)
     # friends_data = friends_data.replace(')', ' ')
-    friends_data = [int(s) for s in friends_data.split() if s.isdigit()]
+    friends_data = [int(s) for s in friends_data_str.split() if s.isdigit()]
     # print(friends_data)
     return friends_data
 

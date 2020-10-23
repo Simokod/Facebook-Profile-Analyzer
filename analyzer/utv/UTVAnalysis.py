@@ -32,14 +32,22 @@ def analyze_user(fb_user):
     
     # Convert to analysis result
     UTVPercent = str(UTV*100) + "%"
-    UTVText = utvAnalysisTextResult[UTV]
+    # UTVText = utvAnalysisTextResult[UTV]
+    UTVText = convert_utv_rate_to_text(UTV)
+
     return AnalysisResult(UTVPercent, UTVText, UTV)
 
+def convert_utv_rate_to_text(utvRate):
+    for rate in utvAnalysisTextResult.keys():
+        if utvRate <= rate:
+            return utvAnalysisTextResult[rate]
+    return ""
+
 utvAnalysisTextResult = {
-    0.0 : "USER IS DANGEROUS! DO NOT TRUST THEM!",
-    0.4 : "User is problematic! very low reliability rank",
-    0.6 : "User is not very reliable, you should pay attention",
-    0.8 : "User is ok.",
+    0.0: "USER IS DANGEROUS! DO NOT TRUST THEM!",
+    0.4: "User is problematic! very low reliability rank",
+    0.6: "User is not very reliable, you should pay attention",
+    0.8: "User is ok.",
     0.9: "User is reliable.",
-    1 : "User is 100% reliable!"
+    1: "User is 100% reliable!"
 }
