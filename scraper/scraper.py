@@ -4,18 +4,16 @@ import sys
 import urllib.request
 from datetime import date
 
-from selenium.webdriver import DesiredCapabilities
-
-from modes import Scrape_mode, Mode, Scan_type
 import yaml
-# import utils
 import argparse
 import time
 
-import fb_user
+import data_contracts.fb_user as fb_user
 from . import settings
 from . import utils
+from . import modes
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -209,7 +207,7 @@ def scrape_data(url, elements_path, scan_type):
         print("find name failed")
         name = 0
 
-    if scan_type == Scan_type.full_scan:
+    if scan_type == modes.Scan_type.full_scan:
         try:
             friendship_duration = find_duration()
             print("friendship_duration:", friendship_duration)
@@ -466,7 +464,7 @@ def scraper(email, password, user_url, mod, scrape_mod, scan_type, **kwargs):
     print(scrape_mod)
 
     working_dir = os.path.dirname(os.path.abspath(__file__))
-    if mod == Mode.Dev:
+    if mod == modes.Mode.Dev:
 
         with open(working_dir + "\credentials.yaml", "r") as ymlfile:
             cfg = yaml.safe_load(stream=ymlfile)
@@ -483,7 +481,7 @@ def scraper(email, password, user_url, mod, scrape_mod, scan_type, **kwargs):
     #     if not line.lstrip().startswith("#") and not line.strip() == ""
     # ]
     login(email, password)
-    if scrape_mod == Scrape_mode.Scrape_specific:
+    if scrape_mod == modes.Scrape_mode.Scrape_specific:
         # url = urls[0]
         settings.driver.get(user_url)
         result = [scrap_profile(scan_type)]
