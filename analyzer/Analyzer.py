@@ -3,7 +3,7 @@ from analyzer.fake_news import PotentialFakeNewsAnalysis
 from analyzer.trigers import TrigersAnalysis
 from analyzer.utv import UTVAnalysis
 from data_contracts.scan_result import ScanResult
-from analyzer.analysis_result import AnalysisResult
+from data_contracts.analysis_result import AnalysisResult
 
 ############ analysis manager ############
 
