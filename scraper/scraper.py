@@ -4,18 +4,16 @@ import sys
 import urllib.request
 from datetime import date
 
-from selenium.webdriver import DesiredCapabilities
-
-from modes import Scrape_mode, Mode, Scan_type
 import yaml
-# import utils
 import argparse
 import time
 
-import fb_user
+import data_contracts.fb_user as fb_user
 from . import settings
 from . import utils
+from . import modes
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -42,13 +40,13 @@ def scrape_posts(url, elements_path, scan_type):
 
 
 # returns total number of friends, and number of mutual friends
-def parse_friends_data(friends_data):
-    friends_data = friends_data.replace(',', '')
+def parse_friends_data(friends_data_str):
+    friends_data_str = friends_data_str.replace(',', '')
     # print(friends_data)
-    friends_data = friends_data.replace('(', ' ')
+    friends_data_str = friends_data_str.replace('(', ' ')
     # print(friends_data)
     # friends_data = friends_data.replace(')', ' ')
-    friends_data = [int(s) for s in friends_data.split() if s.isdigit()]
+    friends_data = [int(s) for s in friends_data_str.split() if s.isdigit()]
     # print(friends_data)
     return friends_data
 
@@ -209,8 +207,7 @@ def scrape_data(url, elements_path, scan_type):
         print("find name failed")
         name = 0
 
-    if scan_type == Scan_type.full_scan:
-
+    if scan_type == modes.Scan_type.full_scan:
         try:
             friendship_duration = find_duration()
             print("friendship_duration:", friendship_duration)
@@ -227,7 +224,7 @@ def scrape_data(url, elements_path, scan_type):
             age = 0
         settings.driver.get(url)
         settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
-        time.sleep(0.5)
+        time.sleep(1)
 
         try:
             friends_data = scrape_friends_count()
@@ -243,7 +240,7 @@ def scrape_data(url, elements_path, scan_type):
             mutual_friends = 0
     else:
         settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
-        time.sleep(0.5)
+        time.sleep(1)
         age = 0
         friendship_duration = 0
         total_friends = 0
@@ -309,7 +306,7 @@ def scrap_all_friends(scan_type):
     settings.driver.get(url+"/friends")
     time.sleep(0.5)
 
-    utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
+    # utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
     friends_block = settings.driver.find_element_by_css_selector('.dati1w0a.ihqw7lf3.hv4rvrfc.discj3wi')
     friends = friends_block.find_elements_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla')
 
@@ -331,19 +328,24 @@ def scrap_all_friends(scan_type):
             settings.driver.implicitly_wait(1)
             time.sleep(1)
             this_end = time.time()
+            print("this profile is the", count, "profile being scraped")
             print("this profile took:", this_end-this_start)
             end = time.time()
-            # print("current profiles average:", (end - start) / count)
+            print("time passed so far (hours):", str(int((end - start)/3600)) +
+                  ":"+str(int((end - start)/60) % 60)+":"+str(int((end - start) % 60)))
+
         except WebDriverException:
             break
         except Exception:
             break
 
         # DEBUG: control num of iterations
-        if count >= 60:
-            break
+        # if count >= :
+        #     break
 
-    print("all profiles took:", end - start)
+    print("all profiles took (hours):", str(int((end - start)/3600)) +
+                  ":" + str(int((end - start)/60) % 60)+":"+str(int((end - start) % 60)))
+
     print("all profiles average:", (end - start)/count)
 
     return list
@@ -462,7 +464,7 @@ def scraper(email, password, user_url, mod, scrape_mod, scan_type, **kwargs):
     print(scrape_mod)
 
     working_dir = os.path.dirname(os.path.abspath(__file__))
-    if mod == Mode.Dev:
+    if mod == modes.Mode.Dev:
 
         with open(working_dir + "\credentials.yaml", "r") as ymlfile:
             cfg = yaml.safe_load(stream=ymlfile)
@@ -479,7 +481,7 @@ def scraper(email, password, user_url, mod, scrape_mod, scan_type, **kwargs):
     #     if not line.lstrip().startswith("#") and not line.strip() == ""
     # ]
     login(email, password)
-    if scrape_mod == Scrape_mode.Scrape_specific:
+    if scrape_mod == modes.Scrape_mode.Scrape_specific:
         # url = urls[0]
         settings.driver.get(user_url)
         result = [scrap_profile(scan_type)]

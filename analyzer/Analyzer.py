@@ -2,8 +2,8 @@ from analyzer.offensiveness import OffensivenessAnalysis
 from analyzer.fake_news import PotentialFakeNewsAnalysis
 from analyzer.trigers import TrigersAnalysis
 from analyzer.utv import UTVAnalysis
-from scan_result import ScanResult
-from analysis_result import AnalysisResult
+from data_contracts.scan_result import ScanResult
+from analyzer.analysis_result import AnalysisResult
 
 ############ analysis manager ############
 

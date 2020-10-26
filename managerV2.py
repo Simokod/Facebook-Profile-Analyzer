@@ -1,11 +1,10 @@
 import tkinter as tk
 import csv
 from tkinter import messagebox
-# from subprocess import call
 from selenium.common.exceptions import WebDriverException, NoSuchWindowException
 from data_contracts.scan_result import ScanResult
 from data_contracts.fb_user import FBUser
-from modes import Scrape_mode, Mode
+from scraper.modes import Scrape_mode, Mode, Scan_type
 from scraper import scraper
 from scraper import settings
 from functools import partial

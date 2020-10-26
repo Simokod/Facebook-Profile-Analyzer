@@ -10,10 +10,10 @@ You will need:
 
 ```bash
 # Clone project:
-> git clone https://github.com/Simokod/Projects-and-Having-Fun.git
-> cd Projects-and-Having-Fun
+> git clone https://github.com/Simokod/Facebook-Profile-Analyzer.git
+> cd Facebook-Profile-Analyzer
 
-# Set up a virtual env
+# Set up a virtual env:
 > pip install virtualenv
 > virtualenv venv
 
@@ -23,11 +23,14 @@ You will need:
 # Windows:
 > venv\Scripts\activate.bat
   
-# Install Python requirements
-(venv) > pip install -e .
+# Install Python requirements:
+(venv) > pip install -r requirements.txt
 (venv) > pip install webdriver_manager
-(venv) > pip install Flask
-(venv) > pip install -U flask-cors
+
+# Download nltk data:
+(venv) > python
+(venv) > import nltk
+(venv) > nltk.download('vader_lexicon')
 
 ```
 

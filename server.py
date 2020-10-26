@@ -1,7 +1,8 @@
 import managerV2
-from scan_result import ScanResult
-from analysis_result import AnalysisResult
-from modes import Scrape_mode, Mode, Scan_type
+from data_contracts.scan_result import ScanResult
+from analyzer.analysis_result import AnalysisResult
+from scraper import modes
+# from modes import Mode
 from flask import Flask, request, render_template, jsonify, make_response 
 from flask_cors import CORS
 app = Flask(__name__)
@@ -32,9 +33,9 @@ def get_scan_result_specific_user():
 	email = request.json['email']
 	password = request.json['password']
 	user_url = request.json['user_url']
-	mod = Mode.Release							# release mode
-	scrape_mod = Scrape_mode.Scrape_specific  	# scrape specific profile
-	scan_type = Scan_type.full_scan
+	mod = modes.Mode.Release							# release mode
+	scrape_mod = modes.Scrape_mode.Scrape_specific  	# scrape specific profile
+	scan_type = modes.Scan_type.full_scan
 	scan_result = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type)[0]
 
 	return create_specific_user_result_template(scan_result)
@@ -44,8 +45,8 @@ def scan_result_all_friends():
 	email = request.json['email']
 	password = request.json['password']
 	user_url = ""
-	mod = Mode.Release							# release mode
-	scrape_mod = Scrape_mode.Scrape_all  		# scrape all friends
+	mod = modes.Mode.Release							# release mode
+	scrape_mod = modes.Scrape_mode.Scrape_all  			# scrape all friends
 	scan_type = get_scan_type_from_request(request)
 
 	scan_results = managerV2.scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type)
@@ -58,9 +59,9 @@ def get_scan_type_from_request(request):
 	should_run_full_scan = request.json['fullScan'] # if true - run full scan
 	print(should_run_full_scan)
 	if should_run_full_scan:
-		return Scan_type.full_scan
+		return modes.Scan_type.full_scan
 	else:
-		return Scan_type.quick_scan
+		return modes.Scan_type.quick_scan
 
 # create html template according to scan result
 def create_specific_user_result_template(scan_result):

@@ -51,7 +51,7 @@ def check_fake_potential(post):
     elif sentimentDict['neg'] >= fake_threshold_mid or sentimentDict['pos'] >= fake_threshold_mid:
         # manual analysis
         manualSentimentCalc = analyze_manualy_sentiments_in_post(englishText) # get sentiments balance by counting words
-        if abs(manualSentimentCalc) >= fake_threshold_super_high:    # probably because of low amount of pos/neg words
+        if abs(manualSentimentCalc) >= fake_threshold_super_high:
             return True
 
     return False   
