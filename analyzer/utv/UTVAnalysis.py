@@ -11,6 +11,7 @@ def analyze_user(fb_user):
 
     if aua == 0 or fd == 0 or tf ==0 or mf == 0:
         return AnalysisResult("N\A", "Can't calculate user's trust level", 0)
+        
     # Thresholds
     T_aua = 2
     T_fd = 1.5
