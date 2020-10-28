@@ -8,7 +8,8 @@ def analyze_user(fb_user):
     fd = fb_user.friendship_duration
     tf = fb_user.total_friends
     mf = fb_user.mutual_friends
-
+    # if isinstance(aua, str):
+    #     aua = int(aua)
     if aua == 0 or fd == 0 or tf ==0 or mf == 0:
         return AnalysisResult("N\A", "Can't calculate user's trust level", 0)
         

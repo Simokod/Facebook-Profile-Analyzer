@@ -9,9 +9,9 @@ import argparse
 import time
 
 import data_contracts.fb_user as fb_user
-from . import settings
-from . import utils
-from . import modes
+from . import settings, utils, modes, fb_users_writer
+# from . import utils
+# from . import modes
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
@@ -23,7 +23,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 # returns a dictionary containing the user's posts
-def scrape_posts(url, elements_path, scan_type):
+def scrape_posts(elements_path, scan_type):
 
     try:
         my_posts = utils.my_scroll(settings.number_of_posts, settings.driver, settings.selectors, settings.scroll_time, elements_path[0], scan_type)
@@ -35,7 +35,7 @@ def scrape_posts(url, elements_path, scan_type):
             # str(save_status),
             sys.exc_info()[0],
         )
-        return
+        return []
     return my_posts
 
 
@@ -246,7 +246,7 @@ def scrape_data(url, elements_path, scan_type):
         total_friends = 0
         mutual_friends = 0
 
-    posts = scrape_posts(url, elements_path, scan_type)
+    posts = scrape_posts(elements_path, scan_type)
     # posts = []
     profile = fb_user.FBUser(name, url, age, friendship_duration, total_friends, mutual_friends, posts)
     return profile
@@ -306,7 +306,7 @@ def scrap_all_friends(scan_type):
     settings.driver.get(url+"/friends")
     time.sleep(0.5)
 
-    # utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
+    utils.friends_scroll(settings.driver, settings.selectors, settings.scroll_time)
     friends_block = settings.driver.find_element_by_css_selector('.dati1w0a.ihqw7lf3.hv4rvrfc.discj3wi')
     friends = friends_block.find_elements_by_css_selector('.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.q9uorilb.mg4g778l.btwxx1t3.pfnyh3mw.p7hjln8o.kvgmc6g5.wkznzc2l.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.lzcic4wl.abiwlrkh.p8dawk7l.pioscnbf.etr7akla')
 
@@ -324,7 +324,9 @@ def scrap_all_friends(scan_type):
         try:
             this_start = time.time()
             settings.driver.get(link)
-            list.append(scrap_profile(scan_type))
+            profile = scrap_profile(scan_type)
+            list.append(profile)
+            fb_users_writer.write_fb_friends_to_file(profile, count)
             settings.driver.implicitly_wait(1)
             time.sleep(1)
             this_end = time.time()
@@ -340,8 +342,8 @@ def scrap_all_friends(scan_type):
             break
 
         # DEBUG: control num of iterations
-        if count >= 3:
-            break
+        # if count >= 1:
+        #     break
 
     print("all profiles took (hours):", str(int((end - start)/3600)) +
                   ":" + str(int((end - start)/60) % 60)+":"+str(int((end - start) % 60)))

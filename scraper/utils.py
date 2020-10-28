@@ -72,7 +72,7 @@ def my_scroll(number_of_posts, driver, selectors, scroll_time, elements_path, sc
     my_posts = []
     global old_height
     posts_scraped = 0
-    cur_posts_scraped = 0
+    # cur_posts_scraped = 0
     last_post_id = 0
     start = time.time()
     while posts_scraped < number_of_posts:
@@ -168,7 +168,7 @@ def my_extract_and_write_posts(elements, lim, last_post_id, my_posts, start, sca
                 if post_id != None:
                     if int_post_id > last_post_id:
                         status = my_get_status(x)
-                        print(status)
+                        # print(status)
                         try:
                             if status != "":
                                 my_posts.append(status)
@@ -205,7 +205,7 @@ def my_get_status(x):
         statuses = post.find_elements_by_xpath('./*[contains(@class, cxmmr5t8)]/div')
         for item in statuses:
             status += item.text
-        exps_in_row = 0
+        # exps_in_row = 0
 
     except Exception:
         pass

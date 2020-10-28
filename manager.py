@@ -1,5 +1,5 @@
-import tkinter as tk
-from tkinter import messagebox
+import csv
+
 from selenium.common.exceptions import WebDriverException, NoSuchWindowException
 from data_contracts.scan_result import ScanResult
 from data_contracts.fb_user import FBUser
@@ -9,12 +9,14 @@ from scraper import settings
 from functools import partial
 from analyzer import Analyzer
 from results_file_writer import write_results_to_file
+import os
 
 
 def scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type):
     scan_results = []
 
-    users_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod, scan_type)
+    scraper.main(email, password, user_url, mod, scrape_mod, scan_type)
+    users_to_analyze = read_friends_csv()
     for fb_user in users_to_analyze:
         user_result = Analyzer.analyze_user(fb_user)
         scan_results.append(user_result)
@@ -36,6 +38,23 @@ def calculate_analyzes_sum(scan_result):
     # calculate utv as: 1-utv (take the unreliable part)
     return offensive + fakeNews + trigers + (1-utv)
 
+
+def read_friends_csv():
+    friends_list = []
+    with open('fb_friends.csv', mode='r', encoding='utf-8') as fb_friends:
+        friends_reader = csv.DictReader(fb_friends)
+        for friend in friends_reader:
+            age = int(friend['age'])
+            duration = int(friend['friendship_duration'])
+            total_friends = int(friend['total_friends'])
+            mutual_friends = int(friend['mutual_friends'])
+            friends_list.append(FBUser(friend['name'], friend['url'], age,
+                                       duration, total_friends, mutual_friends,
+                                       friend['posts'].split('|||')))
+
+    if os.path.exists('fb_friends.csv'):
+        os.remove('fb_friends.csv')
+    return friends_list
 
 
 
