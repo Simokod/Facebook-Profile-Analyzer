@@ -224,7 +224,7 @@ def scrape_data(url, elements_path, scan_type):
             age = 0
         settings.driver.get(url)
         settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
-        time.sleep(1)
+        time.sleep(1.5)
 
         try:
             friends_data = scrape_friends_count()
@@ -240,7 +240,7 @@ def scrape_data(url, elements_path, scan_type):
             mutual_friends = 0
     else:
         settings.driver.execute_script("window.scrollBy(0, document.body.scrollHeight/3);")
-        time.sleep(1)
+        time.sleep(1.5)
         age = 0
         friendship_duration = 0
         total_friends = 0

@@ -44,8 +44,8 @@ def read_friends_csv():
     with open('fb_friends.csv', mode='r', encoding='utf-8') as fb_friends:
         friends_reader = csv.DictReader(fb_friends)
         for friend in friends_reader:
-            age = int(friend['age'])
-            duration = int(friend['friendship_duration'])
+            age = float(friend['age'])
+            duration = float(friend['friendship_duration'])
             total_friends = int(friend['total_friends'])
             mutual_friends = int(friend['mutual_friends'])
             friends_list.append(FBUser(friend['name'], friend['url'], age,
