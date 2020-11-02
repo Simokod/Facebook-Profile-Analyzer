@@ -342,8 +342,8 @@ def scrap_all_friends(scan_type):
             break
 
         # DEBUG: control num of iterations
-        # if count >= 1:
-        #     break
+        if count >= 50:
+            break
 
     print("all profiles took (hours):", str(int((end - start)/3600)) +
                   ":" + str(int((end - start)/60) % 60)+":"+str(int((end - start) % 60)))
