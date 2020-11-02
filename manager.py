@@ -14,9 +14,11 @@ import os
 
 def scrape_and_analyze(email, password, user_url, mod, scrape_mod, scan_type):
     scan_results = []
-
-    scraper.main(email, password, user_url, mod, scrape_mod, scan_type)
-    users_to_analyze = read_friends_csv()
+    if scrape_mod == Scrape_mode.Scrape_specific:
+        users_to_analyze = scraper.main(email, password, user_url, mod, scrape_mod, scan_type)
+    else:
+        scraper.main(email, password, user_url, mod, scrape_mod, scan_type)
+        users_to_analyze = read_friends_csv()
     for fb_user in users_to_analyze:
         user_result = Analyzer.analyze_user(fb_user)
         scan_results.append(user_result)
@@ -40,8 +42,9 @@ def calculate_analyzes_sum(scan_result):
 
 
 def read_friends_csv():
+    path = os.path.dirname(__file__) + '/fb_friends.csv'
     friends_list = []
-    with open('fb_friends.csv', mode='r', encoding='utf-8') as fb_friends:
+    with open(path, mode='r', encoding='utf-8') as fb_friends:
         friends_reader = csv.DictReader(fb_friends)
         for friend in friends_reader:
             age = float(friend['age'])

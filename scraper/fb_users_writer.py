@@ -11,7 +11,7 @@ def encode_posts(posts):
 
 
 def write_fb_friends_to_file(friend, count):
-    path = os.path.dirname(__file__) + '/fb_friends.csv'
+    path = os.path.dirname(__file__) + '/../fb_friends.csv'
     posts = encode_posts(friend.posts)
     with open(path, mode='a', encoding='utf-8') as fb_friends:
         fieldnames = ['name', 'url', 'age', 'friendship_duration', 'total_friends', 'mutual_friends', 'posts']

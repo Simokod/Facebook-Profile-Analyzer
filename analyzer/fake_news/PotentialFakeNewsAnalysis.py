@@ -12,8 +12,9 @@ def analyze_user(fb_user):
     postsNum = len(posts) # get total posts num  
 
     for post in posts:
-        if check_fake_potential(post):
-            potentialFakePostsNum+=1
+        if post is not None:
+            if check_fake_potential(post):
+                potentialFakePostsNum += 1
 
     # calculate rate
     potentialFakeRate = potentialFakePostsNum / postsNum
