@@ -51,6 +51,7 @@ def read_friends_csv():
             friends_list.append(FBUser(friend['name'], friend['url'], age,
                                        duration, total_friends, mutual_friends,
                                        friend['posts'].split('|||')))
+        print
 
     if os.path.exists('fb_friends.csv'):
         os.remove('fb_friends.csv')
