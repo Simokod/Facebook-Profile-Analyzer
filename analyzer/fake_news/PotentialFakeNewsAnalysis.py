@@ -39,24 +39,26 @@ def check_fake_potential(post):
     fake_threshold_super_high = 0.8
     fake_threshold_high = 0.7
     fake_threshold_mid = 0.5
-    englishText = translator.translate(post).text   # translate text
+    try:
+        englishText = translator.translate(post).text   # translate text
 
-    # auto analysis by nltk
-    sentimentDict = sid.polarity_scores(englishText)    # get sentiments of text
-    print(sentimentDict)
-    # check if sentiments indicates high fake potential
-    if sentimentDict['neg'] >= fake_threshold_high or sentimentDict['pos'] >= fake_threshold_high:
-        return True
-    
-    # check if sentiments indicates mid fake potential
-    elif sentimentDict['neg'] >= fake_threshold_mid or sentimentDict['pos'] >= fake_threshold_mid or abs(sentimentDict['compound']) >= fake_threshold_super_high:
-        # manual analysis
-        manualSentimentCalc = analyze_manualy_sentiments_in_post(englishText) # get sentiments balance by counting words
-        print(manualSentimentCalc)
-        if abs(manualSentimentCalc) >= fake_threshold_super_high:
+        # auto analysis by nltk
+        sentimentDict = sid.polarity_scores(englishText)    # get sentiments of text
+        print(sentimentDict)
+        # check if sentiments indicates high fake potential
+        if sentimentDict['neg'] >= fake_threshold_high or sentimentDict['pos'] >= fake_threshold_high:
             return True
 
-    return False   
+        # check if sentiments indicates mid fake potential
+        elif sentimentDict['neg'] >= fake_threshold_mid or sentimentDict['pos'] >= fake_threshold_mid or abs(sentimentDict['compound']) >= fake_threshold_super_high:
+            # manual analysis
+            manualSentimentCalc = analyze_manualy_sentiments_in_post(englishText) # get sentiments balance by counting words
+            print(manualSentimentCalc)
+            if abs(manualSentimentCalc) >= fake_threshold_super_high:
+                return True
+    except Exception:
+        return False
+    return False
 
 # analyze sentiments manually - by counting words
 def analyze_manualy_sentiments_in_post(englishText):

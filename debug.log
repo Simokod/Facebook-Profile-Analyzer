@@ -904,3 +904,17 @@
 [1101/202425.578:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1101/222316.102:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1102/165935.580:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1103/105313.078:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[1103/105313.080:ERROR:exception_snapshot_win.cc(99)] thread ID 20344 not found in process
+[1103/105313.083:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[1103/105313.083:ERROR:exception_snapshot_win.cc(99)] thread ID 11836 not found in process
+[1103/105313.100:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[1103/105313.100:ERROR:exception_snapshot_win.cc(99)] thread ID 21724 not found in process
+[1103/110356.095:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1104/011824.203:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1104/104317.016:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1104/113018.458:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1104/204916.915:ERROR:file_io_win.cc(171)] CreateFile C:\Users\yuvit\AppData\Local\Temp\scoped_dir17276_2081054139\Crashpad\reports\274a4161-0e9a-4ec0-a0b3-144e738467e8.dmp: The system cannot find the path specified. (0x3)
+[1104/204916.915:ERROR:crash_report_exception_handler.cc(99)] PrepareNewCrashReport failed
+[1104/204917.457:ERROR:file_io_win.cc(171)] CreateFile C:\Users\yuvit\AppData\Local\Temp\scoped_dir17276_2081054139\Crashpad\reports\05576d7f-9796-4621-95c7-88459b5d2d74.dmp: The system cannot find the path specified. (0x3)
+[1104/204917.457:ERROR:crash_report_exception_handler.cc(99)] PrepareNewCrashReport failed

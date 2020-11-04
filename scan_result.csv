@@ -1,5 +1,436 @@
-,Analysis Name,,Percentage Result,,Description
-,Offensiveness Analysis,,9%,,User is ok.
-,Potential Fake News Analysis,,9%,,User is ok.
-,Trigers Analysis,,"Violence: 29%,Sexual Content: 2%,Drugs: 9%",,Posts of user according to trigers.
-,Reliability Analysis,,N\A,,Can't calculate user's trust level
+,User Name,,URL,,Offensiveness Analysis,,Potential Fake News Analysis,,Triggers Analysis,,Reliability Analysis
+,Aviel Dahan,,https://www.facebook.com/aviel.dahan.37,,4%,,0%,,"Violence: 30%,Sexual Content: 26%,Rape And Sexual Assault: 17%",,N\A
+,Avishag Ben Shalom,,https://www.facebook.com/avishag.shalom,,18%,,6%,,"Violence: 25%,Drugs: 12%,Sexual Content: 12%",,N\A
+,"Shir Avioz
+(סמיילי)",,https://www.facebook.com/shir.avioz8,,12%,,25%,,"Violence: 25%,Drugs: 6%",,N\A
+,Lihi Karaksh,,https://www.facebook.com/lihi.karaksh,,8%,,33%,,Violence: 25%,,N\A
+,Ziv Marom,,https://www.facebook.com/ziv.marom.9,,18%,,7%,,"Violence: 29%,Drugs: 3%,Sexual Content: 7%",,N\A
+,איילת ישי,,https://.facebook.com/100001660295181,,0%,,42%,,"Violence: 14%,Drugs: 7%",,N\A
+,יקיר סרוסי,,https://.facebook.com/100001591926627,,0%,,39%,,Violence: 21%,,N\A
+,שניאור יצחק,,https://.facebook.com/1508778654,,0%,,60%,,0%,,N\A
+,Nili Livshitz,,https://www.facebook.com/nili.livshitz,,10%,,0%,,"Violence: 40%,Drugs: 10%",,N\A
+,Amit Roimi,,https://www.facebook.com/amit.roimi.9,,0%,,42%,,Violence: 15%,,N\A
+,אורי אלטנני,,https://www.facebook.com/Service.Account1,,0%,,36%,,Violence: 18%,,N\A
+,Roman Rash,,https://www.facebook.com/roman.rash.1,,10%,,20%,,Violence: 20%,,N\A
+,Or Eliyahu,,https://.facebook.com/100006816516953,,16%,,33%,,0%,,N\A
+,שלום נעים,,https://.facebook.com/100001633979223,,0%,,50%,,0%,,N\A
+,Moriya Eliyahu,,https://www.facebook.com/moriya.eliyahu,,0%,,38%,,Drugs: 7%,,N\A
+,Liraz Yakov Yona,,https://www.facebook.com/liraz.yakov,,0%,,45%,,0%,,N\A
+,"Shiran Bechor
+(Shiran Eli)",,https://www.facebook.com/shiran.eliguez,,0%,,33%,,Violence: 11%,,N\A
+,Ori Meidan,,https://www.facebook.com/ori.meidan.9,,14%,,0%,,"Violence: 21%,Suicide: 7%",,N\A
+,Asaf Ben Shabo,,https://.facebook.com/100000380204245,,0%,,35%,,Drugs: 7%,,N\A
+,Slava Niazov,,https://www.facebook.com/slava.nia.5,,0%,,41%,,0%,,N\A
+,Eily Gvily,,https://www.facebook.com/eily.gvily,,0%,,33%,,Violence: 8%,,N\A
+,Shoval Orenshtein,,https://www.facebook.com/shovali.orenshtein,,0%,,38%,,0%,,N\A
+,Itzik Zachy Bar-or,,https://www.facebook.com/itzik.baror,,0%,,19%,,"Violence: 14%,Drugs: 4%",,N\A
+,Shlomo Barkai,,https://www.facebook.com/shlomo.barkai,,0%,,25%,,Drugs: 12%,,N\A
+,יצחק צהיי,,https://.facebook.com/100000482094165,,0%,,37%,,0%,,N\A
+,Chen Shchori,,https://www.facebook.com/chen.shchori.52,,0%,,14%,,"Drugs: 7%,Violence: 14%",,N\A
+,"Chen Hershko
+(חן הרשקו)",,https://www.facebook.com/3cheni3,,0%,,0%,,"Violence: 21%,Drugs: 14%",,N\A
+,Yoni Nissim - havra,,https://www.facebook.com/yoni.nissim.37,,0%,,21%,,"Violence: 8%,Drugs: 4%",,N\A
+,ינון יצחק,,https://.facebook.com/100006498035976,,0%,,15%,,Violence: 19%,,N\A
+,שושנה יצחק,,https://.facebook.com/100027860649298,,6%,,6%,,Violence: 20%,,N\A
+,"Meiraz Kadosh
+(Nahum)",,https://www.facebook.com/meiraz.nahum,,0%,,33%,,0%,,N\A
+,Shay Shterenfeld,,https://www.facebook.com/shay.shterenfeld,,0%,,25%,,Rape And Sexual Assault: 8%,,N\A
+,0,,https://www.facebook.com/zivharrison.kataby,,0%,,33%,,0%,,N\A
+,נופר אמסלם,,https://www.facebook.com/nofarii,,0%,,33%,,0%,,N\A
+,"Einav Harush
+(עינב הרוש)",,https://.facebook.com/100000201090425,,0%,,33%,,0%,,N\A
+,0,,https://www.facebook.com/paz.assor.7,,4%,,22%,,Violence: 4%,,N\A
+,Omer Gal,,https://www.facebook.com/omer.gal.50,,0%,,28%,,0%,,N\A
+,Yael Hanania,,https://www.facebook.com/yael.hanania.5,,0%,,28%,,0%,,N\A
+,Erez Feldman,,https://www.facebook.com/erez.faldman,,0%,,27%,,0%,,N\A
+,Tamar Holzer,,https://www.facebook.com/tamar.holzer,,0%,,27%,,0%,,N\A
+,Yoav Dagmi,,https://www.facebook.com/yoavdagmi,,0%,,27%,,0%,,N\A
+,0,,https://www.facebook.com/avihay.ofer.3,,0%,,18%,,Drugs: 9%,,N\A
+,יקיר חזקיהו,,https://.facebook.com/100000201272339,,0%,,26%,,0%,,N\A
+,Guy Yutal,,https://www.facebook.com/guy.yutal,,12%,,12%,,0%,,N\A
+,Orel Swisa,,https://www.facebook.com/orel.swisa.7,,0%,,25%,,0%,,N\A
+,צאלון מורד,,https://.facebook.com/100001547957931,,0%,,16%,,Violence: 8%,,N\A
+,Aviv Shtauber,,https://.facebook.com/100000224443984,,0%,,16%,,Violence: 8%,,N\A
+,Inbal Shomovich,,https://.facebook.com/100000213347217,,0%,,25%,,0%,,N\A
+,Eli Danieli,,https://.facebook.com/100002499146606,,0%,,19%,,Violence: 4%,,N\A
+,"Joseph Sivan
+(Joseph Sivan)",,https://www.facebook.com/yossi.sivan.7,,0%,,17%,,Violence: 5%,,N\A
+,Yuvi Cohen,,https://www.facebook.com/Yuvaleyshen,,0%,,7%,,"Violence: 7%,Sexual Content: 7%",,N\A
+,Sagi Eli,,https://www.facebook.com/sagi.eli.3,,0%,,23%,,0%,,N\A
+,Oshrat Shira Biton,,https://www.facebook.com/oshrat.s.biton,,0%,,15%,,Violence: 7%,,N\A
+,Idan Levi,,https://www.facebook.com/idan.levi.946,,0%,,23%,,0%,,N\A
+,Ido Raphael,,https://www.facebook.com/ido.raphael1,,0%,,4%,,Violence: 18%,,N\A
+,Kobi Efrati,,https://.facebook.com/100000745130062,,0%,,22%,,0%,,N\A
+,Noam Itzhak,,https://www.facebook.com/noam.itzhak.5,,0%,,16%,,Violence: 5%,,N\A
+,Chen Moshe,,https://.facebook.com/100000412539984,,11%,,11%,,0%,,N\A
+,Guy Boneh,,https://www.facebook.com/guygonx,,0%,,20%,,0%,,N\A
+,Ayala Avni,,https://www.facebook.com/ayala.avni.1,,0%,,16%,,Drugs: 4%,,N\A
+,Liron Ashkenazi,,https://.facebook.com/100000554688439,,0%,,10%,,Violence: 10%,,N\A
+,אריאל נגרין,,https://.facebook.com/100000268400562,,0%,,20%,,0%,,N\A
+,Omer Dadush,,https://.facebook.com/100001411949115,,0%,,18%,,0%,,N\A
+,Ofek Teifl,,https://www.facebook.com/ofek.teifl,,0%,,18%,,0%,,N\A
+,Hila Bibi,,https://www.facebook.com/hila.bibi.9,,0%,,8%,,Rape And Sexual Assault: 8%,,N\A
+,דליה סונסינו,,https://.facebook.com/100036563891569,,0%,,0%,,Violence: 16%,,N\A
+,Shalev Amosi,,https://www.facebook.com/shalev.amosi,,8%,,8%,,0%,,N\A
+,"Maya Amar
+(מאיה עמר)",,https://www.facebook.com/maya.amar,,0%,,16%,,0%,,N\A
+,Barak Segal,,https://www.facebook.com/barak.segal.7,,0%,,16%,,0%,,N\A
+,Tomer Shefler,,https://.facebook.com/100010298772240,,0%,,16%,,0%,,N\A
+,Ofir Ashual,,https://.facebook.com/100000082964075,,0%,,10%,,Violence: 5%,,N\A
+,"Sahar Mor
+(SaMor)",,https://www.facebook.com/sahar.mor.1,,7%,,7%,,0%,,N\A
+,נחום שנאבה,,https://.facebook.com/100008115132814,,0%,,14%,,0%,,N\A
+,"Lidor Bibi
+(לידור ביבי)",,https://www.facebook.com/lidor.bibi,,0%,,14%,,0%,,N\A
+,Dudu Cohen,,https://www.facebook.com/dudu55,,0%,,9%,,Violence: 4%,,N\A
+,Keren Solomon,,https://www.facebook.com/keren.solomon.5,,0%,,12%,,0%,,N\A
+,Eliad Ohana,,https://www.facebook.com/eliad.ohana,,0%,,12%,,0%,,N\A
+,Alon Gelbshtein,,https://.facebook.com/100010297062326,,0%,,12%,,0%,,N\A
+,מוניר גביש,,https://.facebook.com/100005557302327,,0%,,12%,,0%,,N\A
+,קובי פיין,,https://.facebook.com/100004916681194,,6%,,6%,,0%,,N\A
+,Snija Gasha,,https://www.facebook.com/snijaaema.zilin,,0%,,11%,,0%,,N\A
+,Yael Bibi Hazan,,https://www.facebook.com/yael.hazan1,,0%,,11%,,0%,,N\A
+,Dani Nowar Jaber,,https://.facebook.com/100003449154970,,0%,,11%,,0%,,N\A
+,Shimi Avraham,,https://www.facebook.com/shimi.avraham,,0%,,11%,,0%,,N\A
+,Michael Ivanov,,https://www.facebook.com/michael.ivanov2,,0%,,10%,,0%,,N\A
+,Ron Saraf,,https://www.facebook.com/ron.saraf.3,,0%,,10%,,0%,,N\A
+,Noy Hakim,,https://www.facebook.com/noy.benshimol.5,,0%,,10%,,0%,,N\A
+,"Shir Yosef
+(שיר יוסף)",,https://www.facebook.com/shir.yosef,,0%,,8%,,0%,,N\A
+,Yahel Ronis,,https://.facebook.com/100000409075189,,0%,,8%,,0%,,N\A
+,Mor Zohar,,https://www.facebook.com/morzoharr,,0%,,7%,,0%,,N\A
+,Michelle Ori Pereg,,https://www.facebook.com/michelle.pereg,,0%,,7%,,0%,,N\A
+,Asaad Awida,,https://www.facebook.com/asaad.awida,,0%,,7%,,0%,,N\A
+,Hila Shenava,,https://www.facebook.com/hila.shenava,,0%,,0%,,0%,,N\A
+,Snir Nahary,,https://www.facebook.com/snir.t.nahary,,N\A,,N\A,,N\A,,N\A
+,"Kevin Rosenberg
+(Kevin Rosenberg Lopez)",,https://www.facebook.com/kevin.rosenberg.773,,N\A,,N\A,,N\A,,N\A
+,Amit Hacoon,,https://www.facebook.com/ahacoon,,N\A,,N\A,,N\A,,N\A
+,Yogev Sagron,,https://www.facebook.com/ysagron,,N\A,,N\A,,N\A,,N\A
+,Daniel Niazov,,https://www.facebook.com/DanielsoNnN,,0%,,0%,,0%,,N\A
+,משה נרדאה,,https://.facebook.com/1018158481,,0%,,0%,,0%,,N\A
+,Shani Alush,,https://www.facebook.com/shani.alush.1,,0%,,0%,,0%,,N\A
+,חיים יצחק,,https://.facebook.com/100016976133869,,N\A,,N\A,,N\A,,N\A
+,Liron Barkai,,https://www.facebook.com/liron.barkai,,N\A,,N\A,,N\A,,N\A
+,Adar Slonim,,https://www.facebook.com/adar.slonim,,N\A,,N\A,,N\A,,N\A
+,Dalia Sonsino,,https://www.facebook.com/dalia.sonsino.3,,N\A,,N\A,,N\A,,N\A
+,Shiraz Nahshon,,https://www.facebook.com/shirazna,,N\A,,N\A,,N\A,,N\A
+,Dalia Sonsino,,https://www.facebook.com/dalia.sonsino.33,,N\A,,N\A,,N\A,,N\A
+,Ortal Sonsino,,https://www.facebook.com/ortal.sonsino,,N\A,,N\A,,N\A,,N\A
+,Sapir Swissa,,https://www.facebook.com/sapir.swissa.9,,N\A,,N\A,,N\A,,N\A
+,מיטל לאביאן,,https://www.facebook.com/mytaleli,,N\A,,N\A,,N\A,,N\A
+,Elad Hazan,,https://.facebook.com/100009542856852,,N\A,,N\A,,N\A,,N\A
+,"Jenna Rodman
+(ג'נה רודמן)",,https://www.facebook.com/wanderingjenn,,N\A,,N\A,,N\A,,N\A
+,Dima Sinizky,,https://www.facebook.com/dimon793,,N\A,,N\A,,N\A,,N\A
+,Milina Levine,,https://www.facebook.com/milina.levin,,0%,,0%,,0%,,N\A
+,Yanir Chalfon,,https://.facebook.com/1812414620,,N\A,,N\A,,N\A,,N\A
+,Aviran Tzemah,,https://www.facebook.com/avirantz,,N\A,,N\A,,N\A,,N\A
+,Noy Aroas,,https://www.facebook.com/noy.aroas,,N\A,,N\A,,N\A,,N\A
+,Lior Pizman,,https://www.facebook.com/lior.pizman,,0%,,0%,,0%,,N\A
+,Naomi Kriger,,https://www.facebook.com/naomi.kriger,,N\A,,N\A,,N\A,,N\A
+,Ilan Naiman,,https://www.facebook.com/ilanaiman,,N\A,,N\A,,N\A,,N\A
+,Chen Aperman,,https://www.facebook.com/chen.aperman,,0%,,0%,,0%,,N\A
+,Avihay Kasay,,https://www.facebook.com/avihay.kasay,,0%,,0%,,0%,,N\A
+,Hadar Daniel,,https://www.facebook.com/hadar.daniel.7,,N\A,,N\A,,N\A,,N\A
+,Nadav Nash,,https://www.facebook.com/nadav.nash,,N\A,,N\A,,N\A,,N\A
+,Shoham Ozeri,,https://www.facebook.com/jalytha,,N\A,,N\A,,N\A,,N\A
+,Nativ Dadon,,https://www.facebook.com/nativ.dadon1,,N\A,,N\A,,N\A,,N\A
+,אפק טייפל,,https://.facebook.com/100028301857816,,N\A,,N\A,,N\A,,N\A
+,Dan Natanel,,https://www.facebook.com/dan.natanel.5,,N\A,,N\A,,N\A,,N\A
+,"בוזיוס המרכז הישראלי
+(israeli center buzios)",,https://.facebook.com/100011467445066,,N\A,,N\A,,N\A,,N\A
+,Stephane Assouline,,https://.facebook.com/100004082193463,,N\A,,N\A,,N\A,,N\A
+,Gefen Mar,,https://.facebook.com/100004002210416,,N\A,,N\A,,N\A,,N\A
+,0,,https://.facebook.com/100003820389671,,N\A,,N\A,,N\A,,N\A
+,0,,https://www.facebook.com/afulanoar,,N\A,,N\A,,N\A,,N\A
+,Zinaida Staver Volkova,,https://.facebook.com/100001762187067,,N\A,,N\A,,N\A,,N\A
+,Omri Biton,,https://.facebook.com/100001660940352,,N\A,,N\A,,N\A,,N\A
+,אוהד אטיאס,,https://.facebook.com/100001003463512,,N\A,,N\A,,N\A,,N\A
+,0,,https://.facebook.com/100000643389559,,N\A,,N\A,,N\A,,N\A
+,Yoni Aitegev,,https://www.facebook.com/yoni.aitegev,,0%,,0%,,0%,,N\A
+,Naseem Ghanem,,https://www.facebook.com/ghanem.naseem,,N\A,,N\A,,N\A,,N\A
+,Mor Refaeli,,https://www.facebook.com/mor.refaeli,,0%,,0%,,0%,,N\A
+,עדי שנאבה,,https://.facebook.com/100000343309326,,N\A,,N\A,,N\A,,N\A
+,Shaked Karat,,https://www.facebook.com/shaked.karat,,N\A,,N\A,,N\A,,N\A
+,Miriam Yosefi,,https://www.facebook.com/miriam.porishov,,N\A,,N\A,,N\A,,N\A
+,Nick Taragansky,,https://www.facebook.com/nick.taragansky,,0%,,0%,,0%,,N\A
+,Oren Levenstein,,https://.facebook.com/100000106080377,,N\A,,N\A,,N\A,,N\A
+,Yarden Gibly,,https://.facebook.com/100000024404950,,N\A,,N\A,,N\A,,N\A
+,Yochai Swed,,https://www.facebook.com/yochai.swed.7,,16%,,33%,,Violence: 16%,,75.67567567567568%
+,Shlomi Bonner,,https://www.facebook.com/shlomibonner,,0%,,26%,,Rape And Sexual Assault: 6%,,52.922888642066724%
+,Hadar Harari,,https://www.facebook.com/hadar.harari.3,,0%,,62%,,0%,,87.16216216216216%
+,Zohar Heiman,,https://www.facebook.com/zohar.heiman,,0%,,44%,,Violence: 11%,,85.8108108108108%
+,Liad Itzhak,,https://www.facebook.com/liad.itzhak,,0%,,52%,,"Sexual Content: 5%,Violence: 10%",,100.0%
+,Neora Asrf,,https://www.facebook.com/neora.asrf,,0%,,14%,,"Violence: 28%,Drugs: 14%",,89.86486486486487%
+,Inon Elgabsi,,https://www.facebook.com/inon.elgabsi,,6%,,12%,,Drugs: 6%,,60.39285861203669%
+,Noy Ohana,,https://www.facebook.com/noya.ohana.9,,7%,,57%,,0%,,100.0%
+,אביב ברקאי,,https://www.facebook.com/aviv.arkai,,N\A,,N\A,,N\A,,37.15651946327093%
+,Miki Michaeli,,https://www.facebook.com/miki.michaeli.14,,10%,,20%,,"Violence: 20%,Sexual Content: 10%",,100.0%
+,Dor Skarupa,,https://www.facebook.com/dor.skropa,,0%,,60%,,0%,,100.0%
+,"Gil Isaac
+(גיל אייזיק)",,https://www.facebook.com/gil.isaac,,5%,,41%,,"Violence: 5%,Drugs: 5%",,100.0%
+,Doron Levi,,https://www.facebook.com/doron.levi.71,,0%,,28%,,Violence: 7%,,77.02702702702703%
+,Rumi Gushti,,https://www.facebook.com/rumi.gushti,,N\A,,N\A,,N\A,,42.22111561519585%
+,Batel Batia Stanilovsky,,https://www.facebook.com/Batel.S1,,0%,,42%,,0%,,85.13513513513513%
+,"Eden Belleli
+(Eden Baleli)",,https://www.facebook.com/eden.belleli,,11%,,22%,,Violence: 22%,,100.0%
+,Tal Kenner,,https://www.facebook.com/tal.kenner,,0%,,16%,,0%,,61.143609362787444%
+,Eran Kamil,,https://www.facebook.com/eran.kamil,,10%,,30%,,0%,,85.13513513513513%
+,Hila Bezalel,,https://www.facebook.com/bezalelhila,,0%,,27%,,Violence: 27%,,100.0%
+,Daniela Boguslavsky,,https://www.facebook.com/daniela.bogoslavsky,,0%,,54%,,0%,,100.0%
+,Adi Gotliber,,https://www.facebook.com/adi.gotliber,,0%,,30%,,Violence: 10%,,86.48648648648648%
+,Maor Movshovitz,,https://www.facebook.com/MaorMovshovich,,12%,,12%,,Violence: 12%,,84.45945945945947%
+,"Gal Levi
+(גל לוי)",,https://www.facebook.com/gal.levi.503,,0%,,29%,,"Violence: 17%,Drugs: 5%",,100.0%
+,Dana Lupash,,https://www.facebook.com/dana.lupash,,7%,,15%,,Violence: 7%,,78.37837837837837%
+,Yarden Ketter,,https://www.facebook.com/yarden.ketter,,0%,,15%,,Violence: 7%,,70.9033691225472%
+,Tal Aperman,,https://www.facebook.com/tal.aperman,,0%,,33%,,0%,,81.75675675675676%
+,Ram Orr,,https://www.facebook.com/ram.orr,,0%,,16%,,Violence: 16%,,82.43243243243244%
+,Rami Gorlik,,https://www.facebook.com/rami.gorlik,,0%,,35%,,0%,,85.13513513513513%
+,Sapir Ben Dror,,https://www.facebook.com/sapir.b.dror,,0%,,31%,,0%,,81.08108108108108%
+,Shalev Kidra,,https://www.facebook.com/shalev.kidra,,N\A,,N\A,,N\A,,50.0%
+,Sapir Bibi,,https://www.facebook.com/sapir.bibi.7,,N\A,,N\A,,N\A,,50.0%
+,Guy Bruchim,,https://www.facebook.com/guy.bruchim,,N\A,,N\A,,N\A,,50.0%
+,Shoval Dahan,,https://www.facebook.com/shovalii7,,0%,,50%,,0%,,100.0%
+,Tamar Lerinman,,https://www.facebook.com/tamar.lerinman,,0%,,16%,,Violence: 16%,,85.13513513513513%
+,Moria Ayash,,https://www.facebook.com/moria.ayash,,0%,,11%,,Violence: 5%,,68.5009667201448%
+,Meitar Bibi,,https://www.facebook.com/meitar.bibi,,0%,,24%,,0%,,77.05952527870336%
+,Sharik Green,,https://www.facebook.com/sharik.green,,N\A,,N\A,,N\A,,54.8703805846663%
+,Danit Yeheya,,https://www.facebook.com/danit.yeheya,,0%,,44%,,0%,,100.0%
+,Coral Shemesh,,https://www.facebook.com/coral.shemesh,,0%,,44%,,0%,,100.0%
+,Tom Rubin,,https://www.facebook.com/Tom.Rubin1,,0%,,27%,,Violence: 9%,,92.56756756756756%
+,"Shira Michal Buganim
+(Shira-Michal Buganim)",,https://www.facebook.com/shiramichal.buganim,,6%,,31%,,Violence: 6%,,100.0%
+,George J. Fogelson,,https://www.facebook.com/CALALUM,,0%,,20%,,0%,,77.02702702702703%
+,Aviv Bashiri,,https://www.facebook.com/aviv.bashiri,,0%,,15%,,Violence: 5%,,78.48595170512979%
+,Ori Avni,,https://www.facebook.com/ori.avni.5,,0%,,25%,,0%,,83.10810810810811%
+,Chen Avraham,,https://www.facebook.com/chen.avraham.37,,0%,,41%,,0%,,100.0%
+,Yuval Dar,,https://www.facebook.com/yuval.dar.71,,0%,,19%,,Sexual Content: 4%,,82.43243243243244%
+,Amit Gil,,https://www.facebook.com/amit.gil.18,,0%,,18%,,Violence: 6%,,83.78378378378379%
+,"Aviya Amitay
+(אביה אמיתי)",,https://www.facebook.com/aviya202,,5%,,35%,,0%,,100.0%
+,Ron Hajaj,,https://www.facebook.com/ron.hajaj.96,,N\A,,N\A,,N\A,,58.830834258916454%
+,Lior Bachar,,https://www.facebook.com/lior.bachar.3,,0%,,0%,,"Drugs: 16%,Violence: 16%",,92.56756756756756%
+,Yossef David,,https://www.facebook.com/yossef.david.1,,0%,,22%,,"Rape And Sexual Assault: 4%,Violence: 9%",,95.94594594594594%
+,Tomer Haber,,https://www.facebook.com/timerhiber,,0%,,17%,,"Violence: 4%,Rape And Sexual Assault: 4%",,85.8108108108108%
+,"לאה ברום
+(Lea baron)",,https://www.facebook.com/leaebarom,,0%,,25%,,0%,,85.13513513513513%
+,Matan Peleg,,https://www.facebook.com/matan.peleg.3,,0%,,20%,,0%,,80.4054054054054%
+,Yael Peleg,,https://www.facebook.com/yael.peleg.10,,0%,,16%,,Sexual Content: 8%,,85.8108108108108%
+,Marita Ger,,https://www.facebook.com/marita.ger,,0%,,25%,,0%,,85.8108108108108%
+,Yonatan Hod,,https://www.facebook.com/yonatan.hod,,N\A,,N\A,,N\A,,61.181146900324975%
+,Tamir Sonsino,,https://www.facebook.com/tamir.sonsino,,0%,,28%,,0%,,89.86486486486487%
+,Violeta Ben Yosef,,https://www.facebook.com/violeta.yosef,,0%,,33%,,0%,,95.27027027027027%
+,Liad Yosef,,https://www.facebook.com/liady1,,0%,,37%,,0%,,100.0%
+,Eliran Pinhas,,https://www.facebook.com/eliran.pinhas,,0%,,25%,,0%,,87.83783783783784%
+,Yarden Davidson,,https://www.facebook.com/yarden.davidson,,5%,,26%,,Drugs: 5%,,100.0%
+,"May Abudraham
+(מאי אבודרהם)",,https://www.facebook.com/may.abudraham,,0%,,36%,,0%,,100.0%
+,Nir Steinberg,,https://www.facebook.com/nir.steinberg.3,,0%,,18%,,Violence: 18%,,100.0%
+,Roy Zofan,,https://www.facebook.com/roy.zofan.9,,0%,,27%,,Violence: 9%,,100.0%
+,Roi Yetiv,,https://www.facebook.com/roi.yetiv,,0%,,27%,,Violence: 9%,,100.0%
+,"Bar Attaly
+(בר אטלי)",,https://www.facebook.com/barattaly,,0%,,35%,,0%,,100.0%
+,Shahar Shriki,,https://www.facebook.com/shahar.shriki,,0%,,14%,,Violence: 7%,,85.8108108108108%
+,Nitzan Yizraeli,,https://www.facebook.com/nitzan.yizraeli,,0%,,16%,,0%,,81.75675675675676%
+,Adam Agarwarker,,https://www.facebook.com/agarwarker,,0%,,12%,,0%,,78.37837837837837%
+,Svitlana Katsner,,https://www.facebook.com/svitlana.katsner,,9%,,9%,,0%,,84.45945945945947%
+,Orpaz David,,https://www.facebook.com/orpaz.david.7,,8%,,25%,,0%,,100.0%
+,Alon Amsalem,,https://www.facebook.com/alon.amsalem.5,,0%,,25%,,Violence: 8%,,100.0%
+,Nir Kalifa,,https://www.facebook.com/nir.kalifa,,0%,,33%,,0%,,100.0%
+,Ziv Shain,,https://www.facebook.com/ziv.shain,,0%,,33%,,0%,,100.0%
+,Chakra Kidra,,https://www.facebook.com/chakra.kidra,,0%,,0%,,Violence: 14%,,81.63265306122449%
+,Shir Pinhas,,https://www.facebook.com/shir.pinhas.1,,0%,,15%,,0%,,83.0419194704909%
+,Adi Adi Tz,,https://www.facebook.com/adi.tz.7,,0%,,0%,,Violence: 12%,,80.65912851627137%
+,Dana Stav,,https://www.facebook.com/dana.stav,,4%,,22%,,Violence: 4%,,100.0%
+,Afik Bahar,,https://www.facebook.com/afik.bahar,,0%,,21%,,0%,,89.86486486486487%
+,Niv Moallem,,https://www.facebook.com/niv1595,,0%,,18%,,Violence: 12%,,100.0%
+,Tal Zanzuri,,https://www.facebook.com/tal.zanzuri1,,0%,,0%,,Violence: 31%,,100.0%
+,Dana Kagan,,https://www.facebook.com/dana.kagan.31,,0%,,0%,,Violence: 22%,,91.19387366818874%
+,Aviram Dahan,,https://www.facebook.com/aviram.dahan.5,,0%,,11%,,Violence: 11%,,91.21621621621621%
+,Bar Ahlavi,,https://www.facebook.com/bar.ahlavi,,0%,,30%,,0%,,100.0%
+,Sapir Yahalom,,https://www.facebook.com/sapir.yahalom,,7%,,7%,,Violence: 15%,,100.0%
+,Oz Edri,,https://www.facebook.com/slipkoz,,0%,,30%,,0%,,100.0%
+,Sol Ben-Yosef,,https://www.facebook.com/Bsolsol,,0%,,18%,,0%,,87.83783783783784%
+,Liron Solomon,,https://www.facebook.com/lironsol99,,0%,,21%,,0%,,90.91324200913242%
+,Kosta Mogilevsky,,https://www.facebook.com/kosta.mogilevsky,,0%,,21%,,0%,,91.89189189189189%
+,Oded Gabso,,https://www.facebook.com/oded.gabso,,0%,,23%,,Violence: 5%,,100.0%
+,"Gal Avraham
+(Gal Avraham)",,https://www.facebook.com/gal.av1,,0%,,28%,,0%,,100.0%
+,Gali Safran,,https://www.facebook.com/gali.safran,,0%,,28%,,0%,,100.0%
+,Oren Nuriel,,https://www.facebook.com/oren.nuriel.5,,0%,,28%,,0%,,100.0%
+,Ron Shekhtman,,https://www.facebook.com/ron.shekhtman,,0%,,28%,,0%,,100.0%
+,Yaros Stepanenko,,https://www.facebook.com/yaros.stepanenko,,0%,,28%,,0%,,100.0%
+,Mor Elias,,https://www.facebook.com/mor.elias4,,0%,,21%,,Violence: 7%,,100.0%
+,Eden Chalfon,,https://www.facebook.com/Chalfon.Eden,,0%,,14%,,Violence: 14%,,100.0%
+,"Sahar Ben Menashe
+(סהר בן מנשה)",,https://www.facebook.com/ssaharben,,0%,,27%,,0%,,100.0%
+,Sapir Bar,,https://www.facebook.com/sapir.bar.169,,0%,,18%,,Violence: 9%,,100.0%
+,Maor Cohen,,https://www.facebook.com/maor.cohen.946,,0%,,20%,,Violence: 6%,,100.0%
+,Michal Shkolnik,,https://www.facebook.com/MichalShkolnikHazday,,6%,,6%,,"Rape And Sexual Assault: 6%,Violence: 6%",,100.0%
+,Dror Shmilovich,,https://www.facebook.com/dror.shmilovich,,N\A,,N\A,,N\A,,75.0%
+,Leandro Schvetz,,https://www.facebook.com/leandro.schvetz.1,,0%,,25%,,0%,,100.0%
+,Chana Leizman,,https://www.facebook.com/chana.leizman,,N\A,,N\A,,N\A,,75.0%
+,Harel Aloni,,https://www.facebook.com/harelaloni,,8%,,12%,,Drugs: 4%,,100.0%
+,Tamas Miczko,,https://www.facebook.com/thomas.miczko,,0%,,0%,,0%,,75.67567567567568%
+,Linoy Lutati,,https://www.facebook.com/linoy.lutati,,0%,,23%,,0%,,100.0%
+,Adely Meytin,,https://www.facebook.com/adely.meytin.7,,0%,,15%,,Violence: 7%,,100.0%
+,Almog Miro,,https://www.facebook.com/almog.miro,,0%,,15%,,Violence: 7%,,100.0%
+,Afic Joshua,,https://www.facebook.com/afic.joshua,,0%,,0%,,0%,,77.02702702702703%
+,Linoy Robinov Pinhas,,https://www.facebook.com/linoy.pinhas.9,,0%,,20%,,0%,,97.2972972972973%
+,Peleg Eliyahou,,https://www.facebook.com/peleg.eliyahou,,N\A,,N\A,,N\A,,77.7027027027027%
+,Maya Zeevi-barkai,,https://www.facebook.com/maya.zeevibarkai,,N\A,,N\A,,N\A,,77.7027027027027%
+,Kovács Eszter,,https://www.facebook.com/eszter.kovacs.961,,N\A,,N\A,,N\A,,77.7027027027027%
+,Roni Zairi,,https://www.facebook.com/roni.zairi,,0%,,22%,,0%,,100.0%
+,Yuval Klyner,,https://www.facebook.com/yuval.klyner,,6%,,12%,,0%,,96.62162162162163%
+,Ella Barak,,https://www.facebook.com/ella.barak.9,,N\A,,N\A,,N\A,,78.37286265857695%
+,Tomer Abarbanel,,https://www.facebook.com/tomer.abarbanel,,0%,,14%,,Violence: 7%,,100.0%
+,Nimrod Zur,,https://www.facebook.com/nimrod.zur,,0%,,16%,,0%,,95.27027027027027%
+,Tom Neeman,,https://www.facebook.com/tom.neeman,,0%,,20%,,0%,,98.64864864864865%
+,Chen Odesky,,https://www.facebook.com/chen.odesky,,N\A,,N\A,,N\A,,79.05405405405406%
+,Noam Elgabci,,https://www.facebook.com/noam.elgabci,,N\A,,N\A,,N\A,,79.05405405405406%
+,Shiri Bash,,https://www.facebook.com/shiri.bash,,N\A,,N\A,,N\A,,79.05405405405406%
+,Ilana Levinshtein,,https://www.facebook.com/ilana.levinshtein,,0%,,18%,,0%,,97.2972972972973%
+,Talya Zilberman,,https://www.facebook.com/tanya.zilberman,,0%,,10%,,0%,,89.86486486486487%
+,Shimon Malka,,https://www.facebook.com/shimon.malka.5,,0%,,0%,,0%,,79.72972972972974%
+,Eliad Bibi,,https://www.facebook.com/eliad.bibi.9,,N\A,,N\A,,N\A,,80.3619029988893%
+,Zohar Lugasi,,https://www.facebook.com/zohar.lugasi.9,,N\A,,N\A,,N\A,,80.4054054054054%
+,Alexa Umsha,,https://www.facebook.com/alexa.umsha,,0%,,14%,,0%,,95.27027027027027%
+,Dolev Harbi,,https://www.facebook.com/dolev.harbi,,N\A,,N\A,,N\A,,81.08108108108108%
+,Dor Oren,,https://www.facebook.com/dor.oren.96,,0%,,0%,,0%,,81.08108108108108%
+,Omer Yizhaq,,https://www.facebook.com/omer.zarad,,N\A,,N\A,,N\A,,81.08108108108108%
+,Shlomi Kosakovski,,https://www.facebook.com/shlomi.kosakovski,,0%,,18%,,0%,,100.0%
+,Gal Milo,,https://www.facebook.com/gal.milo,,N\A,,N\A,,N\A,,81.75675675675676%
+,Ayelet Zlotnick,,https://www.facebook.com/ayelet.zlotnick,,N\A,,N\A,,N\A,,81.75675675675676%
+,Marina Piliarski,,https://www.facebook.com/marina.piliarski,,N\A,,N\A,,N\A,,81.75675675675676%
+,Valeria Lodikov,,https://www.facebook.com/valeria.lodikov,,0%,,0%,,0%,,81.75675675675676%
+,Maor Levinzon,,https://www.facebook.com/maor.c.levinzon,,0%,,18%,,0%,,100.0%
+,Liron Shlomo,,https://www.facebook.com/liron.shlomo.96,,0%,,9%,,Violence: 9%,,100.0%
+,Esti Itzhak,,https://www.facebook.com/esti.itzhak,,N\A,,N\A,,N\A,,81.91395477109764%
+,Noam Marsiano,,https://www.facebook.com/noam.marsiano.3,,0%,,5%,,"Rape And Sexual Assault: 5%,Violence: 5%",,100.0%
+,Yehuda Marciano,,https://www.facebook.com/yehudamarc,,N\A,,N\A,,N\A,,82.43243243243244%
+,Dorin Alon,,https://www.facebook.com/dorin.alon,,N\A,,N\A,,N\A,,82.43243243243244%
+,Bar Bashevkin,,https://www.facebook.com/bar.bashevkin,,N\A,,N\A,,N\A,,82.43243243243244%
+,איתי אלקבץ,,https://www.facebook.com/itayelkk,,0%,,15%,,0%,,97.97297297297297%
+,Niv Abargil,,https://www.facebook.com/niv.abargil,,0%,,15%,,0%,,98.26530612244898%
+,Orpaz Shemesh,,https://www.facebook.com/orpazshemesh,,N\A,,N\A,,N\A,,83.10810810810811%
+,Ofir Tesler,,https://www.facebook.com/ofir.tesler,,0%,,16%,,0%,,100.0%
+,Shalev Alfasi,,https://www.facebook.com/shalev.alfasi.3,,0%,,16%,,0%,,100.0%
+,Ofri Vinograd,,https://www.facebook.com/ofri.vinograd,,0%,,16%,,0%,,100.0%
+,Guy Ben Shabat,,https://www.facebook.com/guy.benshabat,,0%,,16%,,0%,,100.0%
+,Elior Oppenhaim,,https://www.facebook.com/elior.oppenhaim,,0%,,16%,,0%,,100.0%
+,Nideev Wasserman,,https://www.facebook.com/nideev.wasserman,,N\A,,N\A,,N\A,,83.78378378378379%
+,Asher Berkov,,https://www.facebook.com/berkovasher,,N\A,,N\A,,N\A,,83.78378378378379%
+,Itay Navon,,https://www.facebook.com/itay.navon,,N\A,,N\A,,N\A,,83.85381957299765%
+,Shahar Zachor,,https://www.facebook.com/shahar.zachor,,N\A,,N\A,,N\A,,84.45945945945947%
+,Yossi Gozlan,,https://www.facebook.com/ygozlan,,N\A,,N\A,,N\A,,84.45945945945947%
+,"ג' שכונת פאר
+(תכנית הדירות הפתוחות)",,https://www.facebook.com/gimelpeer,,N\A,,N\A,,N\A,,84.45945945945947%
+,Nave Gibli,,https://www.facebook.com/nave.gibli,,0%,,0%,,Violence: 15%,,100.0%
+,Naor Boni,,https://www.facebook.com/naorboni,,0%,,15%,,0%,,100.0%
+,"Offir Bensadoun
+(Offir Bensadoun)",,https://www.facebook.com/offir.bensadoun,,0%,,10%,,Drugs: 5%,,100.0%
+,Adi Nizri,,https://www.facebook.com/adidoshni,,0%,,0%,,0%,,85.13513513513513%
+,Yaara Yehuda,,https://www.facebook.com/yaara.sassonker,,0%,,0%,,0%,,85.13513513513513%
+,Liron Palazi,,https://www.facebook.com/liron.palazi.7,,0%,,14%,,0%,,100.0%
+,Ariel Lupu,,https://www.facebook.com/ariel.lupu.7,,0%,,14%,,0%,,100.0%
+,Linda Shwartz,,https://www.facebook.com/linda.shames.1,,0%,,14%,,0%,,100.0%
+,Ido Naaman,,https://www.facebook.com/ido.naaman,,0%,,14%,,0%,,100.0%
+,Daniel Yegudayev,,https://www.facebook.com/daniel.yegu,,N\A,,N\A,,N\A,,86.48648648648648%
+,Or Nahmani,,https://www.facebook.com/or.nahmani,,N\A,,N\A,,N\A,,86.59405981323789%
+,Ron Lahav,,https://www.facebook.com/ron.lahav.5,,0%,,13%,,0%,,100.0%
+,Tomer Garfel,,https://www.facebook.com/tomer.garfel,,6%,,6%,,0%,,100.0%
+,Lior Taib,,https://www.facebook.com/ltaib,,0%,,12%,,0%,,100.0%
+,Dor Talker,,https://www.facebook.com/dor.talker,,0%,,0%,,Violence: 12%,,100.0%
+,Avihu Atias,,https://www.facebook.com/aviho.atias,,0%,,12%,,0%,,100.0%
+,Ruha Hatan,,https://www.facebook.com/ruhahatan,,N\A,,N\A,,N\A,,87.83783783783784%
+,Meidan Nasi,,https://www.facebook.com/meidan.nasi,,N\A,,N\A,,N\A,,87.83783783783784%
+,Elia Buhbut,,https://www.facebook.com/elia.buhbut,,0%,,11%,,0%,,100.0%
+,Sahar Swissa,,https://www.facebook.com/sahar.swissa.5,,0%,,11%,,0%,,100.0%
+,Amit Naor,,https://www.facebook.com/amit.naor.7,,0%,,11%,,0%,,100.0%
+,Gil Hen,,https://www.facebook.com/gil.hen.7,,0%,,0%,,0%,,88.51351351351352%
+,Matan Ben Ezra,,https://www.facebook.com/lilmatan,,0%,,11%,,0%,,100.0%
+,Dima Dubov,,https://www.facebook.com/dima.dubov.90,,0%,,11%,,0%,,100.0%
+,אמונה גמליאל,,https://www.facebook.com/emunl,,0%,,10%,,0%,,100.0%
+,Sapir Gershov,,https://www.facebook.com/sapir.gershov,,0%,,0%,,Violence: 8%,,98.64864864864865%
+,"Almog Eli
+(Almog Eli)",,https://www.facebook.com/almog.eli.9,,N\A,,N\A,,N\A,,90.54054054054053%
+,Dolev Levi,,https://www.facebook.com/dolev.levi.54,,0%,,9%,,0%,,100.0%
+,Peleg Shultz,,https://www.facebook.com/pelegs6,,0%,,9%,,0%,,100.0%
+,Valeri Kanev,,https://www.facebook.com/valeri.kanev,,0%,,9%,,0%,,100.0%
+,רועי סויסה,,https://www.facebook.com/roiswissa,,0%,,9%,,0%,,100.0%
+,"Israeli Dor
+(Dor Israelii)",,https://www.facebook.com/dorsraeli,,0%,,9%,,0%,,100.0%
+,Eitan Mauda,,https://www.facebook.com/eitan.mauda,,0%,,0%,,0%,,91.21621621621621%
+,Shoval Dayani,,https://www.facebook.com/shoval.daiany,,0%,,0%,,Violence: 8%,,100.0%
+,Hadar Treidel,,https://www.facebook.com/hadar.treidel,,N\A,,N\A,,N\A,,91.89189189189189%
+,Aviv Noga,,https://www.facebook.com/aviv.noga,,0%,,0%,,Violence: 7%,,100.0%
+,Aharai Afula,,https://www.facebook.com/aharai.afula,,N\A,,N\A,,N\A,,92.85714285714286%
+,Erez Gola,,https://www.facebook.com/erez.gola,,0%,,6%,,0%,,100.0%
+,Alex Afonin,,https://www.facebook.com/Alex.Afonin.25,,0%,,5%,,0%,,99.32432432432432%
+,Mor Gibly,,https://www.facebook.com/mor.gibly,,0%,,6%,,0%,,100.0%
+,Esti Kozlovski,,https://www.facebook.com/estik1,,N\A,,N\A,,N\A,,94.5945945945946%
+,Orlev Yermiyahu,,https://www.facebook.com/orlev.yermiyahu,,0%,,0%,,Violence: 5%,,100.0%
+,Rotem Itzhak,,https://www.facebook.com/rotemitz,,N\A,,N\A,,N\A,,97.97297297297297%
+,NicoLe OL,,https://www.facebook.com/nicole.ol.16,,N\A,,N\A,,N\A,,98.64864864864865%
+,Bar Simovich,,https://www.facebook.com/bar.simovich,,N\A,,N\A,,N\A,,100.0%
+,Gili Itzhak,,https://www.facebook.com/gili.itzhak.7,,0%,,0%,,0%,,100.0%
+,Ron Alfasi,,https://www.facebook.com/ron.alfasi.1,,N\A,,N\A,,N\A,,100.0%
+,Osher Soffer,,https://www.facebook.com/oshersoffer3,,N\A,,N\A,,N\A,,100.0%
+,Matan Atar,,https://www.facebook.com/matan.atar.98,,N\A,,N\A,,N\A,,100.0%
+,"David Kerbis
+(דודי קרביס)",,https://www.facebook.com/dudi.kerbis,,N\A,,N\A,,N\A,,100.0%
+,"Tal Attias
+(Tal Attias)",,https://www.facebook.com/tal.attias.1,,N\A,,N\A,,N\A,,100.0%
+,Amit Malichi,,https://www.facebook.com/amit.malichi,,0%,,0%,,0%,,100.0%
+,Arkadiy Babushkin,,https://www.facebook.com/arkadiy.babushkin,,0%,,0%,,0%,,100.0%
+,Alexandra Varshavski,,https://www.facebook.com/alexandra.varshavski,,N\A,,N\A,,N\A,,100.0%
+,Yossi Sarussi,,https://www.facebook.com/yossi.sarussi.52,,N\A,,N\A,,N\A,,100.0%
+,Eyal Cohen,,https://www.facebook.com/eyal.cohen.92,,0%,,0%,,0%,,100.0%
+,Dvir Peretz,,https://www.facebook.com/dvir.peretz.75,,N\A,,N\A,,N\A,,100.0%
+,Tal Bilu,,https://www.facebook.com/tal.avraham.73,,N\A,,N\A,,N\A,,100.0%
+,Avishai Swed,,https://www.facebook.com/avishai.swed,,N\A,,N\A,,N\A,,100.0%
+,Rotem Elkouby,,https://www.facebook.com/rotem.elkouby,,0%,,0%,,0%,,100.0%
+,Matan Ayash,,https://www.facebook.com/matan.ayash.9,,N\A,,N\A,,N\A,,100.0%
+,Arbel Alterman,,https://www.facebook.com/arbel.alterman,,N\A,,N\A,,N\A,,100.0%
+,Amit Hamelnik,,https://www.facebook.com/amit.hamelnik,,0%,,0%,,0%,,100.0%
+,Oshri Cohen,,https://www.facebook.com/oshri.cohen.9,,N\A,,N\A,,N\A,,100.0%
+,Raz Bhasteker,,https://www.facebook.com/raz.bhasteker,,0%,,0%,,0%,,100.0%
+,Yael Sanderovich,,https://www.facebook.com/yael.sanderovich.7,,N\A,,N\A,,N\A,,100.0%
+,Guy Garabagi,,https://www.facebook.com/guy.garabagi,,N\A,,N\A,,N\A,,100.0%
+,Avihay Ofer,,https://www.facebook.com/avihay,,N\A,,N\A,,N\A,,100.0%
+,Avi Amar,,https://www.facebook.com/AmarAv1,,N\A,,N\A,,N\A,,100.0%
+,Bella Kud,,https://www.facebook.com/bellakud,,N\A,,N\A,,N\A,,100.0%
+,"Daniel Zahavi
+(דניאל זהבי)",,https://www.facebook.com/daniel.zahavi.1,,N\A,,N\A,,N\A,,100.0%
+,Or Lavi,,https://www.facebook.com/orlavi,,N\A,,N\A,,N\A,,100.0%
+,"Hilly Ifergan Askari
+(הילי איפרגן אסקרי)",,https://www.facebook.com/hili.ifergan,,N\A,,N\A,,N\A,,100.0%
+,"Or Vinokoor
+(Vinker)",,https://www.facebook.com/vinker,,N\A,,N\A,,N\A,,100.0%
+,Guy Barda,,https://www.facebook.com/guy.barda.7,,N\A,,N\A,,N\A,,100.0%
+,Noam Busel,,https://www.facebook.com/noam.busel,,N\A,,N\A,,N\A,,100.0%
+,Dolev Ronis,,https://www.facebook.com/dolev.ronis,,N\A,,N\A,,N\A,,100.0%
+,Nofar Edelshtein,,https://www.facebook.com/nofar.edelshtein,,N\A,,N\A,,N\A,,100.0%
+,Liora Berenshtein,,https://www.facebook.com/berenshtein,,N\A,,N\A,,N\A,,100.0%
+,Sapir Jacob,,https://www.facebook.com/sapir.jacob,,N\A,,N\A,,N\A,,100.0%
+,Binat Faro,,https://www.facebook.com/binat.edelshtein,,0%,,0%,,0%,,100.0%
+,Nevo Shani,,https://www.facebook.com/nevo.shani,,N\A,,N\A,,N\A,,100.0%
+,Efim Valov,,https://www.facebook.com/efim.valov,,N\A,,N\A,,N\A,,100.0%
+,Roman Beliavsky,,https://www.facebook.com/Roman.Beliavsky,,0%,,0%,,0%,,100.0%
+,Bar Elbaz,,https://www.facebook.com/bar.elbaz.35,,0%,,0%,,0%,,100.0%
+,Anna Tzigelinik Gonchiar,,https://www.facebook.com/eti.tzigelinik,,N\A,,N\A,,N\A,,100.0%
+,Yarden Yarkoni,,https://www.facebook.com/yarkoniy,,N\A,,N\A,,N\A,,100.0%
+,Omer Levin,,https://www.facebook.com/omer.levin.1,,N\A,,N\A,,N\A,,100.0%
+,Ido Bone,,https://www.facebook.com/ido.bone,,0%,,0%,,0%,,100.0%
+,Daniel Zalait,,https://www.facebook.com/daniel.zalait,,N\A,,N\A,,N\A,,100.0%
+,Afik Franko,,https://www.facebook.com/afik.franko,,N\A,,N\A,,N\A,,100.0%
+,Michael Koram,,https://www.facebook.com/michael.koram,,N\A,,N\A,,N\A,,100.0%
+,Tomer Bar,,https://www.facebook.com/tomer.bar.12,,N\A,,N\A,,N\A,,100.0%
+,Daniella Hengal,,https://www.facebook.com/daniella.hengal,,N\A,,N\A,,N\A,,100.0%
+,Guy Rossenblatt,,https://www.facebook.com/guy.rossenblatt,,N\A,,N\A,,N\A,,100.0%
+,Anna Tolokniove,,https://www.facebook.com/anna.tolokniove,,0%,,0%,,0%,,100.0%
+,Lior Pilo,,https://www.facebook.com/khturphku,,0%,,0%,,0%,,100.0%
+,Shahar Suisa,,https://www.facebook.com/shahrsuisa,,N\A,,N\A,,N\A,,100.0%
+,Bar Kaldian,,https://www.facebook.com/bar.kaldian,,N\A,,N\A,,N\A,,100.0%
