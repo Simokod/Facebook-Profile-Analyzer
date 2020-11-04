@@ -154,3 +154,5 @@ input.txt
 runtime.txt
 credentials.yaml
 data/
+fb_friends.csv
+scan_result.csv
