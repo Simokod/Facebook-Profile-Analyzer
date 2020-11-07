@@ -64,8 +64,12 @@ def get_scan_type_from_request(request):
 
 # create html template according to scan result
 def create_specific_user_result_template(scan_result):
+	if isinstance(scan_result.user_name, str):
+		user_name_text = scan_result.user_name
+	else:
+		user_name_text = "Scan Result"
 	return render_template('ScanSpecificUserResult.html',
-							user_name = scan_result.user_name,
+							user_name = user_name_text,
 							offensiveness_result_percent = scan_result.offensiveness_result.percent,
 							offensiveness_result_text = scan_result.offensiveness_result.text,
 							potentialFakeNews_result_percent = scan_result.potentialFakeNews_result.percent,
